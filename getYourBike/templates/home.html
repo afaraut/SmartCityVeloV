@@ -55,6 +55,11 @@
                 <input type="submit" value="Submit" />
             </form>
 
+
+            {% for fields in data %}
+                {{fields}}<br/>
+            {% endfor %}    
+
             <!-- Table des résultats de la recherche -->
             <p>Les r&eacute;sultats affich&eacute;s ici sont statiques : </p>
             <table align="center" border="1" width="80%">
