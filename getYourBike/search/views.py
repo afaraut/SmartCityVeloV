@@ -17,16 +17,7 @@ def home(request):
         @param request : Contains the query parameters
         This function just accepts the GET method
     """
-    cr = csv.reader(open('D:\longLat.csv',"rb"))
-    data = []
-    for raw in cr:
-        dict = {}
-        dict['lon'] = raw[4]
-        dict['lat'] = raw[3]
-        dict['arrondissement'] = raw[2]
-        dict['place'] = raw[1]
-        data.append(dict);
-    json_data = json.dumps(data)
+
 
     form = SearchForm()  # Nous creons un formulaire vide
     return Response(locals(), template_name='home.html') # Return the response
