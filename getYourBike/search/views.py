@@ -22,11 +22,18 @@ def home(request):
         form = SearchForm()  # Nous creons un formulaire vide
     elif request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = SearchForm(request.POST)
+        formulaire = SearchForm(request.POST)
         # check whether it's valid:
-        if form.is_valid():
+        if formulaire.is_valid():
         	result = "OK"
-        result = "NOK"
+        	day_month = request.POST.get('day_month')
+        	day_day = request.POST.get('day_day')
+        	day_year = request.POST.get('day_year')
+        	hour_hour = request.POST.get('hour_hour')
+        	hour_minute = request.POST.get('hour_minute')
+        	station = request.POST.get('station')
+        else:
+            result = "NOK"
 
     return Response(locals(), template_name='home.html') # Return the response
 
