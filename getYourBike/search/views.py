@@ -1,7 +1,10 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import HttpResponse
-
+from django.template import RequestContext, loader
+import json
+import csv
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 @api_view(['GET'])
@@ -20,3 +23,32 @@ def search(request):
     """
     content = {"manual" : "bonjour"}  
     return Response(content, template_name='search/search.html')
+
+def map(request):
+	template = loader.get_template('search/map.html')
+	return HttpResponse(template.render())
+
+#test
+@csrf_exempt
+def stations(request):
+	Fichier = open('test.log', 'w')
+	cr = csv.reader(open('C:\longLat.csv',"rb"))
+	data = []
+	
+	
+	for raw in cr:
+		dict = {}
+		dict['lon'] = raw[4]
+		dict['lat'] = raw[3]
+		data.append(dict);
+		
+		
+	#post = request.POST['list_bouteille']
+	#list_bouteille = json.loads(post)
+	#Fichier.write(len(list_bouteille))
+	
+	Fichier.write("ok");
+	# on fait un retour au client
+	json_data = json.dumps(data)
+	Fichier.close()
+	return HttpResponse(json_data, content_type="application/json")
