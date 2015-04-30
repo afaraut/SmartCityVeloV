@@ -15,10 +15,50 @@
     <meta name="description" content="Nom de l'appli &agrave; trouver">
     <meta name="author" content="H4311">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="starter-template.css" rel="stylesheet">
+    <link href="./css/starter-template.css" rel="stylesheet">
+	
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+		<script type="text/javascript">
+                        var carte;	
+						var tabMarqueurs = new Array();
+			function initialiser() {
+				var latlng = new google.maps.LatLng(46.779231, 6.659431);
+				//objet contenant des propriétés avec des identificateurs prédéfinis dans Google Maps permettant
+				//de définir des options d'affichage de notre carte
+				var options = {
+					center: latlng,
+					zoom: 15,
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				};
+				
+				//constructeur de la carte qui prend en paramêtre le conteneur HTML
+				//dans lequel la carte doit s'afficher et les options
+				
+				carte = new google.maps.Map(document.getElementById("carte"), options);
+				var marqueur = new google.maps.Marker({
+					position: new google.maps.LatLng(46.779231, 6.659431),
+					map: carte
+				});
+				 
+    
+				//notez la présence de l'argument "event" entre les parenthèses de "function()"
+				google.maps.event.addListener(carte, 'click', function(event) {
+					tabMarqueurs.push(new google.maps.Marker({
+						position: event.latLng,//coordonnée de la position du clic sur la carte
+							
+						map: carte//la carte sur laquelle le marqueur doit être affiché
+					}));
+				});
+			}
+			</script>
+	
+	
+	
 </head>
 
-<body>
+<body onload="initialiser()">
+		<div id="carte" style="width:100%; height:100%;"></div>
+		<button onclick='addPoint()'>add stations</button>
     <!-- 
         <script src="dist/js/jquery-1.11.1.js"></script>
         <script src="dist/js/bootstrap.min.js"></script>
@@ -57,7 +97,7 @@
             <table align="center" width="80%">
                 <tr>
                     <td>
-                        <img border="" align="middle" src="image/carte.PNG"/>
+                        
                     </td>
                     <td>
                         Jour : <input type="text" name="jour"/><br />
