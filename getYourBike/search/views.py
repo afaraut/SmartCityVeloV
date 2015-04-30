@@ -31,24 +31,18 @@ def map(request):
 #test
 @csrf_exempt
 def stations(request):
-	Fichier = open('test.log', 'w')
-	cr = csv.reader(open('C:\longLat.csv',"rb"))
+	cr = csv.reader(open('/home/getyourbike/projects/SmartCityVeloV/longLat.csv',"rb"))
 	data = []
-	
-	
 	for raw in cr:
 		dict = {}
-		dict['lon'] = raw[4]
+		dict['num'] = raw[0]
+		dict['nom'] = raw[1]
+		dict['arr'] = raw[2]
 		dict['lat'] = raw[3]
-		data.append(dict);
+		dict['lon'] = raw[4]
 		
-		
-	#post = request.POST['list_bouteille']
-	#list_bouteille = json.loads(post)
-	#Fichier.write(len(list_bouteille))
+		data.append(dict)
 	
-	Fichier.write("ok");
 	# on fait un retour au client
 	json_data = json.dumps(data)
-	Fichier.close()
 	return HttpResponse(json_data, content_type="application/json")
