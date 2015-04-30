@@ -10,7 +10,7 @@ import csv
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def home(request):
     """
         This function is called for display the Home page
@@ -18,8 +18,16 @@ def home(request):
         This function just accepts the GET method
     """
 
+    if request.method == 'GET': # For the GET method
+        form = SearchForm()  # Nous creons un formulaire vide
+    elif request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = SearchForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+        	result = "OK"
+        result = "NOK"
 
-    form = SearchForm()  # Nous creons un formulaire vide
     return Response(locals(), template_name='home.html') # Return the response
 
 @api_view(['GET'])

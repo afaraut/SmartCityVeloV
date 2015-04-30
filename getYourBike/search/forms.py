@@ -5,7 +5,10 @@ from django.forms import extras
 from search.models import SelectTimeWidget
 import csv
 class SearchForm(forms.Form):
-    day = forms.CharField(widget=extras.SelectDateWidget, label="Veuillez choisir votre jour ")
+    day = forms.DateField(widget=forms.TextInput(attrs=
+                                {
+                                    'class':'datepicker'
+                                }))
     hour = forms.DateField(widget=SelectTimeWidget, label="Veuillez choisir votre heure ")
     station = forms.CharField(widget=forms.Select, label=u'Veuillez choisir votre station ')
 
