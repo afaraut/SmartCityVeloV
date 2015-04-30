@@ -15,48 +15,40 @@
             var carte;	
 			var tabMarqueurs = new Array();
 			function initialiser() {
-			var latlng = new google.maps.LatLng(45.750000,  4.850000);
-			//objet contenant des propriétés avec des identificateurs prédéfinis dans Google Maps permettant
-			//de définir des options d'affichage de notre carte
-			var options = {
-				center: latlng,
-				zoom: 15,
-				mapTypeId: google.maps.MapTypeId.ROADMAP
-			};
+				var latlng = new google.maps.LatLng(45.750000,  4.850000);
+				//objet contenant des propriétés avec des identificateurs prédéfinis dans Google Maps permettant
+				//de définir des options d'affichage de notre carte
+				var options = {
+					center: latlng,
+					zoom: 15,
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				};
+					
+				//constructeur de la carte qui prend en paramêtre le conteneur HTML
+				//dans lequel la carte doit s'afficher et les options
 				
-			//constructeur de la carte qui prend en paramêtre le conteneur HTML
-			//dans lequel la carte doit s'afficher et les options
-			
-			carte = new google.maps.Map(document.getElementById("carte"), options);
-	
-						
-			$.ajax({
-				type: "POST",
-				url: "/search/stations",
-				traditional: true,
-				success: function(data) {
-					 for(var key in data){  
-						tabMarqueurs.push(new google.maps.Marker({
-						position: new google.maps.LatLng(data[key].lat, data[key].lon),//coordonnée de la position du clic sur la carte
-						
-						map: carte//la carte sur laquelle le marqueur doit être affiché
-						})); 
-					 
-					}  
-				}
-			});
+				carte = new google.maps.Map(document.getElementById("carte"), options);
 		
-			}				
-                        
-                        
+							
+				$.ajax({
+					type: "POST",
+					url: "/search/stations",
+					traditional: true,
+					success: function(data) {
+						for(var key in data){  
+							tabMarqueurs.push(new google.maps.Marker({
+								position: new google.maps.LatLng(data[key].lat, data[key].lon),//coordonnée de la position du clic sur la carte
+							
+								map: carte//la carte sur laquelle le marqueur doit être affiché
+							})); 
+						}  
+					}
+				});
+			}				          
 		</script>
 	</head>
-
 	<body onload="initialiser()">
 		<div id="carte" style="width:100%; height:100%;"></div>
 		<button onclick='addPoint()'>add stations</button>
-	
-		
-
 	</body>
 </html>
