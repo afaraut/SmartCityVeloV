@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
-
+import codecs
 from search.forms import SearchForm
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -9,7 +9,7 @@ from django.template import RequestContext, loader
 import json
 import csv
 from django.views.decorators.csrf import csrf_exempt
-
+from search.models import Station
 # Create your views here.
 
 @api_view(['GET'])
@@ -54,17 +54,27 @@ def home(request):
 #test
 @csrf_exempt
 def stations(request):
-    cr = csv.reader(open('static/longLat.csv',"rb"))
+    #cr = csv.reader(open('static/longLat.csv',"rb", ))
+    stations = Station.objects.all()
+    #fichier = codecs.open("stations", 'w', encoding='utf-8')
+    #fichier.write('[')
     data = []
-    for raw in cr:
+    #cpt = 1
+    for station in stations:
         dict = {}
-        dict['num'] = raw[0]
-        dict['nom'] = raw[1]
-        dict['arr'] = raw[2]
-        dict['lat'] = raw[3]
-        dict['lon'] = raw[4]
+        dict['stationNum'] = station.stationNum
+        dict['stationName'] = station.stationName
+        dict['stationRegion'] = station.stationRegion
+        dict['stationLong'] = station.stationLong
+        dict['stationLat'] = station.stationLat
+        #if cpt != 1:
+            #fichier.write(',')
+        #fichier.write('{ "model" : "search.station", "pk" : ' + str(cpt) + ', "fields" : ' + str(json.dumps(dict)) + "}")
+        #cpt = cpt + 1
         #dict['available'] = raw[6]
         data.append(dict)
+    #fichier.write(']')
+    #fichier.close()
     # on fait un retour au client
     json_data = json.dumps(data)
     return HttpResponse(json_data, content_type="application/json")
