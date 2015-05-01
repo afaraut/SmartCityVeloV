@@ -160,6 +160,120 @@ def a0Prevision(timestamp, A0, c1, AmodDifferenceD7):
 	return a0
 
 
+def getVacationData():
+	vacation = dict()
+	vacationRequest = cursor.execute('SELECT timestamp, vacation FROM OldResults WHERE stationId =:stationId', { "stationId": stationId}).fetchall()
+	timestamps = [item[0] for item in vacationRequest]
+	vacationData = [item[1] for item in vacationRequest]
+
+	for index, vacData in enumerate(vacationData):
+		dayId = timestampToDayId(timestamps[index])
+		if vacData == 'NULL':
+			vacData = '0'
+		vacation[dayId] = int(vacData)
+
+	return vacation
+
+def getDailyWeatherData():
+	weather_data = cursor.execute('SELECT * FROM weather_day').fetchall()
+	temperatures, precipitations = list(), list()
+	#temperatureTotal, temperatureCount, precipitationTotal, precipitationCount = 0 , 0 , 0 , 0
+
+	for data in weather_data:
+		if is_number(data[1]) :
+			#temperatureTotal = temperatureTotal + float(data[1])
+			#temperatureCount = temperatureCount + 1
+			temperatures.append(float(data[1]))
+		
+		if is_number(data[2]) :
+			#precipitationTotal = precipitationTotal + float(data[2])
+			#precipitationCount = precipitationCount + 1
+			precipitations.append(float(data[2]))
+
+	tempMean = numpy.mean(temperatures)
+	tempStdDev = numpy.std(temperatures)
+	precStdDev = numpy.std(precipitations)
+
+	#print tempMean, tempStdDev, precStdDev
+
+	normalizedTemperatures, normalizedPrecipitations = dict(), dict()
+
+	for data2 in weather_data:
+		if is_number(data2[1]) :
+			#temperatureTotal = temperatureTotal + float(data2[1])
+			#temperatureCount = temperatureCount + 1
+			dayId = timestampToDayId(data2[0])
+			normalizedTemperatures[dayId] = (float(data2[1]) - tempMean ) / tempStdDev
+		
+		if is_number(data2[2]) :
+			#precipitationTotal = precipitationTotal + float(data2[2])
+			#precipitationCount = precipitationCount + 1
+			dayId = timestampToDayId(data2[0])
+			normalizedPrecipitations[dayId] = float(data2[2]) / precStdDev
+
+	return [tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations]
+
+def L_mod_t_and_F(stationId, cyclicL, A_mod_d7, A_d_d):
+
+	L_mod_t, F = dict(), dict()
+
+	for data in cursor.execute('SELECT timestamp, availableBikes FROM OldResults WHERE stationId =:stationId', { "stationId": stationId}):
+		timestamp = data[0]
+		realAvailable = data[1]
+		dayOfWeek = timestampToDayOfWeek(timestamp)
+		weekCycleIndice = timestampToWeekCycleIndice(timestamp, thresholdInMinutes)
+		dayId = timestampToDayId(timestamp)
+		#print timestamp, dayOfWeek, weekCycleIndice, dayId
+		
+		
+		availablePrevision = round(float(A_d_d[dayId]) * cyclicL[weekCycleIndice] / A_mod_d7[dayOfWeek],2)
+		L_mod_t[timestamp] = availablePrevision
+		F[timestamp] = round(realAvailable - availablePrevision,2)
+		#print availableBikesPrevision, realAvailableBikes
+	return [L_mod_t, F]
+
+def substract_a0_from_Ad(c1, A0, AmodDifferenceD7, A_d_d):
+	A_d_d_minus_a0 = dict()
+	for dayTimestamp in A_d_d_bikes:
+		d7 = dayTimestamp.isoweekday()-1
+		a0 = A0 + c1 * AmodDifferenceD7[d7] #use previous regression
+		A_d_d_minus_a0[dayTimestamp] = A_d_d[dayTimestamp] - a0
+	return A_d_d_minus_a0
+
+
+def prepareDataForDailyRegression(A_d_d_minus_a0, normalizedTemperatures, normalizedPrecipitations, vacation):
+	toRemove = list()
+
+	for d in A_d_d_minus_a0:
+		#if (not d in normalizedTemperatures or not d in normalizedPrecipitations or not d in vacation):
+			#toRemove.append(d)
+			#print 'removed data', d
+		if not d in normalizedTemperatures:
+			toRemove.append(d)
+			#print 'removed data (not present in normalizedTemperatures)', d
+		elif not d in normalizedPrecipitations:
+			toRemove.append(d)
+			#print 'removed data (not present in normalizedPrecipitations)', d
+		elif not d in vacation:
+			toRemove.append(d)
+			#print 'removed data (not present in vacation)', d
+
+	for dToRemove in toRemove:
+		#print 'removed data', d
+		del A_d_d_minus_a0[dToRemove]
+
+	x1, x2, x3, y = list(), list(), list(), list()
+
+	for d2 in A_d_d_minus_a0:
+		y.append(A_d_d_bikes_minus_a0[d2])
+		x1.append(normalizedTemperatures[d2])
+		x2.append(normalizedPrecipitations[d2])
+		x3.append(vacation[d2])
+
+	x = [x1, x2, x3]
+
+	return [y, x]
+
 def L_mod_prevision(timestamp, A0, c1, C1, C2, C3, K, normalizedDeltaT, normalizedPrecipitations, V):
 
 	dayOfWeek = timestampToDayOfWeek(timestamp)
@@ -170,10 +284,12 @@ def L_mod_prevision(timestamp, A0, c1, C1, C2, C3, K, normalizedDeltaT, normaliz
 	L_mod_prevision =  A_d_d_prevision * cyclicL_bikes[weekCycleIndice] / A_mod_d7_bikes[dayOfWeek]
 	return L_mod_prevision
 
+##########################################################################################################
+
 db = sqlite3.connect('../../data/velos_bdd')
 cursor = db.cursor()
 
-thresholdInMinutes = 60 # prevision precision threshlod in minutes
+thresholdInMinutes = 5 # prevision precision threshlod in minutes
 stationId = 10113
 
 stationName = stationName(stationId,cursor)
@@ -193,145 +309,31 @@ print "min available stands: ", min(cyclicL_stands)
 print "avg available stands: ", round(float(sum(cyclicL_stands))/len(cyclicL_stands),2)
 
 A_mod_d7_bikes = dailyCyclicMeans(cyclicL_bikes,thresholdInMinutes)
-#print(A_mod_d7_bikes)
 A_mod_d7_stands = dailyCyclicMeans(cyclicL_stands,thresholdInMinutes)
-#print(A_mod_d7_stands)
 
 A_d_d_bikes = dayMeans('bike', stationId, cursor)
 A_d_d_stands = dayMeans('stand', stationId, cursor)
-#print(A_d_d_bikes)
-#print(A_d_d_stands)
 
-L_mod_t_bikes, F = dict(), dict()
-
-for data in cursor.execute('SELECT timestamp, availableBikes FROM OldResults WHERE stationId =:stationId', { "stationId": stationId}):
-	timestamp = data[0]
-	realAvailableBikes = data[1]
-	dayOfWeek = timestampToDayOfWeek(timestamp)
-	weekCycleIndice = timestampToWeekCycleIndice(timestamp, thresholdInMinutes)
-	dayId = timestampToDayId(timestamp)
-	#print timestamp, dayOfWeek, weekCycleIndice, dayId
-	
-	
-	availableBikesPrevision = round(float(A_d_d_bikes[dayId]) * cyclicL_bikes[weekCycleIndice] / A_mod_d7_bikes[dayOfWeek],2)
-	L_mod_t_bikes[timestamp] = availableBikesPrevision
-	F[timestamp] = round(realAvailableBikes - availableBikesPrevision,2)
-	#print availableBikesPrevision, realAvailableBikes
-
-#print(F)
+[L_mod_t_bikes, F_bikes] = L_mod_t_and_F(stationId, cyclicL_bikes, A_mod_d7_bikes, A_d_d_bikes)
 
 #regression for constant a0
 [c1, A0, AmodDifferenceD7] = a0Regression(A_mod_d7_bikes, A_d_d_bikes)
 
 #substract a0 from A_d for next regression
-A_d_d_bikes_minus_a0 = dict()
-for dayTimestamp in A_d_d_bikes:
-	d7 = dayTimestamp.isoweekday()-1
-	a0 = A0 + c1 * AmodDifferenceD7[d7] #use previous regression
-	A_d_d_bikes_minus_a0[dayTimestamp] = A_d_d_bikes[dayTimestamp] - a0
+A_d_d_bikes_minus_a0 = substract_a0_from_Ad(c1, A0, AmodDifferenceD7, A_d_d_bikes)
 
-#print(A_d_d_bikes_minus_a0)
-
-weather_data = cursor.execute('SELECT * FROM weather_day').fetchall()
-temperatures, precipitations = list(), list()
-#temperatureTotal, temperatureCount, precipitationTotal, precipitationCount = 0 , 0 , 0 , 0
-
-for data in weather_data:
-	if is_number(data[1]) :
-		#temperatureTotal = temperatureTotal + float(data[1])
-		#temperatureCount = temperatureCount + 1
-		temperatures.append(float(data[1]))
-	
-	if is_number(data[2]) :
-		#precipitationTotal = precipitationTotal + float(data[2])
-		#precipitationCount = precipitationCount + 1
-		precipitations.append(float(data[2]))
-
-tempMean = numpy.mean(temperatures)
-tempStdDev = numpy.std(temperatures)
-precStdDev = numpy.std(precipitations)
-
-#print tempMean, tempStdDev, precStdDev
-
-normalizedTemperatures, normalizedPrecipitations = dict(), dict()
-
-for data2 in weather_data:
-	if is_number(data2[1]) :
-		#temperatureTotal = temperatureTotal + float(data2[1])
-		#temperatureCount = temperatureCount + 1
-		dayId = timestampToDayId(data2[0])
-		normalizedTemperatures[dayId] = (float(data2[1]) - tempMean ) / tempStdDev
-	
-	if is_number(data2[2]) :
-		#precipitationTotal = precipitationTotal + float(data2[2])
-		#precipitationCount = precipitationCount + 1
-		dayId = timestampToDayId(data2[0])
-		normalizedPrecipitations[dayId] = float(data2[2]) / precStdDev
-
-#print normalizedTemperatures
-
+#get daily weather data
+[tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations] = getDailyWeatherData()
 #get vacation data
-vacation = dict()
-vacationRequest = cursor.execute('SELECT timestamp, vacation FROM OldResults WHERE stationId =:stationId', { "stationId": stationId}).fetchall()
-timestamps = [item[0] for item in vacationRequest]
-vacationData = [item[1] for item in vacationRequest]
+vacation = getVacationData()
 
-for index, vacData in enumerate(vacationData):
-	dayId = timestampToDayId(timestamps[index])
-	if vacData == 'NULL':
-		vacData = '0'
-	vacation[dayId] = int(vacData)
-
-#print vacation
-
-#print len(A_d_d_bikes), len(normalizedTemperatures), len(normalizedPrecipitations), len(vacation)
-toRemove = list()
-
-for d in A_d_d_bikes_minus_a0:
-	#if (not d in normalizedTemperatures or not d in normalizedPrecipitations or not d in vacation):
-		#toRemove.append(d)
-		#print 'removed data', d
-	if not d in normalizedTemperatures:
-		toRemove.append(d)
-		#print 'removed data (not present in normalizedTemperatures)', d
-	elif not d in normalizedPrecipitations:
-		toRemove.append(d)
-		#print 'removed data (not present in normalizedPrecipitations)', d
-	elif not d in vacation:
-		toRemove.append(d)
-		#print 'removed data (not present in vacation)', d
-
-for dToRemove in toRemove:
-	#print 'removed data', d
-	del A_d_d_bikes_minus_a0[dToRemove]
-
-#print 'removed', len(toRemove) , 'samples'
-#print len(A_d_d_bikes_minus_a0), len(normalizedTemperatures), len(normalizedPrecipitations), len(vacation)
-
-x1, x2, x3, ones, y = list(), list(), list(), list(), list()
-
-for d2 in A_d_d_bikes_minus_a0:
-	y.append(A_d_d_bikes_minus_a0[d2])
-	x1.append(normalizedTemperatures[d2])
-	x2.append(normalizedPrecipitations[d2])
-	x3.append(vacation[d2])
-	ones.append(1)
-
-#print y
-#print x1
-#print x2
-#print vacation
-
-x = [x1, x2, x3]
-
+#daily regression
+[y, x] = prepareDataForDailyRegression(A_d_d_bikes_minus_a0, normalizedTemperatures, normalizedPrecipitations, vacation)
 [C3, C2, C1 , K] = multilinearRegression.simpleMultipleRegression(y, x)
-
 #print multilinearRegression.detailedMultipleRegression(y, x).summary()
 
 
-
-
-
+#test
 t_test = (datetime.datetime(2015,05,01,2) - datetime.datetime(1970, 1, 1)).total_seconds()
 
 #normalized temperature and precipitations
