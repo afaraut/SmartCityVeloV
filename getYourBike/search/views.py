@@ -1,3 +1,6 @@
+#!/usr/bin/python
+#-*- coding: utf-8 -*-
+from search.forms import SearchForm
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import HttpResponse
@@ -7,14 +10,32 @@ import csv
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def home(request):
     """
         This function is called for display the Home page
         @param request : Contains the query parameters
         This function just accepts the GET method
     """
-    return Response(template_name='home.html') # Return the response
+
+    if request.method == 'GET': # For the GET method
+        form = SearchForm()  # Nous creons un formulaire vide
+    elif request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        formulaire = SearchForm(request.POST)
+        # check whether it's valid:
+        if formulaire.is_valid():
+        	result = "OK"
+        	day_month = request.POST.get('day_month')
+        	day_day = request.POST.get('day_day')
+        	day_year = request.POST.get('day_year')
+        	hour_hour = request.POST.get('hour_hour')
+        	hour_minute = request.POST.get('hour_minute')
+        	station = request.POST.get('station')
+        else:
+            result = "NOK"
+
+    return Response(locals(), template_name='home.html') # Return the response
 
 @api_view(['GET'])
 def search(request):
