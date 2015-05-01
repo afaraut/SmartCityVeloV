@@ -38,12 +38,10 @@
                         var marker = new google.maps.Marker({
                         position: new google.maps.LatLng(data[key].lat, data[key].lon),//coordonnée de la position du clic sur la carte 
                         title: data[key].arr + "<br>" + data[key].num + " - " + data[key].nom,
-                        icon: "/static/velo_dispo.png",
+                        icon: "static/velo1.png",
                         map: carte//la carte sur laquelle le marqueur doit être affiché
                         });
-                        if(data[key].available === "Bleu"){
-                            marker.setOpacity(0.2);
-                        }
+                        
                         attachContent(marker, data[key]);
                         tabMarqueurs.push(marker); 
                         

@@ -54,7 +54,7 @@ def home(request):
 #test
 @csrf_exempt
 def stations(request):
-    cr = csv.reader(open('/home/getyourbike/projects/SmartCityVeloV/longLat.csv',"rb"))
+    cr = csv.reader(open('static/longLat.csv',"rb"))
     data = []
     for raw in cr:
         dict = {}
@@ -63,7 +63,7 @@ def stations(request):
         dict['arr'] = raw[2]
         dict['lat'] = raw[3]
         dict['lon'] = raw[4]
-        dict['available'] = raw[6]
+        #dict['available'] = raw[6]
         data.append(dict)
     # on fait un retour au client
     json_data = json.dumps(data)
