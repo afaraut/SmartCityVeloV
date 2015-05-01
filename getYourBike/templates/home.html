@@ -35,16 +35,18 @@
                 traditional: true,
                 success: function(data) {
                      for(var key in data){
+						
                         var marker = new google.maps.Marker({
                         position: new google.maps.LatLng(data[key].stationLat, data[key].stationLong),//coordonnée de la position du clic sur la carte 
-                        title: data[key].stationRegion + "<br>" + data[key].stationNum + " - " + data[key].stationNom,
+                        title: data[key].stationRegion + "<br>" + data[key].stationNum + " - " + data[key].stationName,
                         icon: "static/velo1.png",
                         map: carte//la carte sur laquelle le marqueur doit être affiché
                         });
                         
                         attachContent(marker, data[key]);
                         tabMarqueurs.push(marker); 
-                        
+                        console.log(data[key].stationLat);
+						console.log(" long " + data[key].stationLong);
                     }
                     
                 }
