@@ -234,7 +234,7 @@ def L_mod_t_and_F(stationId, cyclicL, A_mod_d7, A_d_d):
 
 def substract_a0_from_Ad(c1, A0, AmodDifferenceD7, A_d_d):
 	A_d_d_minus_a0 = dict()
-	for dayTimestamp in A_d_d_bikes:
+	for dayTimestamp in A_d_d:
 		d7 = dayTimestamp.isoweekday()-1
 		a0 = A0 + c1 * AmodDifferenceD7[d7] #use previous regression
 		A_d_d_minus_a0[dayTimestamp] = A_d_d[dayTimestamp] - a0
@@ -265,7 +265,7 @@ def prepareDataForDailyRegression(A_d_d_minus_a0, normalizedTemperatures, normal
 	x1, x2, x3, y = list(), list(), list(), list()
 
 	for d2 in A_d_d_minus_a0:
-		y.append(A_d_d_bikes_minus_a0[d2])
+		y.append(A_d_d_minus_a0[d2])
 		x1.append(normalizedTemperatures[d2])
 		x2.append(normalizedPrecipitations[d2])
 		x3.append(vacation[d2])
@@ -274,15 +274,72 @@ def prepareDataForDailyRegression(A_d_d_minus_a0, normalizedTemperatures, normal
 
 	return [y, x]
 
-def L_mod_prevision(timestamp, A0, c1, C1, C2, C3, K, normalizedDeltaT, normalizedPrecipitations, V):
+def L_mod_prevision(timestamp, cyclicL, A_mod_d7, A0, c1, AmodDifferenceD7, C1, C2, C3, K, normalizedDeltaT, normalizedPrecipitations, V):
 
 	dayOfWeek = timestampToDayOfWeek(timestamp)
 	weekCycleIndice = timestampToWeekCycleIndice(timestamp, thresholdInMinutes)
 	dayId = timestampToDayId(timestamp)
 	a0 = float(a0Prevision(timestamp, A0, c1, AmodDifferenceD7))
 	A_d_d_prevision = a0 + C1 * normalizedDeltaT + C2 * normalizedPrecipitations + C3 * V + K
-	L_mod_prevision =  A_d_d_prevision * cyclicL_bikes[weekCycleIndice] / A_mod_d7_bikes[dayOfWeek]
+	L_mod_prevision =  A_d_d_prevision * cyclicL[weekCycleIndice] / A_mod_d7[dayOfWeek]
 	return L_mod_prevision
+
+def L_mod_previsions(t, stationId, dayTemperatureAvg, dayPrecipitationTotal, isVacation):
+
+	db = sqlite3.connect('../../data/velos_bdd')
+	cursor = db.cursor()
+
+	cyclicL_bikes = availableCyclicMean('bike', stationId,thresholdInMinutes,cursor)
+	#print(bikes)
+	print "max available bikes: ", max(cyclicL_bikes)
+	print "min available bikes: ", min(cyclicL_bikes)
+	print "avg available bikes: ", round(float(sum(cyclicL_bikes))/len(cyclicL_bikes),2)
+
+	cyclicL_stands = availableCyclicMean('stand', stationId,thresholdInMinutes,cursor)
+	#print(stands)
+	print "max available stands: ", max(cyclicL_stands)
+	print "min available stands: ", min(cyclicL_stands)
+	print "avg available stands: ", round(float(sum(cyclicL_stands))/len(cyclicL_stands),2)
+
+	A_mod_d7_bikes = dailyCyclicMeans(cyclicL_bikes,thresholdInMinutes)
+	A_mod_d7_stands = dailyCyclicMeans(cyclicL_stands,thresholdInMinutes)
+
+	A_d_d_bikes = dayMeans('bike', stationId, cursor)
+	A_d_d_stands = dayMeans('stand', stationId, cursor)
+
+	[L_mod_t_bikes, F_bikes] = L_mod_t_and_F(stationId, cyclicL_bikes, A_mod_d7_bikes, A_d_d_bikes)
+	[L_mod_t_stands, F_stands] = L_mod_t_and_F(stationId, cyclicL_stands, A_mod_d7_stands, A_d_d_stands)
+
+	#regression for constant a0
+	[c1_bikes, A0_bikes, AmodDifferenceD7_bikes] = a0Regression(A_mod_d7_bikes, A_d_d_bikes)
+	[c1_stands, A0_stands, AmodDifferenceD7_stands] = a0Regression(A_mod_d7_stands, A_d_d_stands)
+
+	#substract a0 from A_d for next regression
+	A_d_d_bikes_minus_a0 = substract_a0_from_Ad(c1_bikes, A0_bikes, AmodDifferenceD7_bikes, A_d_d_bikes)
+	A_d_d_stands_minus_a0 = substract_a0_from_Ad(c1_stands, A0_stands, AmodDifferenceD7_stands, A_d_d_stands)
+
+	#get daily weather data
+	[tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations] = getDailyWeatherData()
+	#get vacation data
+	vacation = getVacationData()
+
+	#daily regression
+	[y_bikes, x_bikes] = prepareDataForDailyRegression(A_d_d_bikes_minus_a0, normalizedTemperatures, normalizedPrecipitations, vacation)
+	[C3_bikes, C2_bikes, C1_bikes , K_bikes] = multilinearRegression.simpleMultipleRegression(y_bikes, x_bikes)
+
+	[y_stands, x_stands] = prepareDataForDailyRegression(A_d_d_stands_minus_a0, normalizedTemperatures, normalizedPrecipitations, vacation)
+	[C3_stands, C2_stands, C1_stands , K_stands] = multilinearRegression.simpleMultipleRegression(y_stands, x_stands)
+
+
+	T = (dayTemperatureAvg - tempMean) / tempStdDev
+	Precip = dayPrecipitationTotal / precStdDev
+
+	prev_bikes = L_mod_prevision(t, cyclicL_bikes, A_mod_d7_bikes, A0_bikes, c1_bikes, AmodDifferenceD7_bikes,C1_bikes, C2_bikes, C3_bikes, K_bikes, T, Precip, isVacation)
+	prev_stands = L_mod_prevision(t, cyclicL_stands, A_mod_d7_stands, A0_stands, c1_stands, AmodDifferenceD7_stands, C1_stands, C2_stands, C3_stands, K_stands, T, Precip, isVacation)
+
+	db.close()
+	
+	return [prev_bikes, prev_stands]
 
 ##########################################################################################################
 
@@ -296,52 +353,18 @@ stationName = stationName(stationId,cursor)
 
 print'station', stationId, stationName
 
-cyclicL_bikes = availableCyclicMean('bike', stationId,thresholdInMinutes,cursor)
-#print(bikes)
-print "max available bikes: ", max(cyclicL_bikes)
-print "min available bikes: ", min(cyclicL_bikes)
-print "avg available bikes: ", round(float(sum(cyclicL_bikes))/len(cyclicL_bikes),2)
-
-cyclicL_stands = availableCyclicMean('stand', stationId,thresholdInMinutes,cursor)
-#print(stands)
-print "max available stands: ", max(cyclicL_stands)
-print "min available stands: ", min(cyclicL_stands)
-print "avg available stands: ", round(float(sum(cyclicL_stands))/len(cyclicL_stands),2)
-
-A_mod_d7_bikes = dailyCyclicMeans(cyclicL_bikes,thresholdInMinutes)
-A_mod_d7_stands = dailyCyclicMeans(cyclicL_stands,thresholdInMinutes)
-
-A_d_d_bikes = dayMeans('bike', stationId, cursor)
-A_d_d_stands = dayMeans('stand', stationId, cursor)
-
-[L_mod_t_bikes, F_bikes] = L_mod_t_and_F(stationId, cyclicL_bikes, A_mod_d7_bikes, A_d_d_bikes)
-
-#regression for constant a0
-[c1, A0, AmodDifferenceD7] = a0Regression(A_mod_d7_bikes, A_d_d_bikes)
-
-#substract a0 from A_d for next regression
-A_d_d_bikes_minus_a0 = substract_a0_from_Ad(c1, A0, AmodDifferenceD7, A_d_d_bikes)
-
-#get daily weather data
-[tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations] = getDailyWeatherData()
-#get vacation data
-vacation = getVacationData()
-
-#daily regression
-[y, x] = prepareDataForDailyRegression(A_d_d_bikes_minus_a0, normalizedTemperatures, normalizedPrecipitations, vacation)
-[C3, C2, C1 , K] = multilinearRegression.simpleMultipleRegression(y, x)
-#print multilinearRegression.detailedMultipleRegression(y, x).summary()
-
-
 #test
-t_test = (datetime.datetime(2015,05,01,2) - datetime.datetime(1970, 1, 1)).total_seconds()
+t_test = (datetime.datetime(2015,05,12,17) - datetime.datetime(1970, 1, 1)).total_seconds()
 
 #normalized temperature and precipitations
-T = (20 - tempMean) / tempStdDev
-Precip = 0 / precStdDev #pre
-V = 0 #set 1 for holiday, else 0 
+dailyMeanT = 20
+dailyTotalPrecip = 0 
+vacation = 1 #set 1 for holiday, else 0 
 
-prev_test = L_mod_prevision(t_test, A0, c1, C1, C2, C3, K, T, Precip, V)
-print(prev_test)
+[prev_bikes, prev_stands] = L_mod_previsions(t_test, stationId, dailyMeanT, dailyTotalPrecip, vacation)
+
+print(prev_bikes)
+print(prev_stands)
 
 db.close()
+
