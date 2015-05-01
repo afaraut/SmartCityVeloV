@@ -11,5 +11,5 @@ class SearchForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
     	super(SearchForm, self).__init__(*args, **kwargs)
-        cr = csv.reader(open('D:\longLat.csv',"rb"))
+        cr = csv.reader(open('static/longLat.csv',"rb"))
         self.fields['station'] = forms.CharField(widget=forms.Select(choices=[(raw[1], str(raw[2] + " -- " + raw[1])) for raw in cr]), label=u'Veuillez choisir votre station ')

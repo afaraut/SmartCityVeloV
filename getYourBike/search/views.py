@@ -1,5 +1,6 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
+
 from search.forms import SearchForm
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -8,7 +9,20 @@ from django.template import RequestContext, loader
 import json
 import csv
 from django.views.decorators.csrf import csrf_exempt
+
 # Create your views here.
+
+@api_view(['GET'])
+def search(request):
+    """
+        BLAH BLAH
+    """
+    content = {"manual" : "bonjour"}  
+    return Response(content, template_name='search/search.html')
+
+def map(request):
+    template = loader.get_template('search/map.html')
+    return HttpResponse(template.render())
 
 @api_view(['GET', 'POST'])
 def home(request):
@@ -25,51 +39,32 @@ def home(request):
         formulaire = SearchForm(request.POST)
         # check whether it's valid:
         if formulaire.is_valid():
-        	result = "OK"
-        	day_month = request.POST.get('day_month')
-        	day_day = request.POST.get('day_day')
-        	day_year = request.POST.get('day_year')
-        	hour_hour = request.POST.get('hour_hour')
-        	hour_minute = request.POST.get('hour_minute')
-        	station = request.POST.get('station')
+            result = "OK"
+            day_month = request.POST.get('day_month')
+            day_day = request.POST.get('day_day')
+            day_year = request.POST.get('day_year')
+            hour_hour = request.POST.get('hour_hour')
+            hour_minute = request.POST.get('hour_minute')
+            station = request.POST.get('station')
         else:
             result = "NOK"
 
     return Response(locals(), template_name='home.html') # Return the response
 
-@api_view(['GET'])
-def search(request):
-    """
-		BLAH BLAH
-    """
-    content = {"manual" : "bonjour"}  
-    return Response(content, template_name='search/search.html')
-
-def map(request):
-	template = loader.get_template('search/map.html')
-	return HttpResponse(template.render())
-
 #test
 @csrf_exempt
 def stations(request):
-	Fichier = open('test.log', 'w')
-	cr = csv.reader(open('C:\longLat.csv',"rb"))
-	data = []
-	
-	
-	for raw in cr:
-		dict = {}
-		dict['lon'] = raw[4]
-		dict['lat'] = raw[3]
-		data.append(dict);
-		
-		
-	#post = request.POST['list_bouteille']
-	#list_bouteille = json.loads(post)
-	#Fichier.write(len(list_bouteille))
-	
-	Fichier.write("ok");
-	# on fait un retour au client
-	json_data = json.dumps(data)
-	Fichier.close()
-	return HttpResponse(json_data, content_type="application/json")
+    cr = csv.reader(open('static/longLat.csv',"rb"))
+    data = []
+    for raw in cr:
+        dict = {}
+        dict['num'] = raw[0]
+        dict['nom'] = raw[1]
+        dict['arr'] = raw[2]
+        dict['lat'] = raw[3]
+        dict['lon'] = raw[4]
+        #dict['available'] = raw[6]
+        data.append(dict)
+    # on fait un retour au client
+    json_data = json.dumps(data)
+    return HttpResponse(json_data, content_type="application/json")
