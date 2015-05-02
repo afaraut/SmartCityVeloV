@@ -548,7 +548,7 @@ def computeRegressionDataForOneStation(stationId):
 
 
 ##########################################################################################################
-db_path = '../../data/velos_bdd'
+db_path = '../../data/velos'
 db = sqlite3.connect(db_path)
 cursor = db.cursor()
 
