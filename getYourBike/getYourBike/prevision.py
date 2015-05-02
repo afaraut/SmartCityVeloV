@@ -519,7 +519,7 @@ def previsions(t, stationId):
  	else:
  		'vacation day: no'
  	print 'estimated average day temperature:', dayTemperatureAvg, 'Celsius degrees'
- 	print 'estimated daily precipiations:', dayPrecipitationTotal, 'mm'
+ 	print 'estimated daily precipitations:', dayPrecipitationTotal, 'mm'
  	
  	# normalize daily weather data for prevision
  	T = (dayTemperatureAvg - tempMean) / tempStdDev
