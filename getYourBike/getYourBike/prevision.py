@@ -624,12 +624,15 @@ weatherValidityHours = 4 # maximum validity of hourly weather data (in hours)
 stationId = 1001
 
 # date/time of prevision ()
-t_prevision = util.datetimeToTimestamp(datetime.datetime(2014,01,03,15)) #GMT time
+t_prevision = util.datetimeToTimestamp(datetime.datetime(2015,05,10,15)) #GMT time
 
 # weather and vacation data for time of prevision (hardcoded now but should be retrieved automatically from DB later)
 #dailyMeanT = 20 # daily mean temperature for the day of the prevision (Celsius)
 #dailyTotalPrecip = 0 #sum of precipitations for the day of the prevision (mm)
 #holiday = 0 # set 1 is day of prevision is holiday, else 0 
+
+
+#regressionPersistance.createAllDirectories(db_path)
 
 prev = previsions(t_prevision, stationId)
 displayPrevisions(prev, stationId, t_prevision)
