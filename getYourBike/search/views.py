@@ -1,16 +1,18 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
-import codecs
 from search.forms import SearchForm
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import HttpResponse
 from django.template import RequestContext, loader
-import json
-import csv
+import json, csv, codecs, time, datetime
 from django.views.decorators.csrf import csrf_exempt
 from search.models import Station
 # Create your views here.
+
+def date2Timestamp(hour, formatage="%Y/%m/%d %H:%M"):
+    """This function allows to convert a date into a timestamp"""
+    return int(time.mktime(datetime.datetime.strptime(hour, formatage).timetuple()))
 
 @api_view(['GET'])
 def search(request):
@@ -39,13 +41,15 @@ def home(request):
         formulaire = SearchForm(request.POST)
         # check whether it's valid:
         if formulaire.is_valid():
-            result = "OK"
             day_month = request.POST.get('day_month')
             day_day = request.POST.get('day_day')
             day_year = request.POST.get('day_year')
             hour_hour = request.POST.get('hour_hour')
             hour_minute = request.POST.get('hour_minute')
             station = request.POST.get('station')
+            hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
+            timestamp = date2Timestamp(hour)
+            result = timestamp
         else:
             result = "NOK"
 
