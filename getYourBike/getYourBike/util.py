@@ -15,3 +15,6 @@ def timestampToDayOfWeek(timestamp):
 	#in strftime sunday = 0, saturday = 6 -> convert to monday = 0, sunday = 6
 	dateFromTimestamp = datetime.datetime.fromtimestamp(timestamp)
 	return (int(datetime.datetime.strftime(dateFromTimestamp,"%w"))+6) % 7 
+
+def timestampToDatetime(timestamp):
+	return datetime.datetime.fromtimestamp(timestamp)

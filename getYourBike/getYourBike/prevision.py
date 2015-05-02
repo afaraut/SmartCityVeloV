@@ -8,6 +8,7 @@ import timeit
 import multilinearRegression
 import weatherRound
 import util
+import regressionPersistance
 
 
 
@@ -28,10 +29,6 @@ def availableCyclicMean(type, stationId, thresholdMinutes, cursor):
 	for indice in indices:
 		numberOfWeeks.insert(indice, 0)
 		available.insert(indice, 0)
-
-	if stationAvailabilityData.rowcount == 0:
-		print('unknown station with id : ' , stationId)
-
 
 	for data in stationAvailabilityData:
 		indice = timestampToWeekCycleIndice(data[0], thresholdMinutes)
@@ -196,17 +193,22 @@ def a0Prevision(timestamp, A0, c1, AmodDifferenceD7):
 
 def getVacationData():
 	vacation = dict()
-	vacationRequest = cursor.execute('SELECT timestamp, vacation FROM OldResults WHERE stationId =:stationId', { "stationId": stationId}).fetchall()
-	timestamps = [item[0] for item in vacationRequest]
-	vacationData = [item[1] for item in vacationRequest]
 
-	for index, vacData in enumerate(vacationData):
-		dayId = timestampToDayId(timestamps[index])
-		if vacData == 'NULL':
-			vacData = '0'
-		vacation[dayId] = int(vacData)
+	for item in cursor.execute('SELECT DISTINCT stationId FROM OldResults').fetchall():
+		
+		stationId = item[0]
+
+		for data in cursor.execute('SELECT DISTINCT timestamp, vacation FROM OldResults WHERE stationId =:stationId', {"stationId" : stationId}):
+			dayId = timestampToDayId(data[0])
+
+			if not dayId in vacation:
+				vacData = data[1]
+				if vacData == 'NULL':
+					vacData = '0'
+				vacation[dayId] = int(vacData)
 
 	return vacation
+	
 
 def getDailyWeatherData():
 	weather_data = cursor.execute('SELECT * FROM weather_day').fetchall()
@@ -341,6 +343,11 @@ def prepareDataForFluctuationRegression(F_threshold, weatherValidityHours):
 def F_prevision(time, alpha, beta, gamma, F_threshold):
 
 	t0 = max(F_threshold)
+
+	if(time < t0):
+		print '[WARNING : prevision lies in the past : requested prevision for ' , util.timestampToDatetime(time) ,  ']'
+		return 0.0
+
 	F0 = F_threshold[t0]
 
 	tFinal = int(timestampRoundToThreshold(time))
@@ -367,31 +374,35 @@ def F_prevision(time, alpha, beta, gamma, F_threshold):
 
 	return round(F1,2)
 
+def generateDailyWeatherData():
+	print 'generating common weather data'
+	[tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations] = getDailyWeatherData()
+	regressionPersistance.saveCommon([tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations], 'dailyWeatherData')
+
+def generateVacationData():
+	print 'generating common vacation data'
+	vacation = getVacationData()
+	regressionPersistance.saveCommon(vacation, 'vacationData')
 
 
+def computeRegressionData(stationId):
 
-
-def previsions(t, stationId, dayTemperatureAvg, dayPrecipitationTotal, isVacation):
+	print 'computing regression data for station ', stationId
 
 	db = sqlite3.connect(db_path)
 	cursor = db.cursor()
 
-
-	L_reg_start = timeit.default_timer()
 	cyclicL_bikes = availableCyclicMean('bike', stationId,thresholdInMinutes,cursor)
-	#print(bikes)
-	print "max available bikes: ", max(cyclicL_bikes)
-	print "min available bikes: ", min(cyclicL_bikes)
-	print "avg available bikes: ", round(float(sum(cyclicL_bikes))/len(cyclicL_bikes),2)
-
 	cyclicL_stands = availableCyclicMean('stand', stationId,thresholdInMinutes,cursor)
-	#print(stands)
-	print "max available stands: ", max(cyclicL_stands)
-	print "min available stands: ", min(cyclicL_stands)
-	print "avg available stands: ", round(float(sum(cyclicL_stands))/len(cyclicL_stands),2)
 
+	regressionPersistance.save(cyclicL_bikes, stationId, 'cyclicL_bikes')
+	regressionPersistance.save(cyclicL_stands, stationId, 'cyclicL_stands')
+	
 	A_mod_d7_bikes = dailyCyclicMeans(cyclicL_bikes,thresholdInMinutes)
 	A_mod_d7_stands = dailyCyclicMeans(cyclicL_stands,thresholdInMinutes)
+
+	regressionPersistance.save(A_mod_d7_bikes, stationId, 'A_mod_d7_bikes')
+	regressionPersistance.save(A_mod_d7_stands, stationId, 'A_mod_d7_stands')
 
 	A_d_d_bikes = dayMeans('bike', stationId, cursor)
 	A_d_d_stands = dayMeans('stand', stationId, cursor)
@@ -403,24 +414,73 @@ def previsions(t, stationId, dayTemperatureAvg, dayPrecipitationTotal, isVacatio
 	[c1_bikes, A0_bikes, AmodDifferenceD7_bikes] = a0Regression(A_mod_d7_bikes, A_d_d_bikes)
 	[c1_stands, A0_stands, AmodDifferenceD7_stands] = a0Regression(A_mod_d7_stands, A_d_d_stands)
 
+	regressionPersistance.save([c1_bikes, A0_bikes, AmodDifferenceD7_bikes], stationId, 'a0Regression_bikes')
+	regressionPersistance.save([c1_stands, A0_stands, AmodDifferenceD7_stands], stationId, 'a0Regression_stands')
+
 	#substract a0 from A_d for next regression
 	A_d_d_bikes_minus_a0 = substract_a0_from_Ad(c1_bikes, A0_bikes, AmodDifferenceD7_bikes, A_d_d_bikes)
 	A_d_d_stands_minus_a0 = substract_a0_from_Ad(c1_stands, A0_stands, AmodDifferenceD7_stands, A_d_d_stands)
 
 	#get daily weather data
-	[tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations] = getDailyWeatherData()
+	[tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations] = regressionPersistance.loadCommon('dailyWeatherData')
+
 	#get vacation data
-	vacation = getVacationData()
+	vacation = regressionPersistance.loadCommon('vacationData')
 
 	#daily regression
 	[y_dailyRegression_bikes, x_dailyRegression_bikes] = prepareDataForDailyRegression(A_d_d_bikes_minus_a0, normalizedTemperatures, normalizedPrecipitations, vacation)
 	[C1_bikes, C2_bikes, C3_bikes , K_bikes] = multilinearRegression.simpleMultipleRegression(y_dailyRegression_bikes, x_dailyRegression_bikes)
 
+	regressionPersistance.save([C1_bikes, C2_bikes, C3_bikes , K_bikes], stationId, 'dailyRegressionCoefs_bikes')
+
 	[y_dailyRegression_stands, x_dailyRegression_stands] = prepareDataForDailyRegression(A_d_d_stands_minus_a0, normalizedTemperatures, normalizedPrecipitations, vacation)
 	[C1_stands, C2_stands, C3_stands , K_stands] = multilinearRegression.simpleMultipleRegression(y_dailyRegression_stands, x_dailyRegression_stands)
-	L_reg_end = timeit.default_timer()
 
-	#L_mod prevision
+	regressionPersistance.save([C1_stands, C2_stands, C3_stands , K_stands], stationId, 'dailyRegressionCoefs_stands')
+
+	F_threshold_bikes = fluctuationThresholdMeans(F_bikes)
+	F_threshold_stands = fluctuationThresholdMeans(F_stands)
+
+	regressionPersistance.save(F_threshold_bikes, stationId, 'F_threshold_bikes')
+	regressionPersistance.save(F_threshold_stands, stationId, 'F_threshold_stands')
+
+	#fluctuation regression : F(t) = alpha * F(t-1) + beta * R(t) + gamma
+	[y_fluctuationRegression_bikes, x_fluctuationRegression_bikes] = prepareDataForFluctuationRegression(F_threshold_bikes, weatherValidityHours)
+	[alpha_bikes, beta_bikes, gamma_bikes] = multilinearRegression.simpleMultipleRegression(y_fluctuationRegression_bikes, x_fluctuationRegression_bikes)
+
+	regressionPersistance.save([alpha_bikes, beta_bikes, gamma_bikes], stationId, 'fluctuationRegressionCoefs_bikes')
+
+	[y_fluctuationRegression_stands, x_fluctuationRegression_stands] = prepareDataForFluctuationRegression(F_threshold_stands, weatherValidityHours)
+	[alpha_stands, beta_stands, gamma_stands] = multilinearRegression.simpleMultipleRegression(y_fluctuationRegression_stands, x_fluctuationRegression_stands)
+
+	regressionPersistance.save([alpha_stands, beta_stands, gamma_stands], stationId, 'fluctuationRegressionCoefs_stands')
+
+	db.close()
+	
+
+
+
+def previsions(t, stationId, dayTemperatureAvg, dayPrecipitationTotal, isVacation):
+
+	computeRegressionDataForOneStation(stationId) #checks if regression data exists in files, if not do regression
+	
+	cyclicL_bikes = regressionPersistance.load(stationId, 'cyclicL_bikes')
+	cyclicL_stands = regressionPersistance.load(stationId, 'cyclicL_stands')
+
+	A_mod_d7_bikes = regressionPersistance.load(stationId, 'A_mod_d7_bikes')
+	A_mod_d7_stands = regressionPersistance.load(stationId, 'A_mod_d7_stands')
+
+	# regression for constant a0
+	[c1_bikes, A0_bikes, AmodDifferenceD7_bikes] = regressionPersistance.load(stationId, 'a0Regression_bikes')
+	[c1_stands, A0_stands, AmodDifferenceD7_stands] = regressionPersistance.load(stationId, 'a0Regression_stands')
+
+	#get daily weather data
+	[tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations] = regressionPersistance.loadCommon('dailyWeatherData')
+
+	# get daily regression data
+	[C1_bikes, C2_bikes, C3_bikes , K_bikes] = regressionPersistance.load(stationId, 'dailyRegressionCoefs_bikes')
+	[C1_stands, C2_stands, C3_stands , K_stands] = regressionPersistance.load(stationId, 'dailyRegressionCoefs_stands')
+
 	T = (dayTemperatureAvg - tempMean) / tempStdDev
 	Precip = dayPrecipitationTotal / precStdDev
 
@@ -429,35 +489,26 @@ def previsions(t, stationId, dayTemperatureAvg, dayPrecipitationTotal, isVacatio
 	L_prev_stands = L_mod_prevision(t, cyclicL_stands, A_mod_d7_stands, A0_stands, c1_stands, AmodDifferenceD7_stands, C1_stands, C2_stands, C3_stands, K_stands, T, Precip, isVacation)
 	L_prev_end = timeit.default_timer() 
 
-	F_reg_start = timeit.default_timer()
-	F_threshold_bikes = fluctuationThresholdMeans(F_bikes)
-	F_threshold_stands = fluctuationThresholdMeans(F_stands)
+	F_threshold_bikes = regressionPersistance.load(stationId, 'F_threshold_bikes')
+	F_threshold_stands = regressionPersistance.load(stationId, 'F_threshold_stands')
 
-	#fluctuation regression : F(t) = alpha * F(t-1) + beta * R(t) + gamma
-	[y_fluctuationRegression_bikes, x_fluctuationRegression_bikes] = prepareDataForFluctuationRegression(F_threshold_bikes, weatherValidityHours)
-	[alpha_bikes, beta_bikes, gamma_bikes] = multilinearRegression.simpleMultipleRegression(y_fluctuationRegression_bikes, x_fluctuationRegression_bikes)
-
-	[y_fluctuationRegression_stands, x_fluctuationRegression_stands] = prepareDataForFluctuationRegression(F_threshold_stands, weatherValidityHours)
-	[alpha_stands, beta_stands, gamma_stands] = multilinearRegression.simpleMultipleRegression(y_fluctuationRegression_stands, x_fluctuationRegression_stands)
-	F_reg_end = timeit.default_timer()
+	[alpha_bikes, beta_bikes, gamma_bikes] = regressionPersistance.load(stationId, 'fluctuationRegressionCoefs_bikes')
+	[alpha_stands, beta_stands, gamma_stands] = regressionPersistance.load(stationId, 'fluctuationRegressionCoefs_stands')
 
 	F_prev_start = timeit.default_timer()
 	F_prev_bikes = F_prevision(t, alpha_bikes, beta_bikes, gamma_bikes, F_threshold_bikes)
 	F_prev_stands = F_prevision(t, alpha_stands, beta_stands, gamma_stands, F_threshold_stands)
 	F_prev_end = timeit.default_timer() 
 
-	print 'time to compute regression for prevision without fluctuations' , (L_reg_end - L_reg_start) , 'sec'
-	print 'time to compute regression for prevision with fluctuations' , ((F_reg_end - F_reg_start) + (L_reg_end - L_reg_start)) , 'sec'
 	print 'time to compute prevision without fluctuations' , (L_prev_end - L_prev_start) , 'sec'
 	print 'time to compute prevision with fluctuations' , ((F_prev_end - F_prev_start) + (L_prev_end - L_prev_start)) , 'sec'
 
-
 	prev_bikes = L_prev_bikes + F_prev_bikes
 	prev_stands = L_prev_stands + F_prev_stands
-
-	db.close()
 	
 	return [prev_bikes, prev_stands, L_prev_bikes, L_prev_stands]
+
+
 
 def displayPrevisions(previsions, stationId, t):
 
@@ -473,27 +524,61 @@ def displayPrevisions(previsions, stationId, t):
 	print 'available stands without fluctuations:', prev_stands_without_fluctuations
 	print 'available stands with fluctuations:', prev_stands
 
+def computeRegressionDataForAllStations(createDirectories):
+	db_path = '../../data/velos_bdd'
+	db = sqlite3.connect(db_path)
+	cursor = db.cursor()
+
+	if createDirectories:
+		regressionPersistance.createAllDirectories(db_path)
+
+	for data in cursor.execute('SELECT id FROM station ').fetchall():
+		computeRegressionDataForOneStation(data[0])
+
+
+def computeRegressionDataForOneStation(stationId):
+	print 'checking regression data for station', stationId
+
+	if not regressionPersistance.checkCommonObjectsExistence():
+		generateDailyWeatherData()
+		generateVacationData()
+
+	if not regressionPersistance.checkObjectsExistence(stationId):
+		computeRegressionData(stationId)
+
+
 ##########################################################################################################
 db_path = '../../data/velos_bdd'
 db = sqlite3.connect(db_path)
 cursor = db.cursor()
 
+# ----------------------------------------------------------------------------------------------------------------------------------------
 # prevision algorithm parameters
+# 
+# WARNING : if you change this parameters, you have to generate all regression data again to take the new parameter values into account ! 
+# ----------------------------------------------------------------------------------------------------------------------------------------
 thresholdInMinutes = 30 # prevision precision threshlod in minutes (between 1 and 60)
 weatherValidityHours = 4 # maximum validity of hourly weather data (in hours)
+# ----------------------------------------------------------------------------------------------------------------------------------------
 
 # station
-stationId = 10113
+#stationId = 1001
 
 # date/time of prevision
-t_test = util.datetimeToTimestamp(datetime.datetime(2015,05,03,17))
+#t_test = util.datetimeToTimestamp(datetime.datetime(2015,05,04,10))
 
 # weather and vacation data for time of prevision (hardcoded now but should be retrieved automatically from DB later)
-dailyMeanT = 20 # daily mean temperature for the day of the prevision (Celsius)
-dailyTotalPrecip = 0 #sum of precipitations for the day of the prevision (mm)
-vacation = 1 # set 1 is day of prevision is holiday, else 0 
+#dailyMeanT = 20 # daily mean temperature for the day of the prevision (Celsius)
+#dailyTotalPrecip = 0 #sum of precipitations for the day of the prevision (mm)
+#holiday = 1 # set 1 is day of prevision is holiday, else 0 
 
-displayPrevisions(previsions(t_test, stationId, dailyMeanT, dailyTotalPrecip, vacation), stationId, t_test)
+#prev = previsions(t_test, stationId, dailyMeanT, dailyTotalPrecip, holiday)
+#displayPrevisions(prev, stationId, t_test)
+
+computeRegressionDataForAllStations(False)
+
+
+
 
 db.close()
 
