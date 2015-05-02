@@ -268,6 +268,9 @@ def getDailyWeatherData():
 
 def getDailyWeatherDataForPrevision(tempMean, t):
 
+	db = sqlite3.connect(db_path)
+	cursor = db.cursor()
+
 	t_day = int(t - (t % (24*3600))) - 3600 # - 3600 is for time zone
 	#t_dayEnd = t_dayStart + 24*3600
 
@@ -285,12 +288,17 @@ def getDailyWeatherDataForPrevision(tempMean, t):
 	else:
 		dayPrecipitationTotal = float(data[1])
 
+	db.close()
+
 	return [dayTemperatureAvg, dayPrecipitationTotal]
 
 
 def L_mod_t_and_F(stationId, cyclicL, A_mod_d7, A_d_d):
 
 	L_mod_t, F = dict(), dict()
+
+	db = sqlite3.connect(db_path)
+	cursor = db.cursor()
 
 	for data in cursor.execute('SELECT timestamp, availableBikes FROM OldResults WHERE stationId =:stationId', { "stationId": stationId}):
 		timestamp = data[0]
@@ -305,6 +313,8 @@ def L_mod_t_and_F(stationId, cyclicL, A_mod_d7, A_d_d):
 		L_mod_t[timestamp] = availablePrevision
 		F[timestamp] = round(realAvailable - availablePrevision,2)
 		#print availableBikesPrevision, realAvailableBikes
+
+	db.close()
 	return [L_mod_t, F]
 
 def substract_a0_from_Ad(c1, A0, AmodDifferenceD7, A_d_d):
@@ -594,6 +604,8 @@ def computeRegressionDataForAllStations(createDirectories):
 	for data in cursor.execute('SELECT id FROM station ').fetchall():
 		computeRegressionDataForOneStation(data[0])
 
+	db.close()
+
 
 def computeRegressionDataForOneStation(stationId):
 	print 'checking regression data for station', stationId
@@ -608,8 +620,7 @@ def computeRegressionDataForOneStation(stationId):
 
 ##########################################################################################################
 db_path = '../../data/velos'
-db = sqlite3.connect(db_path)
-cursor = db.cursor()
+
 
 # ----------------------------------------------------------------------------------------------------------------------------------------
 # prevision algorithm parameters
@@ -619,28 +630,4 @@ cursor = db.cursor()
 thresholdInMinutes = 30 # prevision precision threshlod in minutes (between 1 and 60)
 weatherValidityHours = 4 # maximum validity of hourly weather data (in hours)
 # ----------------------------------------------------------------------------------------------------------------------------------------
-
-# station
-stationId = 1001
-
-# date/time of prevision ()
-t_prevision = util.datetimeToTimestamp(datetime.datetime(2015,05,10,15)) #GMT time
-
-# weather and vacation data for time of prevision (hardcoded now but should be retrieved automatically from DB later)
-#dailyMeanT = 20 # daily mean temperature for the day of the prevision (Celsius)
-#dailyTotalPrecip = 0 #sum of precipitations for the day of the prevision (mm)
-#holiday = 0 # set 1 is day of prevision is holiday, else 0 
-
-
-#regressionPersistance.createAllDirectories(db_path)
-
-prev = previsions(t_prevision, stationId)
-displayPrevisions(prev, stationId, t_prevision)
-
-#computeRegressionDataForAllStations(False)
-
-
-
-
-db.close()
 
