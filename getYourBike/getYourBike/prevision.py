@@ -192,22 +192,38 @@ def a0Prevision(timestamp, A0, c1, AmodDifferenceD7):
 
 
 def getVacationData():
+
+	#path of holiday data
+	filepath = '../../data/jours_feries_timestamp.txt' 
+	#period of the holiday data :2014-2015
+	start = int(util.datetimeToTimestamp(datetime.datetime(2014,01,01)))
+	end = int(util.datetimeToTimestamp(datetime.datetime(2015,12,31)))
+	
+	step = 3600 * 24
+
 	vacation = dict()
 
-	for item in cursor.execute('SELECT DISTINCT stationId FROM OldResults').fetchall():
-		
-		stationId = item[0]
+	with open(filepath, 'r') as f:
+		read_data = f.read()
 
-		for data in cursor.execute('SELECT DISTINCT timestamp, vacation FROM OldResults WHERE stationId =:stationId', {"stationId" : stationId}):
-			dayId = timestampToDayId(data[0])
+	vacationDayIds = read_data.split(';')
 
-			if not dayId in vacation:
-				vacData = data[1]
-				if vacData == 'NULL':
-					vacData = '0'
-				vacation[dayId] = int(vacData)
+	# add all vacation days
+	for dayId in vacationDayIds:
+		if util.is_number(dayId):
+			dayId = timestampToDayId(float(dayId))
+			vacation[dayId] = 1
+
+	# add remaining days
+	for dayId2 in range(start , end, step):
+		dayId2 = timestampToDayId(float(dayId2))
+		if not dayId2 in vacation:
+			vacation[dayId2] = 0
 
 	return vacation
+
+def isVacation(t, vacationData):
+	return vacationData[timestampToDayId(t)]
 	
 
 def getDailyWeatherData():
@@ -248,6 +264,29 @@ def getDailyWeatherData():
 			normalizedPrecipitations[dayId] = float(data2[2]) / precStdDev
 
 	return [tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations]
+
+
+def getDailyWeatherDataForPrevision(tempMean, t):
+
+	t_day = int(t - (t % (24*3600))) - 3600 # - 3600 is for time zone
+	#t_dayEnd = t_dayStart + 24*3600
+
+	data = cursor.execute('SELECT avg(temperature), sum(precipitation) FROM weather_day WHERE day=:day',{"day":t_day}).fetchone()
+
+	if not util.is_number(data[0]):
+		#print 'no temperature data for this day, assuming average temperature'
+		dayTemperatureAvg = tempMean
+	else:
+		dayTemperatureAvg = float(data[0])
+	
+	if not util.is_number(data[1]):
+		#print 'no precipitation data for this day, assuming no precipitations'
+		dayPrecipitationTotal = 0.0
+	else:
+		dayPrecipitationTotal = float(data[1])
+
+	return [dayTemperatureAvg, dayPrecipitationTotal]
+
 
 def L_mod_t_and_F(stationId, cyclicL, A_mod_d7, A_d_d):
 
@@ -460,10 +499,33 @@ def computeRegressionData(stationId):
 
 
 
-def previsions(t, stationId, dayTemperatureAvg, dayPrecipitationTotal, isVacation):
+def previsions(t, stationId):
 
-	computeRegressionDataForOneStation(stationId) #checks if regression data exists in files, if not do regression
+	#check if regression data exists in files, if not do regression
+	computeRegressionDataForOneStation(stationId) 
 	
+
+	#retrieve weather and vacation data
+	#get vacation data
+	vacationData = regressionPersistance.loadCommon('vacationData')
+	t_vac = isVacation(t, vacationData)
+
+	#get daily weather data for prevision
+	[tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations] = regressionPersistance.loadCommon('dailyWeatherData')
+ 	[dayTemperatureAvg, dayPrecipitationTotal] = getDailyWeatherDataForPrevision(tempMean, t)
+
+ 	if t_vac == 1:
+ 		'vacation day: yes'
+ 	else:
+ 		'vacation day: no'
+ 	print 'estimated average day temperature:', dayTemperatureAvg, 'Celsius degrees'
+ 	print 'estimated daily precipiations:', dayPrecipitationTotal, 'mm'
+ 	
+ 	# normalize daily weather data for prevision
+ 	T = (dayTemperatureAvg - tempMean) / tempStdDev
+	Precip = dayPrecipitationTotal / precStdDev
+
+
 	cyclicL_bikes = regressionPersistance.load(stationId, 'cyclicL_bikes')
 	cyclicL_stands = regressionPersistance.load(stationId, 'cyclicL_stands')
 
@@ -474,19 +536,16 @@ def previsions(t, stationId, dayTemperatureAvg, dayPrecipitationTotal, isVacatio
 	[c1_bikes, A0_bikes, AmodDifferenceD7_bikes] = regressionPersistance.load(stationId, 'a0Regression_bikes')
 	[c1_stands, A0_stands, AmodDifferenceD7_stands] = regressionPersistance.load(stationId, 'a0Regression_stands')
 
-	#get daily weather data
-	[tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations] = regressionPersistance.loadCommon('dailyWeatherData')
 
 	# get daily regression data
 	[C1_bikes, C2_bikes, C3_bikes , K_bikes] = regressionPersistance.load(stationId, 'dailyRegressionCoefs_bikes')
 	[C1_stands, C2_stands, C3_stands , K_stands] = regressionPersistance.load(stationId, 'dailyRegressionCoefs_stands')
 
-	T = (dayTemperatureAvg - tempMean) / tempStdDev
-	Precip = dayPrecipitationTotal / precStdDev
+	
 
 	L_prev_start = timeit.default_timer()
-	L_prev_bikes = L_mod_prevision(t, cyclicL_bikes, A_mod_d7_bikes, A0_bikes, c1_bikes, AmodDifferenceD7_bikes,C1_bikes, C2_bikes, C3_bikes, K_bikes, T, Precip, isVacation)
-	L_prev_stands = L_mod_prevision(t, cyclicL_stands, A_mod_d7_stands, A0_stands, c1_stands, AmodDifferenceD7_stands, C1_stands, C2_stands, C3_stands, K_stands, T, Precip, isVacation)
+	L_prev_bikes = L_mod_prevision(t, cyclicL_bikes, A_mod_d7_bikes, A0_bikes, c1_bikes, AmodDifferenceD7_bikes,C1_bikes, C2_bikes, C3_bikes, K_bikes, T, Precip, t_vac)
+	L_prev_stands = L_mod_prevision(t, cyclicL_stands, A_mod_d7_stands, A0_stands, c1_stands, AmodDifferenceD7_stands, C1_stands, C2_stands, C3_stands, K_stands, T, Precip, t_vac)
 	L_prev_end = timeit.default_timer() 
 
 	F_threshold_bikes = regressionPersistance.load(stationId, 'F_threshold_bikes')
@@ -525,7 +584,7 @@ def displayPrevisions(previsions, stationId, t):
 	print 'available stands with fluctuations:', prev_stands
 
 def computeRegressionDataForAllStations(createDirectories):
-	db_path = '../../data/velos_bdd'
+	db_path = '../../data/velos'
 	db = sqlite3.connect(db_path)
 	cursor = db.cursor()
 
@@ -562,20 +621,20 @@ weatherValidityHours = 4 # maximum validity of hourly weather data (in hours)
 # ----------------------------------------------------------------------------------------------------------------------------------------
 
 # station
-#stationId = 1001
+stationId = 1001
 
-# date/time of prevision
-#t_test = util.datetimeToTimestamp(datetime.datetime(2015,05,04,10))
+# date/time of prevision ()
+t_prevision = util.datetimeToTimestamp(datetime.datetime(2014,01,03,15)) #GMT time
 
 # weather and vacation data for time of prevision (hardcoded now but should be retrieved automatically from DB later)
 #dailyMeanT = 20 # daily mean temperature for the day of the prevision (Celsius)
 #dailyTotalPrecip = 0 #sum of precipitations for the day of the prevision (mm)
-#holiday = 1 # set 1 is day of prevision is holiday, else 0 
+#holiday = 0 # set 1 is day of prevision is holiday, else 0 
 
-#prev = previsions(t_test, stationId, dailyMeanT, dailyTotalPrecip, holiday)
-#displayPrevisions(prev, stationId, t_test)
+prev = previsions(t_prevision, stationId)
+displayPrevisions(prev, stationId, t_prevision)
 
-computeRegressionDataForAllStations(False)
+#computeRegressionDataForAllStations(False)
 
 
 

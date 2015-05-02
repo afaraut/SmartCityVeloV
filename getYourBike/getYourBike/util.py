@@ -3,6 +3,8 @@ import datetime
 
 def is_number(s):
 	try:
+		if s == None:
+			return False
 		float(s)
 		return True
 	except ValueError:
