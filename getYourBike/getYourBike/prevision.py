@@ -12,9 +12,12 @@ import regressionPersistance
 
 
 
-def availableCyclicMean(type, stationId, thresholdMinutes, cursor):
+def availableCyclicMean(type, stationId, thresholdMinutes):
 
 	available, numberOfWeeks, availableCyclicMean  = list(), list(), list()
+	
+	db = sqlite3.connect(db_path)
+	cursor = db.cursor()
 
 	if not type in ['bike','stand'] :
 		print type
@@ -41,6 +44,8 @@ def availableCyclicMean(type, stationId, thresholdMinutes, cursor):
 		else:
 			availableCyclicMean.insert(indice, round(float(available[indice])/numberOfWeeks[indice],2))
 
+	db.close()
+
 	return availableCyclicMean
 
 def dailyCyclicMeans(cyclicMean, thresholdMinutes):
@@ -54,12 +59,15 @@ def dailyCyclicMeans(cyclicMean, thresholdMinutes):
 
 	return dailyCyclicAmplitude
 
-def dayMeans(type, stationId, cursor):
+def dayMeans(type, stationId):
 
 	dayTotal, dayCount, dayMeans = dict(), dict(), dict()
 
+	db = sqlite3.connect(db_path)
+	cursor = db.cursor()
+
 	if not type in ['bike','stand'] :
-		print type
+		print 'error : called dayMeans with unknwon type' , type
 		return dayMeans
 
 	if type == 'bike':
@@ -83,6 +91,7 @@ def dayMeans(type, stationId, cursor):
 		else:
 			dayMeans[dayId] = 0
 
+	db.close()
 	return dayMeans
 
 def fluctuationThresholdMeans(F):
@@ -115,7 +124,9 @@ def fluctuationThresholdMeans(F):
 def stationName(stationId):
 	db = sqlite3.connect(db_path)
 	cursor = db.cursor()
-	return (cursor.execute('SELECT stationName FROM station WHERE id = :stationId', {"stationId" : stationId}).fetchone()[0])
+	name = (cursor.execute('SELECT stationName FROM station WHERE id = :stationId', {"stationId" : stationId}).fetchone()[0])
+	db.close()
+	return name
 
 def timestampToDayId(timestamp): #returns a unique day id with year-[1-366]
 	dateFromTimestamp = datetime.datetime.fromtimestamp(timestamp)
@@ -227,6 +238,10 @@ def isVacation(t, vacationData):
 	
 
 def getDailyWeatherData():
+
+	db = sqlite3.connect(db_path)
+	cursor = db.cursor()
+	
 	weather_data = cursor.execute('SELECT * FROM weather_day').fetchall()
 	temperatures, precipitations = list(), list()
 	#temperatureTotal, temperatureCount, precipitationTotal, precipitationCount = 0 , 0 , 0 , 0
@@ -262,6 +277,8 @@ def getDailyWeatherData():
 			#precipitationCount = precipitationCount + 1
 			dayId = timestampToDayId(data2[0])
 			normalizedPrecipitations[dayId] = float(data2[2]) / precStdDev
+
+	db.close()
 
 	return [tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations]
 
@@ -438,11 +455,9 @@ def computeRegressionData(stationId):
 
 	print 'computing regression data for station ', stationId
 
-	db = sqlite3.connect(db_path)
-	cursor = db.cursor()
 
-	cyclicL_bikes = availableCyclicMean('bike', stationId,thresholdInMinutes,cursor)
-	cyclicL_stands = availableCyclicMean('stand', stationId,thresholdInMinutes,cursor)
+	cyclicL_bikes = availableCyclicMean('bike', stationId,thresholdInMinutes)
+	cyclicL_stands = availableCyclicMean('stand', stationId,thresholdInMinutes)
 
 	regressionPersistance.save(cyclicL_bikes, stationId, 'cyclicL_bikes')
 	regressionPersistance.save(cyclicL_stands, stationId, 'cyclicL_stands')
@@ -453,8 +468,8 @@ def computeRegressionData(stationId):
 	regressionPersistance.save(A_mod_d7_bikes, stationId, 'A_mod_d7_bikes')
 	regressionPersistance.save(A_mod_d7_stands, stationId, 'A_mod_d7_stands')
 
-	A_d_d_bikes = dayMeans('bike', stationId, cursor)
-	A_d_d_stands = dayMeans('stand', stationId, cursor)
+	A_d_d_bikes = dayMeans('bike', stationId)
+	A_d_d_stands = dayMeans('stand', stationId)
 
 	[L_mod_t_bikes, F_bikes] = L_mod_t_and_F(stationId, cyclicL_bikes, A_mod_d7_bikes, A_d_d_bikes)
 	[L_mod_t_stands, F_stands] = L_mod_t_and_F(stationId, cyclicL_stands, A_mod_d7_stands, A_d_d_stands)
@@ -504,7 +519,6 @@ def computeRegressionData(stationId):
 
 	regressionPersistance.save([alpha_stands, beta_stands, gamma_stands], stationId, 'fluctuationRegressionCoefs_stands')
 
-	db.close()
 	
 
 
