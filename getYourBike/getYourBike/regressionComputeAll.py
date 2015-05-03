@@ -1,0 +1,3 @@
+import prevision
+
+prevision.computeRegressionDataForAllStations(False)
