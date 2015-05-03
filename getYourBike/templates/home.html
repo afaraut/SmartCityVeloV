@@ -1,46 +1,33 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block content %}
+{{result}}
 
-    
-   
-
-
-            {{result}}
-
-             <div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						
-						<h1 class="text-center">Get Your Bike</h1>
-						<h2 class="text-center">Prévisions des Velov</h2>
-					</div>
-					<div class="modal-body">
-					
-						<form action="{% url 'search.views.home' %}" method="post" >
-							{% csrf_token %}
-							{{ form.as_p }}
-							<div class="form-group">
-								<button class="btn btn-primary btn-lg btn-block">Valider</button>	
-							</div>
-							<!--login modal-->
-
-						</form>
-					</div>
-					<div class="modal-footer">
-						
-					</div>
-				</div>
-			</div>
-				
+ <div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
 			
- 
-          
-      
- 
-           
-           
-            
+			<h1 class="text-center">Get Your Bike</h1>
+			<h2 class="text-center">Prévisions des Velov</h2>
+		</div>
+		<div class="modal-body">
+		
+			<form action="{% url 'search.views.home' %}" method="post" >
+				{% csrf_token %}
+				{{ form.as_p }}
+				<div class="form-group">
+					<button class="btn btn-primary btn-lg btn-block">Valider</button>	
+				</div>
+				<!--login modal-->
+
+			</form>
+		</div>
+		<div class="modal-footer">
+			
+		</div>
+	</div>
+</div>
+				         
         
 
 {% endblock %}

@@ -13,9 +13,32 @@ function attachContent(marker, data) {
 	});		
 }
 
+function theposition(){
+
+			var pos;
+			if (navigator.geolocation)
+			{
+			  navigator.geolocation.getCurrentPosition(function(position)
+			  {
+				var center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+				carte.setCenter(center);
+				var marker = new google.maps.Marker({
+				position: new google.maps.LatLng(position.coords.latitude,position.coords.longitude),//coordonnée de la position du clic sur la carte 
+				map: carte
+				});
+			  });
+			}
+}
+
 
 function initialiser() {
 var latlng = new google.maps.LatLng(45.750000,  4.850000);
+
+var image = {
+	url : "static/velo2.png",
+	size: new google.maps.Size(32, 32)
+}
+
 var image = {
 	url : "static/velo2.png",
 	size: new google.maps.Size(32, 32)
@@ -46,6 +69,7 @@ carte = new google.maps.Map(document.getElementById("map-canvas"), options);
 				attachContent(marker, data[key]);
 				tabMarqueurs.push(marker); 
 			}
+			theposition();
 		}
 	});
 
