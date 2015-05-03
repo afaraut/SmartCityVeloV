@@ -1,5 +1,5 @@
 //$('#formSearch').live('submit', function(event) { // catch the form's submit event
-$(document).on('submit', '#formSearch', function(){
+/*$(document).on('submit', '#formSearch', function(){
 //$('#formSearch').submit(function(evt){ 
   event.preventDefault();
   console.log($(this));
@@ -18,4 +18,4 @@ $(document).on('submit', '#formSearch', function(){
       }
   });
   return false;
-});
+});*/
