@@ -3,7 +3,7 @@ import os.path
 import sqlite3
 
 
-base_path = '../../data/regression'
+base_path = '/home/getyourbike/projects/SmartCityVeloV/data/regression'
 allRegressionObjects = ['cyclicL_bikes', 'cyclicL_stands', 'A_mod_d7_bikes', 'A_mod_d7_stands', 'a0Regression_bikes', 'a0Regression_stands', 'dailyRegressionCoefs_bikes', 'dailyRegressionCoefs_stands', 'F_threshold_bikes', 'F_threshold_stands', 'fluctuationRegressionCoefs_bikes', 'fluctuationRegressionCoefs_stands']
 commonObjects = ['dailyWeatherData', 'vacationData']
 
@@ -20,7 +20,7 @@ def save(object, stationId, objectName):
 
 def saveCommon(object, objectName):
 	filepath = getCommonFilepath(objectName)
-	with open("/home/getyourbike/projects/SmartCityVeloV/data/regression/common/dailyWeatherData",'wb') as f:
+	with open(filepath,'wb') as f:
 		pickle.dump(object,f)
 
 def load(stationId, objectName):
