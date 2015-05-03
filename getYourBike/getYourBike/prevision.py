@@ -608,7 +608,7 @@ def displayPrevisions(previsions, stationId, t):
 	print 'available stands with fluctuations:', prev_stands
 
 def computeRegressionDataForAllStations(createDirectories):
-	db_path = '../../data/velos'
+	db_path = '/home/getyourbike/projects/SmartCityVeloV/data/velos'
 	db = sqlite3.connect(db_path)
 	cursor = db.cursor()
 
@@ -633,7 +633,7 @@ def computeRegressionDataForOneStation(stationId):
 
 
 ##########################################################################################################
-db_path = '../../data/velos'
+db_path = '/home/getyourbike/projects/SmartCityVeloV/data/velos'
 
 
 # ----------------------------------------------------------------------------------------------------------------------------------------
