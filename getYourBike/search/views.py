@@ -8,6 +8,7 @@ from django.template import RequestContext, loader
 import json, csv, codecs, time, datetime
 from django.views.decorators.csrf import csrf_exempt
 from search.models import Station
+from getYourBike.prevision import previsions
 # Create your views here.
 
 def date2Timestamp(hour, formatage="%Y/%m/%d %H:%M"):
@@ -49,7 +50,8 @@ def home(request):
             station = request.POST.get('station')
             hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
             timestamp = date2Timestamp(hour)
-            result = timestamp
+            prev = previsions(timestamp, station)
+            result = prev
         else:
             result = "NOK"
 
