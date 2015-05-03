@@ -6,10 +6,9 @@ from search.models import SelectTimeWidget
 from search.models import Station
 
 class SearchForm(forms.Form):
-    station = forms.CharField(widget=forms.Select, label=u'Station')
     day = forms.DateField(widget=extras.SelectDateWidget, label="Jour")
     hour = forms.TimeField(widget=SelectTimeWidget, label="Heure ")
-    
+    station = forms.CharField(widget=forms.Select, label=u'Station')
 
     def __init__(self, *args, **kwargs):
     	super(SearchForm, self).__init__(*args, **kwargs)
