@@ -1,6 +1,6 @@
 //$('#formSearch').live('submit', function(event) { // catch the form's submit event
-//$(document).on('submit', '#formSearch', function(){
-$('#formSearch').submit(function(evt){ 
+$(document).on('submit', '#formSearch', function(){
+//$('#formSearch').submit(function(evt){ 
   event.preventDefault();
   console.log($(this));
   $('#imgWait').show(); // Show the loading image
@@ -14,6 +14,7 @@ $('#formSearch').submit(function(evt){
           $('#reponse').html(response); // update the DIV
           $('#imgWait').hide(); // Hide the loading image
           $('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeOut(); // Fade out the fade layer 
+          $('body').remove('<div id="fade"></div>'); // Remove the fade layer to bottom of the body tag.
       }
   });
   return false;
