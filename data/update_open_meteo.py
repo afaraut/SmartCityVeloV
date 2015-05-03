@@ -11,9 +11,15 @@ import datetime
 import sqlite3
 
 
-db = sqlite3.connect('velos')
-cursor = db.cursor()
-f = urllib2.urlopen("http://api.openweathermap.org/data/2.5/find?q=Lyon")
+answer = False
+while answer==False:
+	try:
+		f = urllib2.urlopen("http://api.openweathermap.org/data/2.5/find?q=Lyon")
+		answer = True
+	except:
+		time.sleep(5)
+		answer = False
+
 precipitation = -1
 temperature = -1000
 timestamp = 0
@@ -31,7 +37,10 @@ except KeyError:
 		temperature = int(data['list'][0]['main']['temp'])-273.15
 	except KeyError:
 		print 'something went wrong with the weather api !'
-
+print 'coucou'
+db = sqlite3.connect('velos',timeout=30.0)
+cursor = db.cursor()
+print 'coucou'
 cursor.execute('''SELECT * FROM Weather WHERE timestamp=:timestamp ''',{"timestamp":timestamp})
 if len(cursor.fetchall())==0 and timestamp!=0 and precipitation>=0 and temperature!=-1000:
 	cursor.execute('''INSERT INTO Weather(timestamp, temperatur, precipitation)
@@ -39,4 +48,3 @@ if len(cursor.fetchall())==0 and timestamp!=0 and precipitation>=0 and temperatu
 else:
 	print 'error : timestamp :', timestamp, ' precipitation :'
 db.commit()
-

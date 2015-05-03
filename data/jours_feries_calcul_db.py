@@ -21,3 +21,4 @@ for station in stations:
             param = [(station,),(timestamp,)]
             cursor.execute('UPDATE OldResults SET vacation =:val WHERE (stationId =:stat AND timestamp =:time)', {"val": 1,"stat":station, "time":timestamp})
 db.commit()
+	
