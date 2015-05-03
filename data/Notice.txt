@@ -1,0 +1,6 @@
+Les scripts dans data sont à utiliser dans le même répertoire que la bdd et les fichiers de données.
+
+1) SQL pour créer la BDD
+2) peupler la BDD (requiert cleanv2 en plus des données sur le git)
+3) calculer les jours fériés
+4) mettre à jour la base de données en temps réel vie update_*

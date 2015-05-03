@@ -3,7 +3,8 @@
 from django import forms
 from django.forms import extras
 from search.models import SelectTimeWidget
-import csv
+from search.models import Station
+
 class SearchForm(forms.Form):
     day = forms.DateField(widget=extras.SelectDateWidget, label="Veuillez choisir votre jour ")
     hour = forms.TimeField(widget=SelectTimeWidget, label="Veuillez choisir votre heure ")
@@ -11,5 +12,5 @@ class SearchForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
     	super(SearchForm, self).__init__(*args, **kwargs)
-        cr = csv.reader(open('/home/getyourbike/projects/SmartCityVeloV/longLat.csv',"rb"))
-        self.fields['station'] = forms.CharField(widget=forms.Select(choices=[(raw[1], str(raw[2] + " -- " + raw[1])) for raw in cr]), label=u'Veuillez choisir votre station ')
+        stations = Station.objects.all()
+        self.fields['station'] = forms.CharField(widget=forms.Select(choices=[(station.stationNum,  (station.stationRegion).encode('utf8') + str(" -- " ) + (station.stationName).encode('utf8')) for station in stations]), label="Veuillez choisir votre station ")

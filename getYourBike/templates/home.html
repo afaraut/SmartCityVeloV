@@ -35,18 +35,16 @@
                 traditional: true,
                 success: function(data) {
                      for(var key in data){
+						
                         var marker = new google.maps.Marker({
-                        position: new google.maps.LatLng(data[key].lat, data[key].lon),//coordonnée de la position du clic sur la carte 
-                        title: data[key].arr + "<br>" + data[key].num + " - " + data[key].nom,
-                        icon: "/static/velo_dispo.png",
+                        position: new google.maps.LatLng(data[key].stationLat, data[key].stationLong),//coordonnée de la position du clic sur la carte 
+                        title: data[key].stationRegion + "<br>" + data[key].stationNum + " - " + data[key].stationName,
+                        icon: "static/velo2.png",
                         map: carte//la carte sur laquelle le marqueur doit être affiché
                         });
-                        if(data[key].available === "Bleu"){
-                            marker.setOpacity(0.2);
-                        }
+                        
                         attachContent(marker, data[key]);
                         tabMarqueurs.push(marker); 
-                        
                     }
                     
                 }
@@ -58,12 +56,6 @@
 
 
             {{result}}
-            {{day_month}}
-            {{day_day}}
-            {{day_year}}
-            {{hour_hour}}
-            {{hour_minute}}
-            {{station}}
 
             <div id="carte" style="width:90%; height:200px;"></div>
             <form action="{% url "search.views.home" %}" method="post">
