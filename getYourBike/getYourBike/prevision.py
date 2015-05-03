@@ -205,7 +205,7 @@ def a0Prevision(timestamp, A0, c1, AmodDifferenceD7):
 def getVacationData():
 
 	#path of holiday data
-	filepath = '../../data/jours_feries_timestamp.txt' 
+	filepath = '/home/getyourbike/projects/SmartCityVeloV/data/jours_feries_timestamp.txt' 
 	#period of the holiday data :2014-2015
 	start = int(util.datetimeToTimestamp(datetime.datetime(2014,01,01)))
 	end = int(util.datetimeToTimestamp(datetime.datetime(2015,12,31)))
