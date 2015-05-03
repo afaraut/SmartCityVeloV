@@ -20,7 +20,7 @@ def save(object, stationId, objectName):
 
 def saveCommon(object, objectName):
 	filepath = getCommonFilepath(objectName)
-	with open("/home/getyourbike/projects/SmartCityVeloV/data/regression/common/dailyWeatherData",'wb') as f:
+	with open(filepath,'wb') as f:
 		pickle.dump(object,f)
 
 def load(stationId, objectName):
