@@ -13,5 +13,5 @@ class SearchForm(forms.Form):
     def __init__(self, *args, **kwargs):
     	super(SearchForm, self).__init__(*args, **kwargs)
         stations = Station.objects.all()
-        self.fields['station'] = forms.CharField(widget=forms.Select(choices=[(station.stationNum,  (station.stationRegion).encode('utf8') + str(" -- " ) + (station.stationName).encode('utf8')) for station in stations]), label="Station")
+        self.fields['station'] = forms.CharField(widget=forms.Select(choices=[(stationn.stationNum,  (stationn.stationRegion).encode('utf8') + str(" -- " ) + (stationn.stationName).encode('utf8')) for stationn in stations]), label="Station")
 
