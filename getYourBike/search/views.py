@@ -82,5 +82,5 @@ def stations(request):
     #fichier.write(']')
     #fichier.close()
     # on fait un retour au client
-    #json_data = json.dumps(data)
-    return HttpResponse(data, content_type="application/json")
+    json_data = json.dumps(data)
+    return HttpResponse(json_data, content_type="application/json")
