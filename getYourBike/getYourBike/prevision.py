@@ -26,7 +26,7 @@ from paths import vacation_data_path
 # 
 # WARNING : if you change this parameters, you have to generate all regression data again to take the new parameter values into account ! 
 # ----------------------------------------------------------------------------------------------------------------------------------------
-thresholdInMinutes = 30 # prevision precision threshlod in minutes (between 1 and 60)
+thresholdInMinutes = 5 # prevision precision threshlod in minutes (between 1 and 60)
 weatherValidityHours = 4 # maximum validity of hourly weather data (in hours)
 # ----------------------------------------------------------------------------------------------------------------------------------------
 ##########################################################################################################
@@ -257,7 +257,6 @@ def isVacation(t, vacationData):
 
 def getDailyWeatherData():
 
-	print 'path for daily weather data', db_path_string
 	db = sqlite3.connect(db_path_string)
 	cursor = db.cursor()
 	
@@ -425,15 +424,11 @@ def prepareDataForFluctuationRegression(F_threshold, weatherValidityHours):
 	x = [Fx_regression, R_regression]
 	return [Fy_regression, x]
 
-def F_prevision(time, alpha, beta, gamma, F_threshold):
-
-	t0 = max(F_threshold) # TODO : replace with actual state
+def F_prevision(time, t0, F0, alpha, beta, gamma, F_threshold):
 
 	if(time < t0):
 		print '[WARNING : prevision lies in the past : requested prevision for ' , util.timestampToDatetime(time) ,  ']'
 		return 0.0
-
-	F0 = F_threshold[t0]
 
 	tFinal = int(timestampRoundToThreshold(time))
 
@@ -547,7 +542,7 @@ def previsions(t, stationId):
 	#check if regression data exists in files, if not do regression
 	computeRegressionDataForOneStation(stationId) 
 	
-
+	L_prev_start = timeit.default_timer()
 	#retrieve weather and vacation data
 	#get vacation data
 	vacationData = regressionPersistance.loadCommon('vacationData')
@@ -584,12 +579,20 @@ def previsions(t, stationId):
 	[C1_bikes, C2_bikes, C3_bikes , K_bikes] = regressionPersistance.load(stationId, 'dailyRegressionCoefs_bikes')
 	[C1_stands, C2_stands, C3_stands , K_stands] = regressionPersistance.load(stationId, 'dailyRegressionCoefs_stands')
 
-	
+	#L prevision (without fluctuations)
 
-	L_prev_start = timeit.default_timer()
+	
 	L_prev_bikes = L_mod_prevision(t, cyclicL_bikes, A_mod_d7_bikes, A0_bikes, c1_bikes, AmodDifferenceD7_bikes,C1_bikes, C2_bikes, C3_bikes, K_bikes, T, Precip, t_vac)
 	L_prev_stands = L_mod_prevision(t, cyclicL_stands, A_mod_d7_stands, A0_stands, c1_stands, AmodDifferenceD7_stands, C1_stands, C2_stands, C3_stands, K_stands, T, Precip, t_vac)
 	L_prev_end = timeit.default_timer() 
+
+	#F prevision (with fluctuation)
+	F_prev_start = timeit.default_timer()
+	[t0, F0_bikes, F0_stands] = getLastKnownF(stationId, cyclicL_bikes, A_mod_d7_bikes, A0_bikes, c1_bikes, AmodDifferenceD7_bikes,C1_bikes, C2_bikes, C3_bikes, K_bikes, \
+	cyclicL_stands, A_mod_d7_stands, A0_stands, c1_stands, AmodDifferenceD7_stands, C1_stands, C2_stands, C3_stands, K_stands, T, Precip, t_vac)
+
+	print 'bikes : last known fluctuation on', util.timestampToDatetime(t0), ':', F0_bikes
+	print 'stands : last known fluctuation on', util.timestampToDatetime(t0), ':', F0_stands
 
 	F_threshold_bikes = regressionPersistance.load(stationId, 'F_threshold_bikes')
 	F_threshold_stands = regressionPersistance.load(stationId, 'F_threshold_stands')
@@ -597,9 +600,9 @@ def previsions(t, stationId):
 	[alpha_bikes, beta_bikes, gamma_bikes] = regressionPersistance.load(stationId, 'fluctuationRegressionCoefs_bikes')
 	[alpha_stands, beta_stands, gamma_stands] = regressionPersistance.load(stationId, 'fluctuationRegressionCoefs_stands')
 
-	F_prev_start = timeit.default_timer()
-	F_prev_bikes = F_prevision(t, alpha_bikes, beta_bikes, gamma_bikes, F_threshold_bikes)
-	F_prev_stands = F_prevision(t, alpha_stands, beta_stands, gamma_stands, F_threshold_stands)
+	
+	F_prev_bikes = F_prevision(t, t0, F0_bikes, alpha_bikes, beta_bikes, gamma_bikes, F_threshold_bikes)
+	F_prev_stands = F_prevision(t, t0, F0_stands, alpha_stands, beta_stands, gamma_stands, F_threshold_stands)
 	F_prev_end = timeit.default_timer() 
 
 	print 'time to compute prevision without fluctuations' , (L_prev_end - L_prev_start) , 'sec'
@@ -649,14 +652,21 @@ def computeRegressionDataForOneStation(stationId):
 	if not regressionPersistance.checkObjectsExistence(stationId):
 		computeRegressionData(stationId)
 
-def savePrevision(prevision, stationId, requestTimestamp, previsionTimestamp):
-	[prev_bikes, prev_stands, prev_bikes_without_fluctuations, prev_stands_without_fluctuations] = prevision
-
+def getLastKnownStatus(stationId):
 	db = sqlite3.connect(db_path_string)
 	cursor = db.cursor()
+	cursor.execute('''SELECT timestamp, availableBikes, availableStand FROM OldResults WHERE stationId =:stationId ORDER BY timestamp DESC''', { "stationId": stationId})
+	return cursor.fetchone()
 
-	cursor.execute('INSERT INTO Request(stationId, requestDate, previsionDate, realAvailableBikes, realAvailableStands, previsionAvailableBikes, \
-		previsionAvailableStands, previsionAvailableBikesFluct, previsionAvailableStandsFluct) VALUES(?,?,?,?,?,?,?,?,?)', \
-		(stationId, requestTimestamp, previsionTimestamp, None, None, prev_bikes_without_fluctuations, prev_stands_without_fluctuations, prev_bikes, prev_stands))
+def getLastKnownF(stationId, cyclicL_bikes, A_mod_d7_bikes, A0_bikes, c1_bikes, AmodDifferenceD7_bikes,C1_bikes, C2_bikes, C3_bikes, K_bikes, \
+	cyclicL_stands, A_mod_d7_stands, A0_stands, c1_stands, AmodDifferenceD7_stands, C1_stands, C2_stands, C3_stands, K_stands, T, Precip, t_vac):
+	
+	[t0, realAvailableBikes, realAvailableStands] = getLastKnownStatus(stationId)
+	L0_bikes = L_mod_prevision(t0, cyclicL_bikes, A_mod_d7_bikes, A0_bikes, c1_bikes, AmodDifferenceD7_bikes,C1_bikes, C2_bikes, C3_bikes, K_bikes, T, Precip, t_vac)
+	L0_stands = L_mod_prevision(t0, cyclicL_stands, A_mod_d7_stands, A0_stands, c1_stands, AmodDifferenceD7_stands, C1_stands, C2_stands, C3_stands, K_stands, T, Precip, t_vac)
 
-	db.close()
+	F0_bikes = round(realAvailableBikes - L0_bikes,2)
+	F0_stands = round(realAvailableStands - L0_bikes,2)
+
+	return [t0, F0_bikes, F0_stands]
+
