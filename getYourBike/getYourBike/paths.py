@@ -2,8 +2,11 @@
 # -*- coding: utf-8	 -*-
 
 from pathlib import Path
+import os
 
-data_path =  Path('../../data').resolve()
+data_path = Path(os.path.dirname(os.path.abspath(__file__))).parent.parent / 'data'
+
+#data_path =  Path('../../data').resolve()
 
 db_path = data_path / 'velos'
 db_path_string = str(db_path).decode('latin-1')
