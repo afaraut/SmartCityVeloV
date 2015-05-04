@@ -40,6 +40,20 @@ def search(request):
     result = timestamp
     content = json.dumps(prev)
     return HttpResponse(locals(), content_type="application/json")
+	
+def search_mobile(request):
+	day_month = request.GET.get('day_month')
+	day_day = request.GET.get('day_day')
+	day_year = request.GET.get('day_year')
+	hour_hour = request.GET.get('hour_hour')
+	hour_minute = request.GET.get('hour_minute')
+	station = request.GET.get('station')
+	hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
+	timestamp = date2Timestamp(hour)
+	prev = previsions(timestamp, station)
+	result = prev
+	content = json.dumps(result)
+	return HttpResponse(content, content_type="application/json")
 
 def map(request):
     template = loader.get_template('search/map.html')

@@ -96,6 +96,7 @@ function prevision(idFormulaire){
 		url: "/search/search",
 		traditional: true,
 		data:data,
+
 		success: function(data){
 			document.getElementById('reponse').innerHTML ="<hr>Vélos disponible : " +  data[0] + "<br> Brones disponibles : " + data[1];
 			$('#imgWait').hide(); // Hide the loading image
