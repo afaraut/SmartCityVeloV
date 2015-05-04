@@ -33,7 +33,7 @@ def search(request):
 	hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
 	timestamp = date2Timestamp(hour)
 	prev = previsions(timestamp, station)
-    fichier = open("/leNomDuFichier.txt", "w")
+    fichier = open(u'/leNomDuFichier.txt', "w")
     fichier.write("timestamp" + timestamp)
     fichier.write("prev" + prev)
     fichier.close()
