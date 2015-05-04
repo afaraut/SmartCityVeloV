@@ -10,6 +10,23 @@ import weatherRound
 import util
 import regressionPersistance
 
+from paths import db_path
+from paths import regression_path
+from paths import common_path
+from paths import vacation_data_path
+
+##########################################################################################################
+
+
+# ----------------------------------------------------------------------------------------------------------------------------------------
+# prevision algorithm parameters
+# 
+# WARNING : if you change this parameters, you have to generate all regression data again to take the new parameter values into account ! 
+# ----------------------------------------------------------------------------------------------------------------------------------------
+thresholdInMinutes = 30 # prevision precision threshlod in minutes (between 1 and 60)
+weatherValidityHours = 4 # maximum validity of hourly weather data (in hours)
+# ----------------------------------------------------------------------------------------------------------------------------------------
+##########################################################################################################
 
 
 def availableCyclicMean(type, stationId, thresholdMinutes):
@@ -204,8 +221,6 @@ def a0Prevision(timestamp, A0, c1, AmodDifferenceD7):
 
 def getVacationData():
 
-	#path of holiday data
-	filepath = '/home/getyourbike/projects/SmartCityVeloV/data/jours_feries_timestamp.txt' 
 	#period of the holiday data :2014-2015
 	start = int(util.datetimeToTimestamp(datetime.datetime(2014,01,01)))
 	end = int(util.datetimeToTimestamp(datetime.datetime(2015,12,31)))
@@ -214,7 +229,7 @@ def getVacationData():
 
 	vacation = dict()
 
-	with open(filepath, 'r') as f:
+	with open(vacation_data_path, 'r') as f:
 		read_data = f.read()
 
 	vacationDayIds = read_data.split(';')
@@ -408,7 +423,7 @@ def prepareDataForFluctuationRegression(F_threshold, weatherValidityHours):
 
 def F_prevision(time, alpha, beta, gamma, F_threshold):
 
-	t0 = max(F_threshold)
+	t0 = max(F_threshold) # TODO : replace with actual state
 
 	if(time < t0):
 		print '[WARNING : prevision lies in the past : requested prevision for ' , util.timestampToDatetime(time) ,  ']'
@@ -608,7 +623,6 @@ def displayPrevisions(previsions, stationId, t):
 	print 'available stands with fluctuations:', prev_stands
 
 def computeRegressionDataForAllStations(createDirectories):
-	db_path = '/home/getyourbike/projects/SmartCityVeloV/data/velos'
 	db = sqlite3.connect(db_path)
 	cursor = db.cursor()
 
@@ -631,17 +645,14 @@ def computeRegressionDataForOneStation(stationId):
 	if not regressionPersistance.checkObjectsExistence(stationId):
 		computeRegressionData(stationId)
 
+def savePrevision(prevision, stationId, requestTimestamp, previsionTimestamp):
+	[prev_bikes, prev_stands, prev_bikes_without_fluctuations, prev_stands_without_fluctuations] = prevision
 
-##########################################################################################################
-db_path = '/home/getyourbike/projects/SmartCityVeloV/data/velos'
+	db = sqlite3.connect(db_path)
+	cursor = db.cursor()
 
+	cursor.execute('INSERT INTO Request(stationId, requestDate, previsionDate, realAvailableBikes, realAvailableStands, previsionAvailableBikes, \
+		previsionAvailableStands, previsionAvailableBikesFluct, previsionAvailableStandsFluct) VALUES(?,?,?,?,?,?,?,?,?)', \
+		(stationId, requestTimestamp, previsionTimestamp, None, None, prev_bikes_without_fluctuations, prev_stands_without_fluctuations, prev_bikes, prev_stands))
 
-# ----------------------------------------------------------------------------------------------------------------------------------------
-# prevision algorithm parameters
-# 
-# WARNING : if you change this parameters, you have to generate all regression data again to take the new parameter values into account ! 
-# ----------------------------------------------------------------------------------------------------------------------------------------
-thresholdInMinutes = 30 # prevision precision threshlod in minutes (between 1 and 60)
-weatherValidityHours = 4 # maximum validity of hourly weather data (in hours)
-# ----------------------------------------------------------------------------------------------------------------------------------------
-
+	db.close()
