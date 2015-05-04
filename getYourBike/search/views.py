@@ -24,22 +24,22 @@ def date2Timestamp(hour, formatage="%Y/%m/%d %H:%M"):
     
 @csrf_exempt
 def search(request):
-	day_month = request.POST.get('day_month')
-	day_day = request.POST.get('day_day')
-	day_year = request.POST.get('day_year')
-	hour_hour = request.POST.get('hour_hour')
-	hour_minute = request.POST.get('hour_minute')
-	station = request.POST.get('station')
-	hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
-	timestamp = date2Timestamp(hour)
-	prev = previsions(timestamp, station)
+    day_month = request.POST.get('day_month')
+    day_day = request.POST.get('day_day')
+    day_year = request.POST.get('day_year')
+    hour_hour = request.POST.get('hour_hour')
+    hour_minute = request.POST.get('hour_minute')
+    station = request.POST.get('station')
+    hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
+    timestamp = date2Timestamp(hour)
+    prev = previsions(timestamp, station)
     fichier = open(u'/leNomDuFichier.txt', "w")
     fichier.write("timestamp" + timestamp)
     fichier.write("prev" + prev)
     fichier.close()
-	result = timestamp
-	content = json.dumps(prev)
-	return HttpResponse(locals(), content_type="application/json")
+    result = timestamp
+    content = json.dumps(prev)
+    return HttpResponse(locals(), content_type="application/json")
 
 def map(request):
     template = loader.get_template('search/map.html')
