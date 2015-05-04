@@ -27,9 +27,9 @@ def search(request):
 	hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
 	timestamp = date2Timestamp(hour)
 	prev = previsions(timestamp, station)
-	result = prev
-	content = json.dumps(result)
-	return HttpResponse(content, content_type="application/json")
+	result = timestamp
+	content = json.dumps(prev)
+	return HttpResponse(locals(), content_type="application/json")
 
 def map(request):
     template = loader.get_template('search/map.html')
