@@ -1,6 +1,8 @@
+#!/usr/local/bin/python
+# -*- coding: utf-8	 -*-
+
 import datetime
 import time
-
 
 import prevision
 import previsionEvaluation
@@ -11,11 +13,15 @@ import paths
 stationId = 1001
 
 # date/time of prevision ()
-t_prevision = util.datetimeToTimestamp(datetime.datetime(2015,05,10,15)) #GMT time
+t_prevision = int(util.datetimeToTimestamp(datetime.datetime(2015,05,05,12,00,00))) #GMT time
 t_request = int(time.time())
+
+print t_prevision
+print t_request
+#print util.timestampToDatetime(t_prevision)
 
 prev = prevision.previsions(t_prevision, stationId)
 prevision.displayPrevisions(prev, stationId, t_prevision)
 
 #save prevision in DB for future evaluation
-previsionEvaluation.savePrevision(prev, stationId, t_request, t_prevision)
+#previsionEvaluation.savePrevision(prev, stationId, t_request, t_prevision)

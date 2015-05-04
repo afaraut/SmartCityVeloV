@@ -1,3 +1,6 @@
+#!/usr/local/bin/python
+# -*- coding: utf-8	 -*-
+
 import sqlite3
 import time
 import datetime
@@ -10,7 +13,7 @@ import weatherRound
 import util
 import regressionPersistance
 
-from paths import db_path
+from paths import db_path_string
 from paths import regression_path
 from paths import common_path
 from paths import vacation_data_path
@@ -33,7 +36,7 @@ def availableCyclicMean(type, stationId, thresholdMinutes):
 
 	available, numberOfWeeks, availableCyclicMean  = list(), list(), list()
 	
-	db = sqlite3.connect(db_path)
+	db = sqlite3.connect(db_path_string)
 	cursor = db.cursor()
 
 	if not type in ['bike','stand'] :
@@ -80,7 +83,7 @@ def dayMeans(type, stationId):
 
 	dayTotal, dayCount, dayMeans = dict(), dict(), dict()
 
-	db = sqlite3.connect(db_path)
+	db = sqlite3.connect(db_path_string)
 	cursor = db.cursor()
 
 	if not type in ['bike','stand'] :
@@ -139,7 +142,7 @@ def fluctuationThresholdMeans(F):
 
 
 def stationName(stationId):
-	db = sqlite3.connect(db_path)
+	db = sqlite3.connect(db_path_string)
 	cursor = db.cursor()
 	name = (cursor.execute('SELECT stationName FROM station WHERE id = :stationId', {"stationId" : stationId}).fetchone()[0])
 	db.close()
@@ -229,7 +232,7 @@ def getVacationData():
 
 	vacation = dict()
 
-	with open(vacation_data_path, 'r') as f:
+	with vacation_data_path.open('r') as f:
 		read_data = f.read()
 
 	vacationDayIds = read_data.split(';')
@@ -254,7 +257,8 @@ def isVacation(t, vacationData):
 
 def getDailyWeatherData():
 
-	db = sqlite3.connect(db_path)
+	print 'path for daily weather data', db_path_string
+	db = sqlite3.connect(db_path_string)
 	cursor = db.cursor()
 	
 	weather_data = cursor.execute('SELECT * FROM weather_day').fetchall()
@@ -300,22 +304,22 @@ def getDailyWeatherData():
 
 def getDailyWeatherDataForPrevision(tempMean, t):
 
-	db = sqlite3.connect(db_path)
+	db = sqlite3.connect(db_path_string)
 	cursor = db.cursor()
 
-	t_day = int(t - (t % (24*3600))) - 3600 # - 3600 is for time zone
-	#t_dayEnd = t_dayStart + 24*3600
+	t_day = int(t - (t % (24*3600))) - 7200 # weather uses UTC + 2 time
+	#print 'timestamp for daily weather', t_day
 
 	data = cursor.execute('SELECT avg(temperature), sum(precipitation) FROM weather_day WHERE day=:day',{"day":t_day}).fetchone()
 
 	if not util.is_number(data[0]):
-		#print 'no temperature data for this day, assuming average temperature'
+		print 'no temperature data for this day, assuming average temperature'
 		dayTemperatureAvg = tempMean
 	else:
 		dayTemperatureAvg = float(data[0])
 	
 	if not util.is_number(data[1]):
-		#print 'no precipitation data for this day, assuming no precipitations'
+		print 'no precipitation data for this day, assuming no precipitations'
 		dayPrecipitationTotal = 0.0
 	else:
 		dayPrecipitationTotal = float(data[1])
@@ -329,7 +333,7 @@ def L_mod_t_and_F(stationId, cyclicL, A_mod_d7, A_d_d):
 
 	L_mod_t, F = dict(), dict()
 
-	db = sqlite3.connect(db_path)
+	db = sqlite3.connect(db_path_string)
 	cursor = db.cursor()
 
 	for data in cursor.execute('SELECT timestamp, availableBikes FROM OldResults WHERE stationId =:stationId', { "stationId": stationId}):
@@ -404,7 +408,7 @@ def L_mod_prevision(timestamp, cyclicL, A_mod_d7, A0, c1, AmodDifferenceD7, C1, 
 def prepareDataForFluctuationRegression(F_threshold, weatherValidityHours):
 
 	Fy_regression, Fx_regression, R_regression = list(), list(), list()
-	[R, toRemove] = weatherRound.getNearestWeatherPastForRegression(F_threshold, weatherValidityHours, db_path)
+	[R, toRemove] = weatherRound.getNearestWeatherPastForRegression(F_threshold, weatherValidityHours, db_path_string)
 	
 	for rem in toRemove:
 		del F_threshold[rem]
@@ -436,7 +440,7 @@ def F_prevision(time, alpha, beta, gamma, F_threshold):
 	times = range (t0, tFinal, thresholdInMinutes)
 	#print len(times)
 
-	R = weatherRound.getNearestPrecipitationsForPrevision(times, weatherValidityHours, db_path)
+	R = weatherRound.getNearestPrecipitationsForPrevision(times, weatherValidityHours, db_path_string)
 	#print R
 
 	F1 = 0.0 
@@ -554,9 +558,9 @@ def previsions(t, stationId):
  	[dayTemperatureAvg, dayPrecipitationTotal] = getDailyWeatherDataForPrevision(tempMean, t)
 
  	if t_vac == 1:
- 		'vacation day: yes'
+ 		print 'vacation day: yes'
  	else:
- 		'vacation day: no'
+ 		print 'vacation day: no'
  	print 'estimated average day temperature:', dayTemperatureAvg, 'Celsius degrees'
  	print 'estimated daily precipitations:', dayPrecipitationTotal, 'mm'
  	
@@ -611,7 +615,7 @@ def previsions(t, stationId):
 def displayPrevisions(previsions, stationId, t):
 
 	[prev_bikes, prev_stands, prev_bikes_without_fluctuations, prev_stands_without_fluctuations] = previsions
-	db = sqlite3.connect(db_path)
+	db = sqlite3.connect(db_path_string)
 	cursor = db.cursor()
 	sName = stationName(stationId)
 
@@ -623,11 +627,11 @@ def displayPrevisions(previsions, stationId, t):
 	print 'available stands with fluctuations:', prev_stands
 
 def computeRegressionDataForAllStations(createDirectories):
-	db = sqlite3.connect(db_path)
+	db = sqlite3.connect(db_path_string)
 	cursor = db.cursor()
 
 	if createDirectories:
-		regressionPersistance.createAllDirectories(db_path)
+		regressionPersistance.createAllDirectories(db_path_string)
 
 	for data in cursor.execute('SELECT id FROM station ').fetchall():
 		computeRegressionDataForOneStation(data[0])
@@ -648,7 +652,7 @@ def computeRegressionDataForOneStation(stationId):
 def savePrevision(prevision, stationId, requestTimestamp, previsionTimestamp):
 	[prev_bikes, prev_stands, prev_bikes_without_fluctuations, prev_stands_without_fluctuations] = prevision
 
-	db = sqlite3.connect(db_path)
+	db = sqlite3.connect(db_path_string)
 	cursor = db.cursor()
 
 	cursor.execute('INSERT INTO Request(stationId, requestDate, previsionDate, realAvailableBikes, realAvailableStands, previsionAvailableBikes, \
