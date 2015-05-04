@@ -1,9 +1,9 @@
 import regressionPersistance
 import os.path
 
-db_path = '../../data/velos'
+from paths import db_path
+from paths import regression_path
 
-
-if not os.path.exists('../../data/regression'):
-		os.makedirs('../../data/regression')
+if not os.path.exists('regression_path'):
+		os.makedirs('regression_path')
 regressionPersistance.createAllDirectories(db_path)

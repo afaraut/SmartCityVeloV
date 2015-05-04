@@ -2,16 +2,19 @@ import pickle
 import os.path
 import sqlite3
 
+from paths import db_path
+from paths import regression_path
+from paths import common_path
 
-base_path = '/home/getyourbike/projects/SmartCityVeloV/data/regression'
+
 allRegressionObjects = ['cyclicL_bikes', 'cyclicL_stands', 'A_mod_d7_bikes', 'A_mod_d7_stands', 'a0Regression_bikes', 'a0Regression_stands', 'dailyRegressionCoefs_bikes', 'dailyRegressionCoefs_stands', 'F_threshold_bikes', 'F_threshold_stands', 'fluctuationRegressionCoefs_bikes', 'fluctuationRegressionCoefs_stands']
 commonObjects = ['dailyWeatherData', 'vacationData']
 
 def getFilepath(stationId, filename):
-	return base_path + '/' + str(stationId) + '/' + filename
+	return regression_path + '/' + str(stationId) + '/' + filename
 
 def getCommonFilepath(filename):
-	return base_path + '/common/' + filename
+	return common_path + '/' + filename
 
 def save(object, stationId, objectName):
 	filepath = getFilepath(stationId, objectName)
@@ -50,7 +53,7 @@ def checkCommonObjectsExistence():
 	return True
 
 def ensureDirectory(stationId):
-	directory = base_path + '/' + str(stationId)
+	directory = regression_path + '/' + str(stationId)
 	if not os.path.exists(directory):
 		os.makedirs(directory)
 
@@ -58,6 +61,6 @@ def createAllDirectories(db_path):
 	db = sqlite3.connect(db_path)
 	cursor = db.cursor()
 	for data in cursor.execute('SELECT DISTINCT stationId FROM OldResults '):
-		ensureDirectory(str(data[0]))
-	ensureDirectory('common')
+		ensureDirectory(reression_path + '/' + str(data[0]))
+	ensureDirectory(common_path)
 

@@ -1,6 +1,8 @@
 import sqlite3
 import util
 
+from paths import db_path
+
 def getNearestWeatherPastForRegression(F, hourLimit, db_path):
 	db = sqlite3.connect(db_path)
 	cursor = db.cursor()

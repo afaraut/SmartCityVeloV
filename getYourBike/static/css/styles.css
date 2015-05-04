@@ -72,3 +72,26 @@ body{
     overflow:hidden;
 	
 }
+
+
+#imgWait {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -100px; /* half width of the spinner gif */
+    margin-top: -60px; /* half height of the spinner gif */
+    text-align:center;
+    overflow: auto;
+    width: 193px; /* width of the spinner gif */
+    height: 93px; /*hight of the spinner gif +2px to fix IE8 issue */
+	z-index: 15;
+}
+
+#fade {
+	display: none;
+	background: #000; 
+	position: fixed; left: 0; top: 0; 
+	z-index: 10;
+	width: 100%; height: 100%;
+	opacity: .80;
+}
