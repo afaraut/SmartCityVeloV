@@ -1,7 +1,7 @@
 //$('#formSearch').live('submit', function(event) { // catch the form's submit event
 //$(document).on('submit', '#formSearch', function(){
 //$('#formSearch').submit(function(evt){ 
-$(document).ready(function() {
+/*$(document).ready(function() {
   $('#formSearch').submit(function(event){
     alert("test");
     event.preventDefault();
@@ -19,7 +19,7 @@ $(document).ready(function() {
     var station = $("#id_station").val();
 
     $.ajax({ // create an AJAX call...
-        data: {"day_month":day_month, "day_day" : day_day, "day_year" : day_year, "hour_hour" : hour_hour, "hour_minute" : hour_minute, "station" : station, "csrfmiddlewaretoken" : csrftoken}, // get the form data
+        data: json.stringify({"day_month":day_month, "day_day" : day_day, "day_year" : day_year, "hour_hour" : hour_hour, "hour_minute" : hour_minute, "station" : station, "csrfmiddlewaretoken" : csrftoken}), // get the form data
         type: $(this).attr('method'), // GET or POST
         url: $(this).attr('action'), // the file to call
         success: function(response) { // on success..
@@ -31,4 +31,4 @@ $(document).ready(function() {
     });
     return false;
   });
-});
+});*/
