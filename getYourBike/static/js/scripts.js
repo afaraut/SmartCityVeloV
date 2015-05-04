@@ -88,7 +88,6 @@ carte = new google.maps.Map(document.getElementById("map-canvas"), options);
 function prevision(idFormulaire){
 	formulaire = document.getElementById(idFormulaire);
 	data = getDataFromForm(formulaire);
-	alert(data);
 	$.ajax({
 		type:'POST',
 		url: "/search/search",
