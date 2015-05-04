@@ -14,6 +14,8 @@ from getYourBike.prevision import previsions
 def date2Timestamp(hour, formatage="%Y/%m/%d %H:%M"):
     """This function allows to convert a date into a timestamp"""
     return int(time.mktime(datetime.datetime.strptime(hour, formatage).timetuple()))
+
+    
 @csrf_exempt
 def search(request):
 	day_month = request.POST.get('day_month')
