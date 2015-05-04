@@ -93,8 +93,8 @@ function prevision(idFormulaire){
 		url: "/search/search",
 		traditional: true,
 		data:data,
-		success: function(data){
-			document.getElementById('test').innerHTML ="<hr>Vélos disponible : " +  data[0] + "<br> Brones disponibles : " + data[1];
+		success: function(content){
+			document.getElementById('test').innerHTML ="<hr>Vélos disponible : " +  content[0] + "<br> Brones disponibles : " + content[1];
 		}	
 	});
 
