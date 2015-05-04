@@ -85,8 +85,8 @@ carte = new google.maps.Map(document.getElementById("map-canvas"), options);
 }
 
 
-function prevision(){
-	formulaire = document.getElementById('formulaire');
+function prevision(idFormulaire){
+	formulaire = document.getElementById(idFormulaire);
 	data = getDataFromForm(formulaire);
 	alert(data);
 	$.ajax({
