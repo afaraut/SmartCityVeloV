@@ -1,7 +1,8 @@
 //$('#formSearch').live('submit', function(event) { // catch the form's submit event
 //$(document).on('submit', '#formSearch', function(){
 //$('#formSearch').submit(function(evt){ 
-  $('#formSearch').submit(function(event){
+$('#formSearch').submit(function(event){
+  alert("test");
   event.preventDefault();
   console.log($(this));
   $('#imgWait').show(); // Show the loading image
