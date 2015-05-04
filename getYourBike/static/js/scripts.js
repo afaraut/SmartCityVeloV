@@ -7,7 +7,7 @@ function attachContent(marker, data) {
 	google.maps.event.addListener(marker, 'click', function() {
 	var content = data.stationName;
 	content += data.stationRegion + "<br>"+ data.stationNum + " - " + data.stationName;			; 
-	content += "<br><div><div class='modal-content'><div class='modal-header'><h3> Faire une prévision</h3></div><div class='modal-body'><form action=\"{% url 'search.views.home' %}\" method='post' class='form col-xs-6 center-block'><div class='form-group'><label id='jour'>Jour</label><input type='time' id='jour'/><button class='btn btn-primary btn-sm '>Valider</button></div></form></div><div class='modal-footer'>	</div></div></div>";
+	content += "<br><div><div class='modal-content'><div class='modal-header'><h5> Faire une prévision</h5></div><div><form action=\"{% url 'search.views.home' %}\" method='post'><div ><label id='date'>Date</label><input type='text' id='date' style='width:30px;height:20px;'/><input type='text' id='date'  style='width:30px;height:20px;'/><input type='text' id='date' style='width:60px;height:20px;'/><br><label id='heure'>Heure</label><input type='text' id='hour' style='width:30px;height:20px;'>hh<input type='text' id='hour' style='width:30px;height:20px;'>mm</br><button class='btn btn-primary btn-sm '>Valider</button></div></form></div><div class='modal-footer'>	</div></div></div>";
 	infowindow.setContent(content);
 	infowindow.open(marker.get('map'), marker);
 	});		
@@ -72,5 +72,33 @@ carte = new google.maps.Map(document.getElementById("map-canvas"), options);
 			theposition();
 		}
 	});
+
+}
+
+ function getDataFromForm(Form) {
+    var data="";
+    var key=0;
+    for (key=1;key<Form.elements.length;key++) {      
+        data+=escape(Form.elements[key].name)+"="+escape(Form.elements[key].value)+"&";
+    }
+    return data.substr(0, data.length-1);
+}
+
+
+function prevision(){
+	formulaire = document.getElementById('formulaire');
+	data = getDataFromForm(formulaire);
+	alert(data);
+	$.ajax({
+		type:'POST',
+		url: "/search/search",
+		traditional: true,
+		data:data,
+		success: function(data){
+			document.getElementById('test').innerHTML ="<hr>Vélos disponible : " +  data[0] + "<br> Brones disponibles : " + data[1];
+		}	
+	});
+
+
 
 }
