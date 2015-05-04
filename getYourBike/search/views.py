@@ -14,18 +14,26 @@ from getYourBike.prevision import previsions
 def date2Timestamp(hour, formatage="%Y/%m/%d %H:%M"):
     """This function allows to convert a date into a timestamp"""
     return int(time.mktime(datetime.datetime.strptime(hour, formatage).timetuple()))
-
-@api_view(['GET'])
+@csrf_exempt
 def search(request):
-    """
-        BLAH BLAH
-    """
-    content = {"manual" : "bonjour"}  
-    return Response(content, template_name='search/search.html')
+	day_month = request.POST.get('day_month')
+	day_day = request.POST.get('day_day')
+	day_year = request.POST.get('day_year')
+	hour_hour = request.POST.get('hour_hour')
+	hour_minute = request.POST.get('hour_minute')
+	station = request.POST.get('station')
+	hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
+	timestamp = date2Timestamp(hour)
+	prev = previsions(timestamp, station)
+	result = prev
+	content = json.dumps(result)
+	return HttpResponse(content, content_type="application/json")
 
 def map(request):
     template = loader.get_template('search/map.html')
     return HttpResponse(template.render())
+
+
 
 @api_view(['GET', 'POST'])
 def home(request):
@@ -34,7 +42,6 @@ def home(request):
         @param request : Contains the query parameters
         This function just accepts the GET method
     """
-
     if request.method == 'GET': # For the GET method
         form = SearchForm()  # Nous creons un formulaire vide
     elif request.method == 'POST':

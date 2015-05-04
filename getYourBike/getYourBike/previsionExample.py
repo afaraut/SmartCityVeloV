@@ -5,6 +5,7 @@ import time
 import prevision
 import previsionEvaluation
 import util
+import paths
 
 # station
 stationId = 1001
