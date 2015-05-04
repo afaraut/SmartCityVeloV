@@ -88,14 +88,27 @@ carte = new google.maps.Map(document.getElementById("map-canvas"), options);
 function prevision(idFormulaire){
 	formulaire = document.getElementById(idFormulaire);
 	data = getDataFromForm(formulaire);
+	$('#imgWait').show(); // Show the loading image
+    $('body').append('<div id="fade"></div>'); // Add the fade layer to bottom of the body tag.
+    $('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn(); // Fade in the fade layer 
 	$.ajax({
 		type:'POST',
 		url: "/search/search",
 		traditional: true,
 		data:data,
-		success: function(content){
-			document.getElementById('test').innerHTML ="<hr>Vélos disponible : " +  content[0] + "<br> Brones disponibles : " + content[1];
-		}	
+
+		success: function(data){
+			document.getElementById('reponse').innerHTML ="<hr>Vélos disponible : " +  data[0] + "<br> Brones disponibles : " + data[1];
+			$('#imgWait').hide(); // Hide the loading image
+        	$('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeOut(); // Fade out the fade layer 
+        	$('body').remove('<div id="fade"></div>'); // Remove the fade layer to bottom of the body tag.
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+	        alert(xhr +  " - "  +ajaxOptions + " - " + thrownError);
+	        $('#imgWait').hide(); // Hide the loading image
+	        $('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeOut(); // Fade out the fade layer 
+	        $('body').remove('<div id="fade"></div>'); // Remove the fade layer to bottom of the body tag.
+      	}
 	});
 
 

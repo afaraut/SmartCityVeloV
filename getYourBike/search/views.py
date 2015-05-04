@@ -11,23 +11,35 @@ from search.models import Station
 from getYourBike.prevision import previsions
 # Create your views here.
 
+# import the logging library
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
 def date2Timestamp(hour, formatage="%Y/%m/%d %H:%M"):
     """This function allows to convert a date into a timestamp"""
     return int(time.mktime(datetime.datetime.strptime(hour, formatage).timetuple()))
+
+    
 @csrf_exempt
 def search(request):
-	day_month = request.POST.get('day_month')
-	day_day = request.POST.get('day_day')
-	day_year = request.POST.get('day_year')
-	hour_hour = request.POST.get('hour_hour')
-	hour_minute = request.POST.get('hour_minute')
-	station = request.POST.get('station')
-	hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
-	timestamp = date2Timestamp(hour)
-	prev = previsions(timestamp, station)
-	result = prev
-	content = json.dumps(result)
-	return HttpResponse(content, content_type="application/json")
+    day_month = request.POST.get('day_month')
+    day_day = request.POST.get('day_day')
+    day_year = request.POST.get('day_year')
+    hour_hour = request.POST.get('hour_hour')
+    hour_minute = request.POST.get('hour_minute')
+    station = request.POST.get('station')
+    hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
+    timestamp = date2Timestamp(hour)
+    prev = previsions(timestamp, station)
+    fichier = open(u'./leNomDuFichier.txt', "w+")
+    fichier.write("timestamp" + timestamp)
+    fichier.write("prev" + prev)
+    fichier.close()
+    result = timestamp
+    content = json.dumps(prev)
+    return HttpResponse(locals(), content_type="application/json")
 	
 def search_mobile(request):
 	day_month = request.GET.get('day_month')
@@ -42,6 +54,7 @@ def search_mobile(request):
 	result = prev
 	content = json.dumps(result)
 	return HttpResponse(content, content_type="application/json")
+
 def map(request):
     template = loader.get_template('search/map.html')
     return HttpResponse(template.render())
