@@ -7,7 +7,7 @@ from search.models import Station
 
 class SearchForm(forms.Form):
     day = forms.DateField(widget=extras.SelectDateWidget, label="Jour")
-    hour = forms.TimeField(widget=SelectTimeWidget, label="Heure ")
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), label="Heure ")
     station = forms.CharField(widget=forms.Select, label=u'Station')
 
     def __init__(self, *args, **kwargs):
