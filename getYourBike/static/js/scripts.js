@@ -13,7 +13,8 @@ function attachContent(marker, data) {
 	content += "<fieldset>";
     content += "<legend>Faire une prévision</legend>";
     content += "<input type='hidden' name='station' id='stationNum' value=" + data.stationNum + " />";
-    content += "<input type='hidden' name='nbBornes' id='nbBornes' value=" + data.borens + " />";
+    console.log(data.bornes);
+    content += "<input type='hidden' name='nbBornes' id='nbBornes' value=" + data.bornes + " />";
 	content += "<label id='date'>Date</label>";
 	content += "<select name='day_day' id='day_day'>";
     content += remplirDate(1,31,1, aujourdhui.getDate());
