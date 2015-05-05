@@ -434,6 +434,7 @@ def F_prevision(time, t0, F0, alpha, beta, gamma):
 		print '[WARNING : prevision lies in the past : requested prevision for ' , util.timestampToDatetime(time) ,  ']'
 		return 0.0
 
+	t0 = int(timestampRoundToThreshold(t0))
 	tFinal = int(timestampRoundToThreshold(time))
 
 	times = range (t0, tFinal, thresholdInMinutes)
@@ -446,10 +447,10 @@ def F_prevision(time, t0, F0, alpha, beta, gamma):
 	t1 = t0 + thresholdInMinutes
 
 	while t1 < (time - thresholdInMinutes):
-		if R[t1] is None:
+		if  R[t1] is None:
 			F1 = alpha * F0 + gamma #assume precipitation = 0 if unknown
 		else:
-			F1 = alpha * F0 + beta * R[t1] + gamma
+			F1 = alpha * F0 + beta * R[timestampRoundToThreshold(t1)] + gamma
 
 
 		t0 = t1
@@ -674,6 +675,7 @@ def displayPrevisions(previsions, stationId, t):
 	db = sqlite3.connect(db_path_string)
 	cursor = db.cursor()
 	sName = stationName(stationId)
+	db.close()
 
 	print ''
 	print 'previsions for station', sName, '(', (stationId), ')', 'at', datetime.datetime.fromtimestamp(t)
