@@ -8,21 +8,16 @@ import json
 import datetime
 import sqlite3
 
-answer = False
-while answer==False:
-	try:
-		response = urllib2.urlopen('https://download.data.grandlyon.com/ws/rdata/jcd_jcdecaux.jcdvelov/all.json')
-		answer = True
-	except:
-		time.sleep(5)
-		answer = False
 
+print datetime.datetime.fromtimestamp(time.time())
+
+response = urllib2.urlopen('https://download.data.grandlyon.com/ws/rdata/jcd_jcdecaux.jcdvelov/all.json')
 html = response.read()
 data = json.loads(html)
 with codecs.open("./temp/last_update.csv", "w", "utf-8") as outfile:
 	linetowrite =''
 
-	db = sqlite3.connect('velos', timeout=30.0)
+	db = sqlite3.connect('velos')
 	cursor = db.cursor()
 
 	cursor.execute('''DELETE FROM `RecentResults`''')
@@ -31,8 +26,8 @@ with codecs.open("./temp/last_update.csv", "w", "utf-8") as outfile:
 		data_date = ligne[18]
 		data_stationId = ligne[0]
 		data_status = ligne[11]
-		data_availableBikes = ligne[12]
-		data_availableStands = ligne[13]
+		data_availableStands = ligne[12]
+		data_availableBikes = ligne[13]
 		date = datetime.datetime.strptime(data_date, "%Y-%m-%d %H:%M:%S")
 		data_day = datetime.datetime.strftime(date,"%A")
 		data_hour = datetime.datetime.strftime(date,"%H")
@@ -48,7 +43,7 @@ with codecs.open("./temp/last_update.csv", "w", "utf-8") as outfile:
 
 		linetowrite = data_stationId+'\t'+data_status+'\t'+str(timestmp)+'\t'+data_availableBikes+'\t'+data_availableStands
 		
-		
+		print linetowrite
 
 		cursor.execute('''INSERT INTO RecentResults(stationId, status, lastUpdate, availableBikes, availableStands)
           		    VALUES(?,?,?,?,?)''', (data_stationId,data_status,data_date,data_availableBikes,data_availableStands))
@@ -59,3 +54,5 @@ with codecs.open("./temp/last_update.csv", "w", "utf-8") as outfile:
 		db.commit()
 
 		outfile.write(linetowrite)
+
+print datetime.datetime.fromtimestamp(time.time())
