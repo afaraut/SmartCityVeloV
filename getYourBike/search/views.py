@@ -27,8 +27,15 @@ def test(request):
 @api_view(['GET'])
 def prevision(request, idstation, timestamp):
     prev = previsions(int(timestamp), int(idstation))
-    station = Station.objects.all(stationNum=idstation)
-    content = {'prevision': prev, 'station' : station} # Element for the view
+    station = Station.objects.get(stationNum=idstation)
+    content = {
+    "prevision": prev,
+    "stationNum" : station.stationNum,
+    "stationName" : station.stationName,
+    "stationRegion" : station.stationRegion,
+    "stationLong" : station.stationLong,
+    "stationLat" : station.stationLat
+    }
     return Response(content) # Return the response
     
 @csrf_exempt

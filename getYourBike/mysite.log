@@ -1085,3 +1085,448 @@ Traceback (most recent call last):
 OperationalError: no such table: weather_day
 [05/May/2015 09:58:12] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
 [05/May/2015 09:58:12] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 10:51:35] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430895600
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 29, in prevision
+    prev = previsions(int(timestamp), int(idstation))
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 548, in previsions
+    computeRegressionDataForOneStation(stationId)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 716, in computeRegressionDataForOneStation
+    generateDailyWeatherData()
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 464, in generateDailyWeatherData
+    [tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations] = getDailyWeatherData()
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 267, in getDailyWeatherData
+    weather_data = cursor.execute('SELECT * FROM weather_day').fetchall()
+OperationalError: no such table: weather_day
+[05/May/2015 10:55:08] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430895600
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 29, in prevision
+    prev = previsions(int(timestamp), int(idstation))
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 548, in previsions
+    computeRegressionDataForOneStation(stationId)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 716, in computeRegressionDataForOneStation
+    generateDailyWeatherData()
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 465, in generateDailyWeatherData
+    regressionPersistance.saveCommon([tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations], 'dailyWeatherData')
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\regressionPersistance.py", line 31, in saveCommon
+    with filepath.open('wb') as f:
+  File "C:\Python27\lib\site-packages\pathlib.py", line 1077, in open
+    return io.open(str(self), mode, buffering, encoding, errors, newline)
+IOError: [Errno 2] No such file or directory: 'C:\\Users\\Anthony\\Desktop\\SmartCityVeloV\\data\\regression\\common\\dailyWeatherData'
+[05/May/2015 10:58:27] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430895600
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 29, in prevision
+    prev = previsions(int(timestamp), int(idstation))
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 548, in previsions
+    computeRegressionDataForOneStation(stationId)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 716, in computeRegressionDataForOneStation
+    generateDailyWeatherData()
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 465, in generateDailyWeatherData
+    regressionPersistance.saveCommon([tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations], 'dailyWeatherData')
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\regressionPersistance.py", line 31, in saveCommon
+    with filepath.open('wb') as f:
+  File "C:\Python27\lib\site-packages\pathlib.py", line 1077, in open
+    return io.open(str(self), mode, buffering, encoding, errors, newline)
+IOError: [Errno 2] No such file or directory: 'C:\\Users\\Anthony\\Desktop\\SmartCityVeloV\\data\\regression\\common\\dailyWeatherData'
+[05/May/2015 10:58:30] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430895600
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 29, in prevision
+    prev = previsions(int(timestamp), int(idstation))
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 548, in previsions
+    computeRegressionDataForOneStation(stationId)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 716, in computeRegressionDataForOneStation
+    generateDailyWeatherData()
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 465, in generateDailyWeatherData
+    regressionPersistance.saveCommon([tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations], 'dailyWeatherData')
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\regressionPersistance.py", line 31, in saveCommon
+    with filepath.open('wb') as f:
+  File "C:\Python27\lib\site-packages\pathlib.py", line 1077, in open
+    return io.open(str(self), mode, buffering, encoding, errors, newline)
+IOError: [Errno 2] No such file or directory: 'C:\\Users\\Anthony\\Desktop\\SmartCityVeloV\\data\\regression\\common\\dailyWeatherData'
+[05/May/2015 10:59:52] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430895600
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 30, in prevision
+    station = Station.objects.all(stationnum=idstation)
+TypeError: all() got an unexpected keyword argument 'stationnum'
+[05/May/2015 11:00:50] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:00:50] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:01:26] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 11:01:26] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430895600
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 59, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 99, in render
+    separators=separators
+  File "C:\Python27\lib\json\__init__.py", line 250, in dumps
+    sort_keys=sort_keys, **kw).encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\site-packages\rest_framework\utils\encoders.py", line 61, in default
+    return super(JSONEncoder, self).default(obj)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: <Station: Station object> is not JSON serializable
+[05/May/2015 11:02:17] DEBUG [django.db.backends:89] (0.000) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:02:17] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:02:34] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:02:34] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:02:36] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" LIMIT 21' - PARAMS = (); args=()
+[05/May/2015 11:02:36] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430895600
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 32, in prevision
+    content = json.dumps(content)
+  File "C:\Python27\lib\json\__init__.py", line 243, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: [<Station: Station object>, <Station: Station object>, <Station: Station object>, <Station: Station object>, <Station: Station object>, <Station: Station object>, <Station: Station object>, <Station: Station object>, <Station: Station object>, <Station: Station object>, <Station: Station object>, <Station: Station object>, <Station: Station object>, <Station: Station object>, <Station: Station object>, <Station: Station object>, <Station: Station object>, <Station: Station object>, <Station: Station object>, <Station: Station object>, '...(remaining elements truncated)...'] is not JSON serializable
+[05/May/2015 11:02:36] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" LIMIT 21' - PARAMS = (); args=()
+[05/May/2015 11:02:36] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" LIMIT 21' - PARAMS = (); args=()
+[05/May/2015 11:02:36] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" LIMIT 21' - PARAMS = (); args=()
+[05/May/2015 11:02:36] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" LIMIT 21' - PARAMS = (); args=()
+[05/May/2015 11:02:36] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" LIMIT 21' - PARAMS = (); args=()
+[05/May/2015 11:02:36] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" LIMIT 21' - PARAMS = (); args=()
+[05/May/2015 11:02:36] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" LIMIT 21' - PARAMS = (); args=()
+[05/May/2015 11:02:36] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" LIMIT 21' - PARAMS = (); args=()
+[05/May/2015 11:02:36] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" LIMIT 21' - PARAMS = (); args=()
+[05/May/2015 11:02:36] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" LIMIT 21' - PARAMS = (); args=()
+[05/May/2015 11:02:36] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" LIMIT 21' - PARAMS = (); args=()
+[05/May/2015 11:02:36] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" LIMIT 21' - PARAMS = (); args=()
+[05/May/2015 11:02:36] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" LIMIT 21' - PARAMS = (); args=()
+[05/May/2015 11:02:36] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" LIMIT 21' - PARAMS = (); args=()
+[05/May/2015 11:02:36] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" LIMIT 21' - PARAMS = (); args=()
+[05/May/2015 11:02:55] DEBUG [django.db.backends:89] (0.000) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:02:55] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:02:57] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430895600
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 30, in prevision
+    station = Station.objects.all(station=idstation)
+TypeError: all() got an unexpected keyword argument 'station'
+[05/May/2015 11:04:03] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:04:03] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:04:05] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430895600
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 30, in prevision
+    station = Station.objects.all(id=1)
+TypeError: all() got an unexpected keyword argument 'id'
+[05/May/2015 11:04:13] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:04:13] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:05:15] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430895600
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 30, in prevision
+    station = Station.objects.all(stationNum=1001)
+TypeError: all() got an unexpected keyword argument 'stationNum'
+[05/May/2015 11:05:25] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:05:25] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:05:25] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430895600
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 108, in get_response
+    response = middleware_method(request)
+  File "C:\Python27\lib\site-packages\django\middleware\common.py", line 74, in process_request
+    if (not urlresolvers.is_valid_path(request.path_info, urlconf) and
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 647, in is_valid_path
+    resolve(path, urlconf)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 522, in resolve
+    return get_resolver(urlconf).resolve(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 30
+    station = Station.objects.all("stationNum"=1001)
+SyntaxError: keyword can't be an expression
+[05/May/2015 11:05:37] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430895600
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 30, in prevision
+    station = Station.objects.all(stationNum=1001)
+TypeError: all() got an unexpected keyword argument 'stationNum'
+[05/May/2015 11:05:43] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:05:43] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:05:45] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430895600
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 30, in prevision
+    station = Station.objects.all(stationnum=1001)
+TypeError: all() got an unexpected keyword argument 'stationnum'
+[05/May/2015 11:06:49] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:06:49] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:06:51] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430895600
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 30, in prevision
+    station = Station.objects.all(pk=1)
+TypeError: all() got an unexpected keyword argument 'pk'
+[05/May/2015 11:07:22] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:07:22] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:07:31] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s LIMIT 21' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:07:31] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430895600
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 32, in prevision
+    content = json.dumps(content)
+  File "C:\Python27\lib\json\__init__.py", line 243, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: [<Station: Station object>] is not JSON serializable
+[05/May/2015 11:07:32] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s LIMIT 21' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:07:32] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s LIMIT 21' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:07:32] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s LIMIT 21' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:07:32] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s LIMIT 21' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:07:32] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s LIMIT 21' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:07:32] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s LIMIT 21' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:07:32] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s LIMIT 21' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:07:32] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s LIMIT 21' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:07:32] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s LIMIT 21' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:07:32] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s LIMIT 21' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:07:32] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s LIMIT 21' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:07:32] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s LIMIT 21' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:07:32] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s LIMIT 21' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:07:32] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s LIMIT 21' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:07:32] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s LIMIT 21' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:07:40] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:07:40] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:07:42] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:07:42] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430895600
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 59, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 99, in render
+    separators=separators
+  File "C:\Python27\lib\json\__init__.py", line 250, in dumps
+    sort_keys=sort_keys, **kw).encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\site-packages\rest_framework\utils\encoders.py", line 61, in default
+    return super(JSONEncoder, self).default(obj)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: <Station: Station object> is not JSON serializable
+[05/May/2015 11:08:32] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:08:32] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:11:05] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430895600
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 33, in prevision
+    "stationNum" : station.stationNum,
+AttributeError: 'QuerySet' object has no attribute 'stationNum'
+[05/May/2015 11:11:05] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s LIMIT 21' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:11:47] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:11:47] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:12:08] DEBUG [django.db.backends:89] (0.002) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:12:08] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:12:42] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430895600
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 34, in prevision
+    "stationName" : station.stationName,
+AttributeError: 'QuerySet' object has no attribute 'stationName'
+[05/May/2015 11:12:42] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s LIMIT 21' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:13:23] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:13:23] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:14:03] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s' - PARAMS = (1001,); args=(1001,)
