@@ -13,13 +13,13 @@ import paths
 stationId = 4023
 
 # date/time of prevision ()
-t_prevision = float(1430895656) #int(util.datetimeToTimestamp(datetime.datetime(2015,02,05,10,07,00))) #GMT time
+t_prevision = int(util.datetimeToTimestamp(datetime.datetime(2015,05,05,18,00,00))) #GMT time
 t_request = int(time.time())
 
-print t_prevision
-print t_request
-print util.timestampToDatetime(t_prevision)
-print util.timestampToDatetime(t_request)
+#print t_prevision
+#print t_request
+#print util.timestampToDatetime(t_prevision)
+#print util.timestampToDatetime(t_request)
 
 
 prev = prevision.previsions(t_prevision, stationId)

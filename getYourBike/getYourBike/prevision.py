@@ -311,7 +311,7 @@ def getDailyWeatherDataForPrevision(tempMean, t):
 	db = sqlite3.connect(db_path_string)
 	cursor = db.cursor()
 
-	t_day = int(t - (t % (24*3600))) - 7200 # weather uses UTC + 2 time
+	t_day = int(t - (t % (24*3600))) - 3600 # weather uses UTC + 2 time
 	#print 'timestamp for daily weather', t_day
 
 	data = cursor.execute('SELECT avg(temperature), sum(precipitation) FROM weather_day WHERE day=:day',{"day":t_day}).fetchone()
@@ -439,7 +439,7 @@ def F_prevision(time, t0, F0, alpha, beta, gamma):
 	tFinal = int(timestampRoundToThreshold(time))
 
 	times = range (t0, tFinal, thresholdInMinutes*60)
-	#print len(times)
+	print 'increments for F prevision', len(times)
 
 	R = weatherRound.getNearestPrecipitationsForPrevision(times, weatherValidityHours, db_path_string)
 	#print R
@@ -449,10 +449,10 @@ def F_prevision(time, t0, F0, alpha, beta, gamma):
 
 	while t1 < (time - thresholdInMinutes*60):
 
-		if  R[t1] is None:
+		if  t1 not in R:
 			F1 = alpha * F0 + gamma #assume precipitation = 0 if unknown
 		else:
-			F1 = alpha * F0 + beta * R[timestampRoundToThreshold(t1)] + gamma
+			F1 = alpha * F0 + beta * R[t1] + gamma
 
 
 		t0 = t1
