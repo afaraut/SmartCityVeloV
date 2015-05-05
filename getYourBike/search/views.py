@@ -13,8 +13,6 @@ from getYourBike.prevision import previsions
 
 # import the logging library
 import logging
-
-# Get an instance of a logger
 logger = logging.getLogger(__name__)
 
 def date2Timestamp(hour, formatage="%Y/%m/%d %H:%M"):
@@ -33,10 +31,8 @@ def search(request):
     hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
     timestamp = date2Timestamp(hour)
     prev = previsions(timestamp, station)
-    fichier = open(u'./leNomDuFichier.txt', "w+")
-    fichier.write("timestamp" + timestamp)
-    fichier.write("prev" + prev)
-    fichier.close()
+    logger.error("timestamp" + timestamp)
+    logger.debug("this is a debug message!")
     result = timestamp
     content = json.dumps(prev)
     return HttpResponse(locals(), content_type="application/json")
@@ -44,8 +40,6 @@ def search(request):
 def map(request):
     template = loader.get_template('search/map.html')
     return HttpResponse(template.render())
-
-
 
 @api_view(['GET', 'POST'])
 def home(request):
