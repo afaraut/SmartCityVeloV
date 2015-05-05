@@ -96,8 +96,9 @@ function prevision(idFormulaire){
 		url: "/search/search",
 		traditional: true,
 		data:data,
+
 		success: function(data){
-			document.getElementById('reponse').innerHTML ="<hr>Vélos disponible : " +  data[0] + "<br> Brones disponibles : " + data[1];
+			document.getElementById('reponse').innerHTML ="<hr>Vélos disponibles : " +  data[0] + "<br> Bornes disponibles : " + data[1];
 			$('#imgWait').hide(); // Hide the loading image
         	$('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeOut(); // Fade out the fade layer 
         	$('body').remove('<div id="fade"></div>'); // Remove the fade layer to bottom of the body tag.
