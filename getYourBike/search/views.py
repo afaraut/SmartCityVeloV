@@ -19,6 +19,11 @@ def date2Timestamp(hour, formatage="%Y/%m/%d %H:%M"):
     """This function allows to convert a date into a timestamp"""
     return int(time.mktime(datetime.datetime.strptime(hour, formatage).timetuple()))
 
+@api_view(['GET'])
+def test(request):
+    content = {'test': "anthony"} # Element for the view
+    return Response(content) # Return the response
+
     
 @csrf_exempt
 def search(request):
@@ -31,11 +36,11 @@ def search(request):
     hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
     timestamp = date2Timestamp(hour)
     prev = previsions(timestamp, station)
-    logger.error("timestamp" + timestamp)
+    logger.error("timestamp" + str(timestamp))
     logger.debug("this is a debug message!")
     result = timestamp
     content = json.dumps(prev)
-    return HttpResponse(locals(), content_type="application/json")
+    return HttpResponse(content, content_type="application/json")
 
 def search_mobile(request):
 	day_month = request.GET.get('day_month')

@@ -6,8 +6,9 @@ var infowindow = new google.maps.InfoWindow();
 function attachContent(marker, data) {	
 	google.maps.event.addListener(marker, 'click', function() {
 	var content = data.stationName;
-	content += data.stationRegion + "<br>"+ data.stationNum + " - " + data.stationName;			; 
-	content += "<br><div><div class='modal-content'><div class='modal-header'><h5> Faire une prévision</h5></div><div><form action=\"{% url 'search.views.home' %}\" method='post'><div ><label id='date'>Date</label><input type='text' id='date' style='width:30px;height:20px;'/><input type='text' id='date'  style='width:30px;height:20px;'/><input type='text' id='date' style='width:60px;height:20px;'/><br><label id='heure'>Heure</label><input type='text' id='hour' style='width:30px;height:20px;'>hh<input type='text' id='hour' style='width:30px;height:20px;'>mm</br><button class='btn btn-primary btn-sm '>Valider</button></div></form></div><div class='modal-footer'>	</div></div></div>";
+	content += data.stationRegion + "<br>"+ data.stationNum + " - " + data.stationName;		
+	var csrf_token = '<%= token_value %>';	; 
+	content += "<br><div><div class='modal-content'><div class='modal-header'><h5> Faire une prévision</h5></div><div><form action='/' method='post'><div ><label id='date'>Date</label><input type='text' id='date' style='width:30px;height:20px;'/><input type='text' id='date'  style='width:30px;height:20px;'/><input type='text' id='date' style='width:60px;height:20px;'/><br><label id='heure'>Heure</label><input type='text' id='hour' style='width:30px;height:20px;'>hh<input type='text' id='hour' style='width:30px;height:20px;'>mm</br><button class='btn btn-primary btn-sm '>Valider</button></div></form></div><div class='modal-footer'>	</div></div></div>";
 	infowindow.setContent(content);
 	infowindow.open(marker.get('map'), marker);
 	});		
@@ -104,7 +105,7 @@ function prevision(idFormulaire){
         	$('body').remove('<div id="fade"></div>'); // Remove the fade layer to bottom of the body tag.
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
-	        alert(xhr +  " - "  +ajaxOptions + " - " + thrownError);
+	        alert(xhr.status +  " - "  +ajaxOptions + " - " + thrownError);
 	        $('#imgWait').hide(); // Hide the loading image
 	        $('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeOut(); // Fade out the fade layer 
 	        $('body').remove('<div id="fade"></div>'); // Remove the fade layer to bottom of the body tag.
