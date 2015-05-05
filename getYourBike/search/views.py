@@ -20,8 +20,12 @@ def date2Timestamp(hour, formatage="%Y/%m/%d %H:%M"):
     return int(time.mktime(datetime.datetime.strptime(hour, formatage).timetuple()))
 
 @api_view(['GET'])
-def test(request):
-    content = {'test': "anthony"} # Element for the view
+def lastKnownStatus(request, idstation):
+    lastKnownStatus = getLastKnownStatus(idstation)
+    content = {
+    "lastKnownStatus": lastKnownStatus,
+    "idstation":idstation
+    }
     return Response(content) # Return the response
 
 @api_view(['GET'])
