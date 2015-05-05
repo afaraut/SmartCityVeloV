@@ -7,7 +7,7 @@ function attachContent(marker, data) {
 	google.maps.event.addListener(marker, 'click', function() {
 	var content = data.stationName;
 	content += data.stationRegion + "<br>"+ data.stationNum + " - " + data.stationName;			; 
-	content += "<br><div><div class='modal-content'><div class='modal-header'><h5> Faire une prévision</h5></div><div><form action=\"{% url 'search.views.home' %}\" method='post'><div >\"{% csrf_token %}\"<label id='date'>Date</label><input type='text' id='date' style='width:30px;height:20px;'/><input type='text' id='date'  style='width:30px;height:20px;'/><input type='text' id='date' style='width:60px;height:20px;'/><br><label id='heure'>Heure</label><input type='text' id='hour' style='width:30px;height:20px;'>hh<input type='text' id='hour' style='width:30px;height:20px;'>mm</br><button class='btn btn-primary btn-sm '>Valider</button></div></form></div><div class='modal-footer'>	</div></div></div>";
+	content += "<br><div><div class='modal-content'><div class='modal-header'><h5> Faire une prévision</h5></div><div><form action='{% url 'search.views.home' %}' method='post'><div >'{% csrf_token %}'<label id='date'>Date</label><input type='text' id='date' style='width:30px;height:20px;'/><input type='text' id='date'  style='width:30px;height:20px;'/><input type='text' id='date' style='width:60px;height:20px;'/><br><label id='heure'>Heure</label><input type='text' id='hour' style='width:30px;height:20px;'>hh<input type='text' id='hour' style='width:30px;height:20px;'>mm</br><button class='btn btn-primary btn-sm '>Valider</button></div></form></div><div class='modal-footer'>	</div></div></div>";
 	infowindow.setContent(content);
 	infowindow.open(marker.get('map'), marker);
 	});		
