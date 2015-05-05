@@ -1056,3 +1056,30 @@ Traceback (most recent call last):
 TypeError: url() takes at least 2 arguments (2 given)
 [05/May/2015 09:51:25] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
 [05/May/2015 09:51:32] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:53:49] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 09:53:49] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 09:54:01] ERROR [django.request:256] Internal Server Error: /search/prevision/1001/1430898531
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 29, in prevision
+    prev = previsions(int(timestamp), int(idstation))
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 547, in previsions
+    computeRegressionDataForOneStation(stationId)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 714, in computeRegressionDataForOneStation
+    generateDailyWeatherData()
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 463, in generateDailyWeatherData
+    [tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations] = getDailyWeatherData()
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 267, in getDailyWeatherData
+    weather_data = cursor.execute('SELECT * FROM weather_day').fetchall()
+OperationalError: no such table: weather_day
