@@ -2,13 +2,13 @@ var carte;
 var tabMarqueurs = new Array();
 var prev_infobulle;
 var infowindow = new google.maps.InfoWindow();
-
+var bikesAndStandsAvailable;
 function attachContent(marker, data) {	
 	google.maps.event.addListener(marker, 'click', function() {
 	var aujourdhui = new Date();
 	content = data.stationRegion + "<br>"+ data.stationNum + " - " + data.stationName;	
-	content += "<br>Vélos disponibles : "; // + data.availableBike
-	content += "<br> Bornes disponibles : "; //+ data.availableStands
+	content += "<br>Vélos disponibles : <span id='availableBikes'></span>";
+	content += "<br> Bornes disponibles : <span id='availableStands'></span>";
 	content += "<form action='/' id='map_form' method='post'>";
 	content += "<fieldset>";
     content += "<legend>Faire une prévision</legend>";
@@ -35,8 +35,23 @@ function attachContent(marker, data) {
 	content += "</fieldset>";
 	content += "<input type='button' name='valider' value='valider' class='btn btn-primary btn-lg btn-block'  onclick=\"prevision('map_form');\">";
 	content += "</form>";
-	console.log(Date());
 	infowindow.setContent(content);
+	$.ajax({
+		url : "search/lastKnownStatus/"+ data.stationNum,
+		type: "GET",
+		data:{
+			format:'json'
+		}
+	}).success(function(response){
+		document.getElementById('availableBikes').innerHTML = response.bikes;
+		document.getElementById('availableStands').innerHTML = response.stands;
+	}).fail(function(){
+		console.log("fail");
+	});
+	
+	
+	console.log(Date());
+	
 	infowindow.open(marker.get('map'), marker);
 	});		
 }

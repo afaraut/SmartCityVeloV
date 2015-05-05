@@ -9,7 +9,6 @@ import json, csv, codecs, time, datetime
 from django.views.decorators.csrf import csrf_exempt
 from search.models import Station
 from getYourBike.prevision import previsions
-from getYourBike.prevision import getLastKnownStatus
 # Create your views here.
 
 # import the logging library
@@ -21,29 +20,10 @@ def date2Timestamp(hour, formatage="%Y/%m/%d %H:%M"):
     return int(time.mktime(datetime.datetime.strptime(hour, formatage).timetuple()))
 
 @api_view(['GET'])
-def lastKnownStatus(request, idstation):
-    [last_timestamp, bikes, stands] = getLastKnownStatus(int(idstation))
-    content = {
-    "last_timestamp": last_timestamp,
-    "bikes" : bikes,
-    "stands" : stands,
-    "idstation":idstation
-    }
+def test(request):
+    content = {'test': "anthony"} # Element for the view
     return Response(content) # Return the response
 
-@api_view(['GET'])
-def prevision(request, idstation, timestamp):
-    prev = previsions(int(timestamp), int(idstation))
-    station = Station.objects.get(stationNum=idstation)
-    content = {
-    "prevision": prev,
-    "stationNum" : station.stationNum,
-    "stationName" : station.stationName,
-    "stationRegion" : station.stationRegion,
-    "stationLong" : station.stationLong,
-    "stationLat" : station.stationLat
-    }
-    return Response(content) # Return the response
     
 @csrf_exempt
 def search(request):
@@ -112,8 +92,12 @@ def home(request):
 #test
 @csrf_exempt
 def stations(request):
+    #cr = csv.reader(open('static/longLat.csv',"rb", ))
     stations = Station.objects.all()
+    #fichier = codecs.open("stations", 'w', encoding='utf-8')
+    #fichier.write('[')
     data = []
+    #cpt = 1
     for station in stations:
         dict = {}
         dict['stationNum'] = station.stationNum
@@ -121,6 +105,14 @@ def stations(request):
         dict['stationRegion'] = station.stationRegion
         dict['stationLong'] = station.stationLong
         dict['stationLat'] = station.stationLat
+        #if cpt != 1:
+            #fichier.write(',')
+        #fichier.write('{ "model" : "search.station", "pk" : ' + str(cpt) + ', "fields" : ' + str(json.dumps(dict)) + "}")
+        #cpt = cpt + 1
+        #dict['available'] = raw[6]
         data.append(dict)
+    #fichier.write(']')
+    #fichier.close()
+    # on fait un retour au client
     json_data = json.dumps(data)
     return HttpResponse(json_data, content_type="application/json")
