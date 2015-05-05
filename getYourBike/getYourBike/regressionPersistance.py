@@ -12,7 +12,7 @@ from paths import common_path
 from paths import db_path_string
 
 
-allRegressionObjects = ['cyclicL_bikes', 'cyclicL_stands', 'A_mod_d7_bikes', 'A_mod_d7_stands', 'a0Regression_bikes', 'a0Regression_stands', 'dailyRegressionCoefs_bikes', 'dailyRegressionCoefs_stands', 'F_threshold_bikes', 'F_threshold_stands', 'fluctuationRegressionCoefs_bikes', 'fluctuationRegressionCoefs_stands']
+allRegressionObjects = ['cyclicL_bikes', 'cyclicL_stands', 'A_mod_d7_bikes', 'A_mod_d7_stands', 'a0Regression_bikes', 'a0Regression_stands', 'dailyRegressionCoefs_bikes', 'dailyRegressionCoefs_stands', 'fluctuationRegressionCoefs_bikes', 'fluctuationRegressionCoefs_stands']
 commonObjects = ['dailyWeatherData', 'vacationData']
 
 def getFilepath(stationId, filename):
@@ -65,8 +65,10 @@ def ensureDirectory(stationId):
 def createAllDirectories():
 	db = sqlite3.connect(db_path_string)
 	cursor = db.cursor()
-	for data in cursor.execute('SELECT DISTINCT stationId FROM OldResults '):
+	for data in cursor.execute('SELECT DISTINCT id FROM Station '):
+		'print checking folder for station', str(data[0])
 		ensureDirectory(regression_path /  str(data[0]))
+	'print checking common folder'
 	ensureDirectory(common_path)
 	db.close()
 

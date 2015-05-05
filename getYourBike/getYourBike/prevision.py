@@ -55,7 +55,11 @@ def availableCyclicMean(type, stationId, thresholdMinutes):
 
 	for data in stationAvailabilityData:
 		indice = timestampToWeekCycleIndice(data[0], thresholdMinutes)
-		available[indice] += data[1]
+
+		if not util.is_number(data[1]):
+			print 'unknown availability data', data[1]
+
+		available[indice] = available[indice] + data[1]
 		numberOfWeeks[indice] += 1
 
 	for indice in indices:
@@ -96,8 +100,8 @@ def dayMeans(type, stationId):
 		stationAvailabilityData = cursor.execute('SELECT timestamp, availableStand FROM OldResults WHERE stationId =:stationId', { "stationId": stationId})
 
 	for data in stationAvailabilityData:
-		dayId = timestampToDayId(data[0])
 
+		dayId = timestampToDayId(data[0])
 		if dayId in dayTotal:
 			dayTotal[dayId] = dayTotal[dayId] + data[1]
 			dayCount[dayId] = dayCount[dayId] + 1
@@ -343,10 +347,10 @@ def L_mod_t_and_F(stationId, cyclicL, A_mod_d7, A_d_d):
 		dayId = timestampToDayId(timestamp)
 		#print timestamp, dayOfWeek, weekCycleIndice, dayId
 		
-		
-		availablePrevision = round(float(A_d_d[dayId]) * cyclicL[weekCycleIndice] / A_mod_d7[dayOfWeek],2)
-		L_mod_t[timestamp] = availablePrevision
-		F[timestamp] = round(realAvailable - availablePrevision,2)
+		if realAvailable:
+			availablePrevision = round(float(A_d_d[dayId]) * cyclicL[weekCycleIndice] / A_mod_d7[dayOfWeek],2)
+			L_mod_t[timestamp] = availablePrevision
+			F[timestamp] = round(realAvailable - availablePrevision,2)
 		#print availableBikesPrevision, realAvailableBikes
 
 	db.close()
@@ -424,7 +428,7 @@ def prepareDataForFluctuationRegression(F_threshold, weatherValidityHours):
 	x = [Fx_regression, R_regression]
 	return [Fy_regression, x]
 
-def F_prevision(time, t0, F0, alpha, beta, gamma, F_threshold):
+def F_prevision(time, t0, F0, alpha, beta, gamma):
 
 	if(time < t0):
 		print '[WARNING : prevision lies in the past : requested prevision for ' , util.timestampToDatetime(time) ,  ']'
@@ -519,8 +523,8 @@ def computeRegressionData(stationId):
 	F_threshold_bikes = fluctuationThresholdMeans(F_bikes)
 	F_threshold_stands = fluctuationThresholdMeans(F_stands)
 
-	regressionPersistance.save(F_threshold_bikes, stationId, 'F_threshold_bikes')
-	regressionPersistance.save(F_threshold_stands, stationId, 'F_threshold_stands')
+	#regressionPersistance.save(F_threshold_bikes, stationId, 'F_threshold_bikes')
+	#regressionPersistance.save(F_threshold_stands, stationId, 'F_threshold_stands')
 
 	#fluctuation regression : F(t) = alpha * F(t-1) + beta * R(t) + gamma
 	[y_fluctuationRegression_bikes, x_fluctuationRegression_bikes] = prepareDataForFluctuationRegression(F_threshold_bikes, weatherValidityHours)
@@ -594,15 +598,15 @@ def previsions(t, stationId):
 	print 'bikes : last known fluctuation on', util.timestampToDatetime(t0), ':', F0_bikes
 	print 'stands : last known fluctuation on', util.timestampToDatetime(t0), ':', F0_stands
 
-	F_threshold_bikes = regressionPersistance.load(stationId, 'F_threshold_bikes')
-	F_threshold_stands = regressionPersistance.load(stationId, 'F_threshold_stands')
+	#F_threshold_bikes = regressionPersistance.load(stationId, 'F_threshold_bikes')
+	#F_threshold_stands = regressionPersistance.load(stationId, 'F_threshold_stands')
 
 	[alpha_bikes, beta_bikes, gamma_bikes] = regressionPersistance.load(stationId, 'fluctuationRegressionCoefs_bikes')
 	[alpha_stands, beta_stands, gamma_stands] = regressionPersistance.load(stationId, 'fluctuationRegressionCoefs_stands')
 
 	
-	F_prev_bikes = F_prevision(t, t0, F0_bikes, alpha_bikes, beta_bikes, gamma_bikes, F_threshold_bikes)
-	F_prev_stands = F_prevision(t, t0, F0_stands, alpha_stands, beta_stands, gamma_stands, F_threshold_stands)
+	F_prev_bikes = F_prevision(t, t0, F0_bikes, alpha_bikes, beta_bikes, gamma_bikes)
+	F_prev_stands = F_prevision(t, t0, F0_stands, alpha_stands, beta_stands, gamma_stands)
 	F_prev_end = timeit.default_timer() 
 
 	print 'time to compute prevision without fluctuations' , (L_prev_end - L_prev_start) , 'sec'
@@ -634,7 +638,7 @@ def computeRegressionDataForAllStations(createDirectories):
 	cursor = db.cursor()
 
 	if createDirectories:
-		regressionPersistance.createAllDirectories(db_path_string)
+		regressionPersistance.createAllDirectories()
 
 	for data in cursor.execute('SELECT id FROM station ').fetchall():
 		computeRegressionDataForOneStation(data[0])

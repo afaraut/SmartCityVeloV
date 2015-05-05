@@ -5,24 +5,26 @@ var infowindow = new google.maps.InfoWindow();
 
 function attachContent(marker, data) {	
 	google.maps.event.addListener(marker, 'click', function() {
+	var csrf_token = '<%= token_value %>';
 	var content = data.stationName;
 	content += data.stationRegion + "<br>"+ data.stationNum + " - " + data.stationName;	
 	content += "<br>Vélos disponibles : "; // + data.availableBike
 	content += "<br> Bornes disponibles : "; //+ data.availableStands
 	content += "<hr>";
-	content += "<form action=\"{% url 'search.views.home' %}\" method='post'>";
+	content += "<form action='/' id='map_form' method='post'>";
 	content += "<fieldset>";
     content += "<legend>Faire une prévision</legend>";
+    content += "<input type='hidden' name='station' id='stationNum' value=" + data.stationNum + " />";
 	content += "<label id='date'>Date</label>";
-	content += "<input type='number' id='date' min=1 max=31 value=1 style='width:40px;height:20px;'/>";
-	content += "<input type='number' id='date' min=1 max=12  value=5 style='width:40px;height:20px;'/>";
-	content += "<input type='number' id='date' min=2015 max= 2015 value=2015 style='width:60px;height:20px;'/><br>";
-	content += "<label id='heure'>Heure</label>";
-	content += "<input type='text' id='hour' style='width:30px;height:20px;'>h<input type='text' id='hour' style='width:30px;height:20px;'>m"
-	content += "<br><button class='btn btn-primary btn-sm '>Valider</button></form>";
-	content += "</fieldset>";
-	content += "</form>";
+	content += "<input type='number' name='day_day' id='date' min=1 max=31 value=1 style='width:40px;height:20px;'/>";
+	content += "<input type='number' name='day_month' id='date' min=1 max=12  value=5 style='width:40px;height:20px;'/>";
+	content += "<input type='number' name='day_year' id='date' min=2015 max= 2015 value=2015 style='width:60px;height:20px;'/><br>";
+	content += "<label type='number' for='hour'>Heure</label>";
+	content += "<input type='number' min=0 max=24 id='hour' name='hour_hour' style='width:40px;height:20px;'><input type='number' min=00 max=55 step=5 id='hour' name='hour_minute' style='width:40px;height:20px;'>"
 	
+	content += "</fieldset>";
+	content += "<input type='button' name='valider' value='valider' class='btn btn-primary btn-lg btn-block'  onclick=\"prevision('map_form');\">";
+	content += "</form>";
 	infowindow.setContent(content);
 	infowindow.open(marker.get('map'), marker);
 	});		
@@ -103,6 +105,7 @@ carte = new google.maps.Map(document.getElementById("map-canvas"), options);
 function prevision(idFormulaire){
 	formulaire = document.getElementById(idFormulaire);
 	data = getDataFromForm(formulaire);
+	console.log(data);
 	$('#imgWait').show(); // Show the loading image
     $('body').append('<div id="fade"></div>'); // Add the fade layer to bottom of the body tag.
     $('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn(); // Fade in the fade layer 
@@ -119,7 +122,7 @@ function prevision(idFormulaire){
         	$('body').remove('<div id="fade"></div>'); // Remove the fade layer to bottom of the body tag.
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
-	        alert(xhr +  " - "  +ajaxOptions + " - " + thrownError);
+	        alert(xhr.status +  " - "  +ajaxOptions + " - " + thrownError);
 	        $('#imgWait').hide(); // Hide the loading image
 	        $('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeOut(); // Fade out the fade layer 
 	        $('body').remove('<div id="fade"></div>'); // Remove the fade layer to bottom of the body tag.
