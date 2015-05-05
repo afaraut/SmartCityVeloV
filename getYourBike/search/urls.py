@@ -7,7 +7,6 @@ urlpatterns = [
     # url(r'^blog/', include('blog.urls')),
 	
 	url(r'^search$', 'search.views.search', name='search'),
-	url(r'^test$', 'search.views.test', name='test'),
 	url(r'^prevision/(?P<idstation>[0-9]+)/(?P<timestamp>[0-9]+)$', 'search.views.prevision', name='prevision'),
 	url(r'^lastKnownStatus/(?P<idstation>[0-9]+)$', 'search.views.lastKnownStatus', name='lastKnownStatus'),
 	url(r'^search_m$', 'search.views.search_mobile', name='search_m'),
