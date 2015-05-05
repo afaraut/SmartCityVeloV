@@ -1,0 +1,1035 @@
+[04/May/2015 18:20:58] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[04/May/2015 18:20:58] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[04/May/2015 18:21:06] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:21:06] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:21:14] ERROR [django.request:256] Internal Server Error: /search/search
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 33, in search
+    prev = previsions(timestamp, station)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 548, in previsions
+    computeRegressionDataForOneStation(stationId)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 646, in computeRegressionDataForOneStation
+    generateDailyWeatherData()
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 464, in generateDailyWeatherData
+    [tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations] = getDailyWeatherData()
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 264, in getDailyWeatherData
+    weather_data = cursor.execute('SELECT * FROM weather_day').fetchall()
+OperationalError: no such table: weather_day
+[04/May/2015 18:22:08] DEBUG [django.db.backends:89] (0.003) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[04/May/2015 18:22:08] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[04/May/2015 18:22:12] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:13] DEBUG [django.db.backends:89] (0.003) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:15] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:15] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:15] DEBUG [django.db.backends:89] (0.003) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:15] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:15] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:15] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:15] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:15] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:16] DEBUG [django.db.backends:89] (0.003) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:16] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:16] DEBUG [django.db.backends:89] (0.003) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:16] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:16] DEBUG [django.db.backends:89] (0.004) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:16] DEBUG [django.db.backends:89] (0.003) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:16] DEBUG [django.db.backends:89] (0.003) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:16] DEBUG [django.db.backends:89] (0.004) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:16] DEBUG [django.db.backends:89] (0.003) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:18] DEBUG [django.db.backends:89] (0.003) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[04/May/2015 18:22:26] ERROR [django.request:256] Internal Server Error: /search/search
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 33, in search
+    prev = previsions(timestamp, station)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 548, in previsions
+    computeRegressionDataForOneStation(stationId)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 646, in computeRegressionDataForOneStation
+    generateDailyWeatherData()
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 464, in generateDailyWeatherData
+    [tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations] = getDailyWeatherData()
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 264, in getDailyWeatherData
+    weather_data = cursor.execute('SELECT * FROM weather_day').fetchall()
+OperationalError: no such table: weather_day
+[05/May/2015 08:26:44] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 08:26:44] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 08:27:35] DEBUG [django.db.backends:89] (0.003) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:27:35] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:27:35] WARNING [django.request:170] Not Found: /favicon.ico
+[05/May/2015 08:27:49] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:27:49] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 59, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 99, in render
+    separators=separators
+  File "C:\Python27\lib\json\__init__.py", line 250, in dumps
+    sort_keys=sort_keys, **kw).encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\site-packages\rest_framework\utils\encoders.py", line 60, in default
+    return tuple(item for item in obj)
+TypeError: 'Request' object is not iterable
+[05/May/2015 08:31:32] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:31:39] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:33:07] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:37:11] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 08:37:11] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 08:38:37] WARNING [django.request:170] Not Found: /search/test/
+[05/May/2015 08:39:23] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 08:39:23] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 08:39:27] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:39:28] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:39:31] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:39:31] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 59, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 99, in render
+    separators=separators
+  File "C:\Python27\lib\json\__init__.py", line 250, in dumps
+    sort_keys=sort_keys, **kw).encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\site-packages\rest_framework\utils\encoders.py", line 60, in default
+    return tuple(item for item in obj)
+TypeError: 'Request' object is not iterable
+[05/May/2015 08:39:34] DEBUG [django.db.backends:89] (0.003) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:39:34] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 59, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 99, in render
+    separators=separators
+  File "C:\Python27\lib\json\__init__.py", line 250, in dumps
+    sort_keys=sort_keys, **kw).encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\site-packages\rest_framework\utils\encoders.py", line 60, in default
+    return tuple(item for item in obj)
+TypeError: 'Request' object is not iterable
+[05/May/2015 08:39:35] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:39:35] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 59, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 99, in render
+    separators=separators
+  File "C:\Python27\lib\json\__init__.py", line 250, in dumps
+    sort_keys=sort_keys, **kw).encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\site-packages\rest_framework\utils\encoders.py", line 60, in default
+    return tuple(item for item in obj)
+TypeError: 'Request' object is not iterable
+[05/May/2015 08:39:41] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:39:41] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:39:42] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:39:44] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:39:44] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:39:45] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:39:48] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:39:48] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 59, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 99, in render
+    separators=separators
+  File "C:\Python27\lib\json\__init__.py", line 250, in dumps
+    sort_keys=sort_keys, **kw).encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\site-packages\rest_framework\utils\encoders.py", line 60, in default
+    return tuple(item for item in obj)
+TypeError: 'Request' object is not iterable
+[05/May/2015 08:39:55] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:39:56] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:40:57] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 08:40:57] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 08:41:03] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:41:03] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 59, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 99, in render
+    separators=separators
+  File "C:\Python27\lib\json\__init__.py", line 250, in dumps
+    sort_keys=sort_keys, **kw).encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\site-packages\rest_framework\utils\encoders.py", line 60, in default
+    return tuple(item for item in obj)
+TypeError: 'Request' object is not iterable
+[05/May/2015 08:41:04] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:41:04] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 59, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 99, in render
+    separators=separators
+  File "C:\Python27\lib\json\__init__.py", line 250, in dumps
+    sort_keys=sort_keys, **kw).encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\site-packages\rest_framework\utils\encoders.py", line 60, in default
+    return tuple(item for item in obj)
+TypeError: 'Request' object is not iterable
+[05/May/2015 08:41:05] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:41:05] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 59, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 99, in render
+    separators=separators
+  File "C:\Python27\lib\json\__init__.py", line 250, in dumps
+    sort_keys=sort_keys, **kw).encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\site-packages\rest_framework\utils\encoders.py", line 60, in default
+    return tuple(item for item in obj)
+TypeError: 'Request' object is not iterable
+[05/May/2015 08:41:06] DEBUG [django.db.backends:89] (0.003) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:41:06] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 59, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 99, in render
+    separators=separators
+  File "C:\Python27\lib\json\__init__.py", line 250, in dumps
+    sort_keys=sort_keys, **kw).encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\site-packages\rest_framework\utils\encoders.py", line 60, in default
+    return tuple(item for item in obj)
+TypeError: 'Request' object is not iterable
+[05/May/2015 08:41:19] DEBUG [django.db.backends:89] (0.000) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 08:41:19] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 08:41:21] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:41:21] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 59, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 99, in render
+    separators=separators
+  File "C:\Python27\lib\json\__init__.py", line 250, in dumps
+    sort_keys=sort_keys, **kw).encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\site-packages\rest_framework\utils\encoders.py", line 60, in default
+    return tuple(item for item in obj)
+TypeError: 'Request' object is not iterable
+[05/May/2015 08:41:23] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:41:23] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 59, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 99, in render
+    separators=separators
+  File "C:\Python27\lib\json\__init__.py", line 250, in dumps
+    sort_keys=sort_keys, **kw).encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\site-packages\rest_framework\utils\encoders.py", line 60, in default
+    return tuple(item for item in obj)
+TypeError: 'Request' object is not iterable
+[05/May/2015 08:41:24] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:41:24] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 59, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 99, in render
+    separators=separators
+  File "C:\Python27\lib\json\__init__.py", line 250, in dumps
+    sort_keys=sort_keys, **kw).encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\site-packages\rest_framework\utils\encoders.py", line 60, in default
+    return tuple(item for item in obj)
+TypeError: 'Request' object is not iterable
+[05/May/2015 08:41:31] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 08:41:31] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 08:41:39] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:41:39] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:44:38] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:44:39] DEBUG [django.db.backends:89] (0.003) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:46:16] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:46:17] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:47:59] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 08:47:59] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 08:53:48] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:54:23] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 08:54:24] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:05:55] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:05:56] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:09:00] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 09:09:00] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 09:12:19] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:12:20] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:18:14] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 09:18:14] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 09:18:31] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:18:32] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:19:33] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 09:19:33] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 09:19:47] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:19:48] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:19:50] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:19:55] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:19:55] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:19:58] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:20:01] DEBUG [django.db.backends:89] (0.003) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:20:08] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:20:09] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:20:27] DEBUG [django.db.backends:89] (0.003) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:21:50] DEBUG [django.db.backends:89] (0.000) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 09:21:50] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 09:21:53] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), default=time.localtime(), label="Heure ")
+  File "C:\Python27\lib\site-packages\django\forms\fields.py", line 412, in __init__
+    super(BaseTemporalField, self).__init__(*args, **kwargs)
+TypeError: __init__() got an unexpected keyword argument 'default'
+[05/May/2015 09:21:55] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), default=time.localtime(), label="Heure ")
+  File "C:\Python27\lib\site-packages\django\forms\fields.py", line 412, in __init__
+    super(BaseTemporalField, self).__init__(*args, **kwargs)
+TypeError: __init__() got an unexpected keyword argument 'default'
+[05/May/2015 09:21:56] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), default=time.localtime(), label="Heure ")
+  File "C:\Python27\lib\site-packages\django\forms\fields.py", line 412, in __init__
+    super(BaseTemporalField, self).__init__(*args, **kwargs)
+TypeError: __init__() got an unexpected keyword argument 'default'
+[05/May/2015 09:21:58] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), default=time.localtime(), label="Heure ")
+  File "C:\Python27\lib\site-packages\django\forms\fields.py", line 412, in __init__
+    super(BaseTemporalField, self).__init__(*args, **kwargs)
+TypeError: __init__() got an unexpected keyword argument 'default'
+[05/May/2015 09:22:24] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=datetime.time.now(), label="Heure ")
+AttributeError: type object 'datetime.time' has no attribute 'now'
+[05/May/2015 09:23:05] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=datetime(1900, 1, 1, 8, 56, 20), label="Heure ")
+TypeError: 'module' object is not callable
+[05/May/2015 09:23:19] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:23:20] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:24:05] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 09:24:05] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 09:24:15] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:24:20] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:24:21] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:24:30] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:24:56] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 09:24:56] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 09:25:00] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=datetime.datetime.time(datetime.datetime.now())+ datetime.timedelta(hour=1), label="Heure ")
+TypeError: 'hour' is an invalid keyword argument for this function
+[05/May/2015 09:25:09] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=datetime.datetime.time(datetime.datetime.now())+ datetime.timedelta(hours=1), label="Heure ")
+TypeError: unsupported operand type(s) for +: 'datetime.time' and 'datetime.timedelta'
+[05/May/2015 09:25:48] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=datetime.time(datetime.datetime.now()) + datetime.timedelta(hours=1), label="Heure ")
+TypeError: an integer is required
+[05/May/2015 09:26:00] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=int(datetime.time(datetime.datetime.now()) + datetime.timedelta(hours=1)), label="Heure ")
+TypeError: an integer is required
+[05/May/2015 09:26:02] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=int(datetime.time(datetime.datetime.now()) + datetime.timedelta(hours=1)), label="Heure ")
+TypeError: an integer is required
+[05/May/2015 09:26:04] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=int(datetime.time(datetime.datetime.now()) + datetime.timedelta(hours=1)), label="Heure ")
+TypeError: an integer is required
+[05/May/2015 09:26:05] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=int(datetime.time(datetime.datetime.now()) + datetime.timedelta(hours=1)), label="Heure ")
+TypeError: an integer is required
+[05/May/2015 09:26:06] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=int(datetime.time(datetime.datetime.now()) + datetime.timedelta(hours=1)), label="Heure ")
+TypeError: an integer is required
+[05/May/2015 09:26:07] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=int(datetime.time(datetime.datetime.now()) + datetime.timedelta(hours=1)), label="Heure ")
+TypeError: an integer is required
+[05/May/2015 09:26:14] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=datetime.datetime.time(datetime.datetime.now()) + datetime.timedelta(hours=1), label="Heure ")
+TypeError: unsupported operand type(s) for +: 'datetime.time' and 'datetime.timedelta'
+[05/May/2015 09:27:13] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=datetime.datetime.time(datetime.datetime.now()) + datetime.timedelta(hours=1), label="Heure ")
+TypeError: unsupported operand type(s) for +: 'datetime.time' and 'datetime.timedelta'
+[05/May/2015 09:27:21] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=datetime.time(datetime.now()) + datetime.timedelta(hours=1), label="Heure ")
+AttributeError: 'module' object has no attribute 'now'
+[05/May/2015 09:27:32] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=datetime.time(datetime.datetime.now()) + datetime.timedelta(hours=1), label="Heure ")
+TypeError: an integer is required
+[05/May/2015 09:27:36] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=datetime.datetime.time(datetime.datetime.now()) + datetime.timedelta(hours=1), label="Heure ")
+TypeError: unsupported operand type(s) for +: 'datetime.time' and 'datetime.timedelta'
+[05/May/2015 09:27:43] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=datetime.datetime.time(datetime.datetime.now()) + datetime.datetime.timedelta(hours=1), label="Heure ")
+AttributeError: type object 'datetime.datetime' has no attribute 'timedelta'
+[05/May/2015 09:27:49] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=datetime.datetime.time(datetime.datetime.now()) + datetime.timedelta(hours=1), label="Heure ")
+TypeError: unsupported operand type(s) for +: 'datetime.time' and 'datetime.timedelta'
+[05/May/2015 09:27:56] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=datetime.time(datetime.datetime.now()) + datetime.timedelta(hours=1), label="Heure ")
+TypeError: an integer is required
+[05/May/2015 09:28:02] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=int(datetime.time(datetime.datetime.now())) + datetime.timedelta(hours=1), label="Heure ")
+TypeError: an integer is required
+[05/May/2015 09:28:11] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=int(datetime.time(datetime.datetime.now())) + int(datetime.timedelta(hours=1)), label="Heure ")
+TypeError: an integer is required
+[05/May/2015 09:28:19] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 12
+    station = forms.CharField(widget=forms.Select, label=u'Station')
+          ^
+SyntaxError: invalid syntax
+[05/May/2015 09:28:41] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=datetime.time(datetime.datetime.now()), label="Heure ")
+TypeError: an integer is required
+[05/May/2015 09:28:43] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 368, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 240, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 247, in callback
+    self._callback = get_callable(self._callback_str)
+  File "C:\Python27\lib\site-packages\django\utils\lru_cache.py", line 101, in wrapper
+    result = user_function(*args, **kwds)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 106, in get_callable
+    mod = import_module(mod_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 3, in <module>
+    from search.forms import SearchForm
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 9, in <module>
+    class SearchForm(forms.Form):
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\forms.py", line 11, in SearchForm
+    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), initial=datetime.time(datetime.datetime.now()), label="Heure ")
+TypeError: an integer is required
+[05/May/2015 09:28:50] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:29:03] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:29:40] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:29:41] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:34:04] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 09:34:04] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 09:34:07] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:34:08] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:37:52] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 09:37:52] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
