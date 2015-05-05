@@ -28,6 +28,7 @@ from paths import vacation_data_path
 # ----------------------------------------------------------------------------------------------------------------------------------------
 thresholdInMinutes = 5 # prevision precision threshlod in minutes (between 1 and 60)
 weatherValidityHours = 4 # maximum validity of hourly weather data (in hours)
+minData = 15000
 # ----------------------------------------------------------------------------------------------------------------------------------------
 ##########################################################################################################
 
@@ -437,16 +438,17 @@ def F_prevision(time, t0, F0, alpha, beta, gamma):
 	t0 = int(timestampRoundToThreshold(t0))
 	tFinal = int(timestampRoundToThreshold(time))
 
-	times = range (t0, tFinal, thresholdInMinutes)
+	times = range (t0, tFinal, thresholdInMinutes*60)
 	#print len(times)
 
 	R = weatherRound.getNearestPrecipitationsForPrevision(times, weatherValidityHours, db_path_string)
 	#print R
 
 	F1 = 0.0 
-	t1 = t0 + thresholdInMinutes
+	t1 = t0
 
-	while t1 < (time - thresholdInMinutes):
+	while t1 < (time - thresholdInMinutes*60):
+
 		if  R[t1] is None:
 			F1 = alpha * F0 + gamma #assume precipitation = 0 if unknown
 		else:
@@ -454,7 +456,7 @@ def F_prevision(time, t0, F0, alpha, beta, gamma):
 
 
 		t0 = t1
-		t1 = t1 + thresholdInMinutes
+		t1 = t1 + thresholdInMinutes*60
 		F0 = F1
 
 	return round(F1,2)
@@ -473,6 +475,18 @@ def generateVacationData():
 def computeRegressionData(stationId):
 
 	print 'computing regression data for station ', stationId
+
+	#check if there is enough data to compute regression
+	db = sqlite3.connect(db_path_string)
+	cursor = db.cursor()
+	dataNumber = cursor.execute('SELECT count(*) FROM OldResults WHERE stationId =:stationId', { "stationId": stationId}).fetchone()[0]
+	db.close()
+
+	if dataNumber < minData:
+		print 'not enough data to compute regression for station', stationId
+		return
+
+	
 
 
 	cyclicL_bikes = availableCyclicMean('bike', stationId,thresholdInMinutes)
@@ -691,6 +705,7 @@ def displaySimplePrevisions(previsions, stationId, t):
 	cursor = db.cursor()
 	sName = stationName(stationId)
 	db.close()
+
 	print ''
 	print 'previsions for station', sName, '(', (stationId), ')', 'at', datetime.datetime.fromtimestamp(t)
 	print 'available bikes without fluctuations:', prev_bikes
@@ -724,6 +739,8 @@ def getLastKnownStatus(stationId):
 	cursor = db.cursor()
 	cursor.execute('''SELECT timestamp, availableBikes, availableStand FROM OldResults WHERE stationId =:stationId ORDER BY timestamp DESC''', { "stationId": stationId})
 	return cursor.fetchone()
+
+
 
 def getLastKnownF(stationId, cyclicL_bikes, A_mod_d7_bikes, A0_bikes, c1_bikes, AmodDifferenceD7_bikes,C1_bikes, C2_bikes, C3_bikes, K_bikes, \
 	cyclicL_stands, A_mod_d7_stands, A0_stands, c1_stands, AmodDifferenceD7_stands, C1_stands, C2_stands, C3_stands, K_stands, T, Precip, t_vac):

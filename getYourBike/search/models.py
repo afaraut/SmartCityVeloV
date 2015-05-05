@@ -157,8 +157,8 @@ class SelectTimeWidget(Widget):
         return data.get(name, None)
 
 class Station(models.Model):
-	stationNum = models.IntegerField()
-	stationName = models.CharField(max_length=255)
-	stationRegion = models.CharField(max_length=255)
-	stationLong = models.FloatField()
-	stationLat = models.FloatField()
+    stationNum = models.IntegerField()
+    stationName = models.CharField(max_length=255)
+    stationRegion = models.CharField(max_length=255)
+    stationLong = models.FloatField()
+    stationLat = models.FloatField()
