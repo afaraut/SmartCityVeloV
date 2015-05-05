@@ -8,11 +8,12 @@ function attachContent(marker, data) {
 	var aujourdhui = new Date();
 	content = data.stationRegion + "<br>"+ data.stationNum + " - " + data.stationName;	
 	content += "<br>Vélos disponibles : <span id='availableBikes'></span>";
-	content += "<br> Bornes disponibles : <span id='availableStands'></span>";
+	content += "<br> Bornes disponibles : <span id='availableStands'></span>/" + data.bornes;
 	content += "<form action='/' id='map_form' method='post'>";
 	content += "<fieldset>";
     content += "<legend>Faire une prévision</legend>";
     content += "<input type='hidden' name='station' id='stationNum' value=" + data.stationNum + " />";
+    content += "<input type='hidden' name='nbBornes' id='nbBornes' value=" + data.borens + " />";
 	content += "<label id='date'>Date</label>";
 	content += "<select name='day_day' id='day_day'>";
     content += remplirDate(1,31,1, aujourdhui.getDate());
@@ -129,6 +130,7 @@ function theposition(){
 
 
 function initialiser() {
+
 var latlng = new google.maps.LatLng(45.750000,  4.850000);
 
 var image = {
@@ -196,6 +198,7 @@ function prevision(idFormulaire){
 		data:data,
 
 		success: function(data){
+
 			document.getElementById('reponse').innerHTML ="<hr>Vélos disponibles : " +  data[0] + "<br> Bornes disponibles : " + data[1];
 			$('#imgWait').hide(); // Hide the loading image
         	$('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeOut(); // Fade out the fade layer 
