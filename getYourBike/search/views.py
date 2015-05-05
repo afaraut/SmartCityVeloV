@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from search.models import Station
 from getYourBike.prevision import previsions
 from getYourBike.prevision import getLastKnownStatus
+from getYourBike.prevision import corrigerPrevision
 # Create your views here.
 
 # import the logging library
@@ -41,7 +42,7 @@ def prevision(request, idstation, timestamp):
     "stationName" : station.stationName,
     "stationRegion" : station.stationRegion,
     "stationLong" : station.stationLong,
-    "stationLat" : station.stationLat
+    "stationLat" : station.stationLat,
     }
     return Response(content) # Return the response
     
@@ -53,9 +54,12 @@ def search(request):
     hour_hour = request.POST.get('hour_hour')
     hour_minute = request.POST.get('hour_minute')
     station = request.POST.get('station')
+    nbBornes = request.POST.get('nbBornes')
     hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
     timestamp = date2Timestamp(hour)
     prev = previsions(timestamp, station)
+    prev[0] = corrigerPrevision(prev[0], nbBornes);
+    prev[1] = corrigerPrevision(prev[1], nbBornes);
     logger.error("timestamp" + str(timestamp))
     logger.debug("this is a debug message!")
     result = timestamp
@@ -72,8 +76,9 @@ def search_mobile(request):
 	hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
 	timestamp = date2Timestamp(hour)
 	prev = previsions(timestamp, station)
-	result = prev
-	content = json.dumps(result)
+    prev[0] = corrigerPrevision(prev[0], nbBornes);
+    prev[1] = corrigerPrevision(prev[1], nbBornes);
+	content = json.dumps(prev)
 	return HttpResponse(content, content_type="application/json")
 
 def map(request):
@@ -123,8 +128,9 @@ def stations(request):
         dict['stationNum'] = station.stationNum
         dict['stationName'] = station.stationName
         dict['stationRegion'] = station.stationRegion
-        dict['stationLong'] = station.stationLong
-        dict['stationLat'] = station.stationLat
+        dict['stationLong'] = station.stationLat
+        dict['stationLat'] = station.stationLong
+        dict['bornes'] = station.stationBorneNumber
         #if cpt != 1:
             #fichier.write(',')
         #fichier.write('{ "model" : "search.station", "pk" : ' + str(cpt) + ', "fields" : ' + str(json.dumps(dict)) + "}")

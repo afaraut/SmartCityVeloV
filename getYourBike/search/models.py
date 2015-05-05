@@ -162,3 +162,4 @@ class Station(models.Model):
     stationRegion = models.CharField(max_length=255)
     stationLong = models.FloatField()
     stationLat = models.FloatField()
+    stationBorneNumber = models.IntegerField(default=30)
