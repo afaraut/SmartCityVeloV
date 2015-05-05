@@ -1033,3 +1033,26 @@ TypeError: an integer is required
 [05/May/2015 09:34:08] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
 [05/May/2015 09:37:52] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
 [05/May/2015 09:37:52] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 09:50:48] ERROR [django.request:256] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 366, in resolve
+    for pattern in self.url_patterns:
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 402, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 396, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\urls.py", line 16, in <module>
+    url(r'^search/', include('search.urls')),
+  File "C:\Python27\lib\site-packages\django\conf\urls\__init__.py", line 33, in include
+    urlconf_module = import_module(urlconf_module)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\urls.py", line 11, in <module>
+    url(r'^prevision/(?P<idstation>[0-9]+)/(?P<timestamp>[0-9]+)$', name='prevision'),
+TypeError: url() takes at least 2 arguments (2 given)
+[05/May/2015 09:51:25] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
+[05/May/2015 09:51:32] DEBUG [django.db.backends:89] (0.002) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station"' - PARAMS = (); args=()
