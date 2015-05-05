@@ -22,9 +22,11 @@ def date2Timestamp(hour, formatage="%Y/%m/%d %H:%M"):
 
 @api_view(['GET'])
 def lastKnownStatus(request, idstation):
-    lastKnownStatus = getLastKnownStatus(int(idstation))
+    [last_timestamp, bikes, stands] = getLastKnownStatus(int(idstation))
     content = {
-    "lastKnownStatus": lastKnownStatus,
+    "last_timestamp": last_timestamp,
+    "bikes" : bikes,
+    "stands" : stands,
     "idstation":idstation
     }
     return Response(content) # Return the response
