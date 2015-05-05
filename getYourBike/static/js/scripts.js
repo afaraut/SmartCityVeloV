@@ -7,6 +7,7 @@ function attachContent(marker, data) {
 	google.maps.event.addListener(marker, 'click', function() {
 	var csrf_token = '<%= token_value %>';
 	var content = data.stationName;
+	var aujourdhui = new Date();
 	content += data.stationRegion + "<br>"+ data.stationNum + " - " + data.stationName;	
 	content += "<br>Vélos disponibles : "; // + data.availableBike
 	content += "<br> Bornes disponibles : "; //+ data.availableStands
@@ -16,42 +17,52 @@ function attachContent(marker, data) {
     content += "<input type='hidden' name='station' id='stationNum' value=" + data.stationNum + " />";
 	content += "<label id='date'>Date</label>";
 	content += "<select name='day_day' id='day_day'>";
-    content += remplirDate(1,31,1);
+    content += remplirDate(1,31,1, aujourdhui.getDate());
     content += "</select>";
     content += "<select name='day_month' id='day_month'>";
-    content += remplirMois();
+    content += remplirMois((aujourdhui.getMonth()+1));
     content += "</select>";
     content += "<select name='day_year' id='day_year'>";
-    content += remplirDate(2015,2015,1);
+    content += remplirDate(aujourdhui.getFullYear(),aujourdhui.getFullYear(),1, aujourdhui.getFullYear());
     content += "</select><br>";
     content += "<label type='number' for='hour'>Heure</label>";
     content += "<select name='hour_hour' id='hour_hour'>"
-    content += remplirDate(00,23,1);
+    content += remplirDate(00,23,1, aujourdhui.getHours());
     content += "</select>h";
     content += "<select name='hour_minute' id='hour_minute'>";
-    content += remplirDate(00,55,5);
+    var minutes = aujourdhui.getMinutes();
+    content += remplirDate(00,55,5, (minutes-(minutes%5)));
     content += "</select>m<br>";
 
 	content += "</fieldset>";
 	content += "<input type='button' name='valider' value='valider' class='btn btn-primary btn-lg btn-block'  onclick=\"prevision('map_form');\">";
 	content += "</form>";
+	console.log(Date());
 	infowindow.setContent(content);
 	infowindow.open(marker.get('map'), marker);
 	});		
 }
 
 
-function remplirDate(debut, fin, pas){
+function remplirDate(debut, fin, pas, currentDate){
 	var content = "";
 	for( var cpt = debut; cpt <= fin; cpt += pas){
-		content += "<option value=" + cpt + ">" + cpt + "</option>";
+		content += "<option value=" + cpt;
+		if(cpt == currentDate){
+			content += " selected";
+		}
+		content +=  " >" + cpt + "</option>";
 	}
 	return content;
 }
-function remplirMois(){
+function remplirMois(currentDate){
 	var content = "";
 	for(var cpt = 1; cpt <= 12; cpt++){
-		content += "<option value=" + cpt + ">";
+		content += "<option value=" + cpt;
+		if(cpt == currentDate){
+			content += " selected";
+		}
+		content +=  " >";
 		switch(cpt){
 			case 1: content += "Janvier";
 				break;
