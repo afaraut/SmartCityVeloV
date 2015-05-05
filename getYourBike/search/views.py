@@ -24,6 +24,11 @@ def test(request):
     content = {'test': "anthony"} # Element for the view
     return Response(content) # Return the response
 
+@api_view(['GET'])
+def prevision(request, idstation, timestamp):
+    prev = previsions(int(timestamp), int(idstation))
+    content = {'prevision': prev} # Element for the view
+    return Response(content) # Return the response
     
 @csrf_exempt
 def search(request):
