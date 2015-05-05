@@ -6,8 +6,23 @@ var infowindow = new google.maps.InfoWindow();
 function attachContent(marker, data) {	
 	google.maps.event.addListener(marker, 'click', function() {
 	var content = data.stationName;
-	content += data.stationRegion + "<br>"+ data.stationNum + " - " + data.stationName;			; 
-	content += "<br><div><div class='modal-content'><div class='modal-header'><h5> Faire une prévision</h5></div><div><form action=\"{% url 'search.views.home' %}\" method='post'><div ><label id='date'>Date</label><input type='text' id='date' style='width:30px;height:20px;'/><input type='text' id='date'  style='width:30px;height:20px;'/><input type='text' id='date' style='width:60px;height:20px;'/><br><label id='heure'>Heure</label><input type='text' id='hour' style='width:30px;height:20px;'>hh<input type='text' id='hour' style='width:30px;height:20px;'>mm</br><button class='btn btn-primary btn-sm '>Valider</button></div></form></div><div class='modal-footer'>	</div></div></div>";
+	content += data.stationRegion + "<br>"+ data.stationNum + " - " + data.stationName;	
+	content += "<br>Vélos disponibles : "; // + data.availableBike
+	content += "<br> Bornes disponibles : "; //+ data.availableStands
+	content += "<hr>";
+	content += "<form action=\"{% url 'search.views.home' %}\" method='post'>";
+	content += "<fieldset>";
+    content += "<legend>Faire une prévision</legend>";
+	content += "<label id='date'>Date</label>";
+	content += "<input type='number' id='date' min=1 max=31 value=1 style='width:40px;height:20px;'/>";
+	content += "<input type='number' id='date' min=1 max=12  value=5 style='width:40px;height:20px;'/>";
+	content += "<input type='number' id='date' min=2015 max= 2015 value=2015 style='width:60px;height:20px;'/><br>";
+	content += "<label id='heure'>Heure</label>";
+	content += "<input type='text' id='hour' style='width:30px;height:20px;'>h<input type='text' id='hour' style='width:30px;height:20px;'>m"
+	content += "<br><button class='btn btn-primary btn-sm '>Valider</button></form>";
+	content += "</fieldset>";
+	content += "</form>";
+	
 	infowindow.setContent(content);
 	infowindow.open(marker.get('map'), marker);
 	});		
