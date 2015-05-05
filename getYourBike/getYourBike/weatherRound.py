@@ -34,4 +34,5 @@ def getNearestPrecipitationsForPrevision(times, hourLimit, db_path):
 		else:
 			R[t] = float(data[1])
 
+	db.close()
 	return R
