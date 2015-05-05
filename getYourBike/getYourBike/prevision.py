@@ -28,6 +28,7 @@ from paths import vacation_data_path
 # ----------------------------------------------------------------------------------------------------------------------------------------
 thresholdInMinutes = 5 # prevision precision threshlod in minutes (between 1 and 60)
 weatherValidityHours = 4 # maximum validity of hourly weather data (in hours)
+minData = 15000
 # ----------------------------------------------------------------------------------------------------------------------------------------
 ##########################################################################################################
 
@@ -474,6 +475,18 @@ def generateVacationData():
 def computeRegressionData(stationId):
 
 	print 'computing regression data for station ', stationId
+
+	#check if there is enough data to compute regression
+	db = sqlite3.connect(db_path_string)
+	cursor = db.cursor()
+	dataNumber = cursor.execute('SELECT count(*) FROM OldResults WHERE stationId =:stationId', { "stationId": stationId}).fetchone()[0]
+	db.close()
+
+	if dataNumber < minData:
+		print 'not enough data to compute regression for station', stationId
+		return
+
+	
 
 
 	cyclicL_bikes = availableCyclicMean('bike', stationId,thresholdInMinutes)

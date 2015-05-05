@@ -9,6 +9,7 @@ import json, csv, codecs, time, datetime
 from django.views.decorators.csrf import csrf_exempt
 from search.models import Station
 from getYourBike.prevision import previsions
+from getYourBike.prevision import getLastKnownStatus
 # Create your views here.
 
 # import the logging library
@@ -20,8 +21,12 @@ def date2Timestamp(hour, formatage="%Y/%m/%d %H:%M"):
     return int(time.mktime(datetime.datetime.strptime(hour, formatage).timetuple()))
 
 @api_view(['GET'])
-def test(request):
-    content = {'test': "anthony"} # Element for the view
+def lastKnownStatus(request, idstation):
+    lastKnownStatus = getLastKnownStatus(int(idstation))
+    content = {
+    "lastKnownStatus": lastKnownStatus,
+    "idstation":idstation
+    }
     return Response(content) # Return the response
 
 @api_view(['GET'])
