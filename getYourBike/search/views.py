@@ -40,7 +40,7 @@ def search(request):
     logger.debug("this is a debug message!")
     result = timestamp
     content = json.dumps(prev)
-    return Response(content)
+    return HttpResponse(content, content_type="application/json")
 
 def search_mobile(request):
 	day_month = request.GET.get('day_month')
