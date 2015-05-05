@@ -16,9 +16,18 @@ function attachContent(marker, data) {
     content += "<legend>Faire une prévision</legend>";
     content += "<input type='hidden' name='station' id='stationNum' value=" + data.stationNum + " />";
 	content += "<label id='date'>Date</label>";
-	content += "<input type='number' name='day_day' id='date' min=1 max=31 value=1 style='width:40px;height:20px;'/>";
+	content += "<select name='day_day' id='day_day'>"
+    content += remplirDate(1,31,1);
+    content += "</select>";
+    content += "<select name='day_month' id='day_month'>";
+    content += remplirMois();
+    content += "</select>";
+    content += "<select name='day_year' id='day_year'>"
+    content += remplirDate(2015,2015,1);
+    content += "</select><br>";
+	/*content += "<input type='number' name='day_day' id='date' min=1 max=31 value=1 style='width:40px;height:20px;'/>";
 	content += "<input type='number' name='day_month' id='date' min=1 max=12  value=5 style='width:40px;height:20px;'/>";
-	content += "<input type='number' name='day_year' id='date' min=2015 max= 2015 value=2015 style='width:60px;height:20px;'/><br>";
+	content += "<input type='number' name='day_year' id='date' min=2015 max= 2015 value=2015 style='width:60px;height:20px;'/><br>";*/
 	content += "<label type='number' for='hour'>Heure</label>";
 	content += "<input type='number' min=0 max=24 id='hour' name='hour_hour' style='width:40px;height:20px;'><input type='number' min=00 max=55 step=5 id='hour' name='hour_minute' style='width:40px;height:20px;'>"
 	
@@ -29,6 +38,52 @@ function attachContent(marker, data) {
 	infowindow.open(marker.get('map'), marker);
 	});		
 }
+
+
+function remplirDate(debut, fin, pas){
+	var content = "";
+	for( var cpt = debut; cpt <= fin; cpt += pas){
+		content += "<option value=" + cpt + ">" + cpt + "</option>";
+	}
+	return content;
+}
+function remplirMois(){
+	var content = "";
+	for(var cpt = 1; cpt <= 12; cpt++){
+		content += "<option value=" + cpt + ">";
+		switch(cpt){
+			case 1: content += "Janvier";
+				break;
+			case 2: content += "Février";
+				break;
+			case 3: content += "Mars";
+				break;
+			case 4: content += "Avril";
+				break;
+			case 5: content += "Mai";
+				break;
+			case 6: content += "Juin";
+				break;
+			case 7: content += "Juiller";
+				break;
+			case 8: content += "Août";
+				break;
+			case 9: content += "Semptembre";
+				break;
+			case 10: content += "Octobre";
+				break;
+			case 11: content += "Novembre";
+				break;
+			case 12: content += "Decembre";
+				break;
+		}
+		content +=  "</option>";
+		
+	}
+	return content;
+}
+
+
 
 function theposition(){
 
