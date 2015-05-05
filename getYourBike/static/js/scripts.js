@@ -5,10 +5,8 @@ var infowindow = new google.maps.InfoWindow();
 
 function attachContent(marker, data) {	
 	google.maps.event.addListener(marker, 'click', function() {
-	var csrf_token = '<%= token_value %>';
-	var content = data.stationName;
 	var aujourdhui = new Date();
-	content += data.stationRegion + "<br>"+ data.stationNum + " - " + data.stationName;	
+	content = data.stationRegion + "<br>"+ data.stationNum + " - " + data.stationName;	
 	content += "<br>Vélos disponibles : "; // + data.availableBike
 	content += "<br> Bornes disponibles : "; //+ data.availableStands
 	content += "<form action='/' id='map_form' method='post'>";
