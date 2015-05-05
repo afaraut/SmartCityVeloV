@@ -1083,3 +1083,5 @@ Traceback (most recent call last):
   File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\getYourBike\prevision.py", line 267, in getDailyWeatherData
     weather_data = cursor.execute('SELECT * FROM weather_day').fetchall()
 OperationalError: no such table: weather_day
+[05/May/2015 09:58:12] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 09:58:12] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
