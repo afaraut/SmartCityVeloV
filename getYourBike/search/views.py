@@ -26,7 +26,7 @@ def test(request):
 
 @api_view(['GET'])
 def prevision(request, idstation, timestamp):
-    prev = previsions(timestamp, idstation)
+    prev = previsions(int(timestamp), int(idstation))
     content = {'prevision': "prev"} # Element for the view
     return Response(content) # Return the response
     
