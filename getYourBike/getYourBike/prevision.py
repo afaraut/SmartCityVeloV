@@ -446,7 +446,9 @@ def F_prevision(time, t0, F0, alpha, beta, gamma):
 	F1 = 0.0 
 	t1 = t0
 
-	while t1 < (time - thresholdInMinutes):
+	while t1 < (time - thresholdInMinutes*60):
+
+		print t1
 
 		if  R[t1] is None:
 			F1 = alpha * F0 + gamma #assume precipitation = 0 if unknown
@@ -455,7 +457,7 @@ def F_prevision(time, t0, F0, alpha, beta, gamma):
 
 
 		t0 = t1
-		t1 = t1 + thresholdInMinutes * 60
+		t1 = t1 + thresholdInMinutes*60
 		F0 = F1
 
 	return round(F1,2)
