@@ -753,4 +753,3 @@ def getLastKnownF(stationId, cyclicL_bikes, A_mod_d7_bikes, A0_bikes, c1_bikes, 
 	F0_stands = round(realAvailableStands - L0_bikes,2)
 
 	return [t0, F0_bikes, F0_stands]
-
