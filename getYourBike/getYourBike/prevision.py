@@ -617,7 +617,56 @@ def previsions(t, stationId):
 	
 	return [prev_bikes, prev_stands, L_prev_bikes, L_prev_stands]
 
+def simplePrevisions(t, stationId):
 
+	#check if regression data exists in files, if not do regression
+	computeRegressionDataForOneStation(stationId) 
+	
+	L_prev_start = timeit.default_timer()
+	#retrieve weather and vacation data
+	#get vacation data
+	vacationData = regressionPersistance.loadCommon('vacationData')
+	t_vac = isVacation(t, vacationData)
+
+	#get daily weather data for prevision
+	[tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations] = regressionPersistance.loadCommon('dailyWeatherData')
+ 	[dayTemperatureAvg, dayPrecipitationTotal] = getDailyWeatherDataForPrevision(tempMean, t)
+
+ 	if t_vac == 1:
+ 		print 'vacation day: yes'
+ 	else:
+ 		print 'vacation day: no'
+ 	print 'estimated average day temperature:', dayTemperatureAvg, 'Celsius degrees'
+ 	print 'estimated daily precipitations:', dayPrecipitationTotal, 'mm'
+ 	
+ 	# normalize daily weather data for prevision
+ 	T = (dayTemperatureAvg - tempMean) / tempStdDev
+	Precip = dayPrecipitationTotal / precStdDev
+
+
+	cyclicL_bikes = regressionPersistance.load(stationId, 'cyclicL_bikes')
+	cyclicL_stands = regressionPersistance.load(stationId, 'cyclicL_stands')
+
+	A_mod_d7_bikes = regressionPersistance.load(stationId, 'A_mod_d7_bikes')
+	A_mod_d7_stands = regressionPersistance.load(stationId, 'A_mod_d7_stands')
+
+	# regression for constant a0
+	[c1_bikes, A0_bikes, AmodDifferenceD7_bikes] = regressionPersistance.load(stationId, 'a0Regression_bikes')
+	[c1_stands, A0_stands, AmodDifferenceD7_stands] = regressionPersistance.load(stationId, 'a0Regression_stands')
+
+
+	# get daily regression data
+	[C1_bikes, C2_bikes, C3_bikes , K_bikes] = regressionPersistance.load(stationId, 'dailyRegressionCoefs_bikes')
+	[C1_stands, C2_stands, C3_stands , K_stands] = regressionPersistance.load(stationId, 'dailyRegressionCoefs_stands')
+
+	#L prevision (without fluctuations)
+
+	
+	L_prev_bikes = L_mod_prevision(t, cyclicL_bikes, A_mod_d7_bikes, A0_bikes, c1_bikes, AmodDifferenceD7_bikes,C1_bikes, C2_bikes, C3_bikes, K_bikes, T, Precip, t_vac)
+	L_prev_stands = L_mod_prevision(t, cyclicL_stands, A_mod_d7_stands, A0_stands, c1_stands, AmodDifferenceD7_stands, C1_stands, C2_stands, C3_stands, K_stands, T, Precip, t_vac)
+	L_prev_end = timeit.default_timer() 
+	
+	return [L_prev_bikes, L_prev_stands]
 
 def displayPrevisions(previsions, stationId, t):
 
@@ -632,6 +681,18 @@ def displayPrevisions(previsions, stationId, t):
 	print 'available bikes with fluctuations:', prev_bikes
 	print 'available stands without fluctuations:', prev_stands_without_fluctuations
 	print 'available stands with fluctuations:', prev_stands
+
+def displaySimplePrevisions(previsions, stationId, t):
+
+	[prev_bikes, prev_stands] = previsions
+	db = sqlite3.connect(db_path_string)
+	cursor = db.cursor()
+	sName = stationName(stationId)
+	db.close()
+	print ''
+	print 'previsions for station', sName, '(', (stationId), ')', 'at', datetime.datetime.fromtimestamp(t)
+	print 'available bikes without fluctuations:', prev_bikes
+	print 'available stands without fluctuations:', prev_stands
 
 def computeRegressionDataForAllStations(createDirectories):
 	db = sqlite3.connect(db_path_string)
