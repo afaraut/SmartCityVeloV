@@ -62,6 +62,7 @@ def search(request):
     prev[1] = corrigerPrevision(prev[1], nbBornes)
     fichier = open('log', 'w')
     fichier.write(nbBornes)
+    fichier.write(" " + prev[1])
     fichier.close()
     result = timestamp
     content = json.dumps(prev)
