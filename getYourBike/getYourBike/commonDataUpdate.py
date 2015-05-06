@@ -1,0 +1,5 @@
+from prevision import generateDailyWeatherData
+from prevision import generateVacationData
+
+generateVacationData()
+generateDailyWeatherData()
