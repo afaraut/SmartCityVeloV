@@ -81,7 +81,7 @@ body{
 #map-canvas {
 	margin-top:2px;
 	width:100%;
-    height:calc(100% - 0);
+    height:calc(100% - 20);
     position:absolute;
     left:0px;
     top:50px;
@@ -103,7 +103,7 @@ body{
 }
 
 #availableStands:before {
-	content:url(../place.svg);
+	content:url(../stands.svg) no-repeat scroll 0px -16px;
 	width:15px;
 	height:15px;
 	margin-right: 15px;
