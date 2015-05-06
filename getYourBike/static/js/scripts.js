@@ -8,10 +8,10 @@ function attachContent(marker, data) {
 	google.maps.event.addListener(marker, 'click', function() {
 	var aujourdhui = new Date();
 	content = "<p id='title_infobulle'>" + data.stationRegion + " - " + data.stationName + "</p>";	
-	content += "Disponibilité actuelle<br/><span id='availableBikesImage'></span><span id='availableBikes'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
-	content += "<span id='availableStandsImage'></span><span id='availableStands'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
+	content += "<br><span id='availableBikes'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
+	content += "<span id='availableStands'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
 	content += "<form action='/' id='map_form' method='post'>";
-	content += "<fieldset>";
+	content += "<br/><fieldset>";
     content += "<legend>Faire une prévision</legend>";
     content += "<input type='hidden' name='station' id='stationNum' value=" + data.stationNum + " />";
 	content += "<label class='date_infobulle' id='date'>Date</label>";
@@ -31,9 +31,9 @@ function attachContent(marker, data) {
     content += "<select name='hour_minute' id='hour_minute'>";
     var minutes = aujourdhui.getMinutes();
     content += remplirDate(00,55,5, (minutes-(minutes%5)));
-    content += "</select>";
+    content += "</select><br>";
 	content += "</fieldset>";
-	content += "<div id='reponse'><hr>Disponibilité prévue<br/><span id='availableBikesImage'></span><span id='bikes_available'>?</span>/"+data.bornes+"<span id='availableStandsImage'></span><span id='stands_available'>?</span>/" + data.bornes;
+	content += "<div id='reponse'></div>";
 	content += "<input type='button' name='valider' value='valider' id='validate_button' class='btn btn-primary btn-lg btn-block'  onclick=\"prevision('map_form');\">";
 	content += "</form>";
 	infowindow.setContent(content);
@@ -158,18 +158,13 @@ carte = new google.maps.Map(document.getElementById("map-canvas"), options);
 		traditional: true,
 		success: function(data) {
 				var contenuSelect  = "";
-				 contenuSelect += "<select name='stations' id='lesStations' class='selectpicker' >";
+				 contenuSelect += "<select name='stations' id='lesStations'>";
 				
 				for(key in data){
 					contenuSelect += " <option value ='" + data[key].stationNum + "' >" + data[key].stationNum + " - " + data[key].stationName + "</option>";
 				}
 				contenuSelect += "</select>";
 				document.getElementById('search_station').innerHTML = contenuSelect;
-				 $('.selectpicker').selectpicker();
-				 $('.selectpicker').selectpicker({
-     				 style: 'btn-info',
-      				size: 4
- 				});
 			 for(var key in data){
 			 	
 				var marker = new google.maps.Marker({
@@ -223,8 +218,7 @@ function prevision(idFormulaire){
 
 		success: function(data){
 
-			document.getElementById('bikes_available').innerHTML = data[0];
-			document.getElementById('stands_available').innerHTML = data[1];
+			document.getElementById('reponse').innerHTML ="<hr>Vélos disponibles : " +  data[0] + "<br> Bornes disponibles : " + data[1];
 			$('#imgWait').hide(); // Hide the loading image
         	$('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeOut(); // Fade out the fade layer 
         	$('body').remove('<div id="fade"></div>'); // Remove the fade layer to bottom of the body tag.
