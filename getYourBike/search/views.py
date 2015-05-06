@@ -58,6 +58,7 @@ def search(request):
     hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
     timestamp = date2Timestamp(hour)
     prev = previsions(timestamp, station)
+    savePrevision(prev, int(station), int(time.time(), int(timestamp))
     prev[0] = corrigerPrevision(prev[0], nbBornes)
     prev[1] = corrigerPrevision(prev[1], nbBornes)
     content = json.dumps(prev)
