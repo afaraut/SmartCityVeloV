@@ -1,5 +1,6 @@
 var carte;  
 var tabMarqueurs = new Array();
+var myMarquers = {};
 var prev_infobulle;
 var infowindow = new google.maps.InfoWindow();
 var bikesAndStandsAvailable;
@@ -33,7 +34,7 @@ function attachContent(marker, data) {
     content += "</select>m<br>";
 
 	content += "</fieldset>";
-	content += "<input type='button' name='valider' value='valider' class='btn btn-primary btn-lg btn-block'  onclick=\"prevision('map_form');\">";
+	content += "<input type='button' name='valider' value='valider' id='validate_button' class='btn btn-primary btn-lg btn-block'  onclick=\"prevision('map_form');\">";
 	content += "</form>";
 	infowindow.setContent(content);
 	$.ajax({
@@ -156,7 +157,16 @@ carte = new google.maps.Map(document.getElementById("map-canvas"), options);
 		url: "/search/stations",
 		traditional: true,
 		success: function(data) {
+				var contenuSelect  = "";
+				 contenuSelect += "<select name='stations' id='lesStations'>";
+				
+				for(key in data){
+					contenuSelect += " <option value ='" + data[key].stationNum + "' >" + data[key].stationNum + " - " + data[key].stationName + "</option>";
+				}
+				contenuSelect += "</select>";
+				document.getElementById('search_station').innerHTML = contenuSelect;
 			 for(var key in data){
+			 	
 				var marker = new google.maps.Marker({
 				position: new google.maps.LatLng(data[key].stationLat, data[key].stationLong),//coordonnée de la position du clic sur la carte 
 				title: data[key].stationRegion + " - " + data[key].stationNum + " - " + data[key].stationName,
@@ -168,8 +178,15 @@ carte = new google.maps.Map(document.getElementById("map-canvas"), options);
 				google.maps.event.addListener(carte, 'zoom_changed', function() {
 
 				});
-				tabMarqueurs.push(marker); 
+				//tabMarqueurs[data[key].stationNum].push(marker); 
+				myMarquers[data[key].stationNum] = marker;
 			}
+			$('#lesStations').change(function () {
+					idStation = $('#lesStations option:selected').val();
+					//idStation =  document.getElementById('lesStations').options[document.getElementById('lesStations').selectedIndex].value;
+					console.log(idStation);
+    				google.maps.event.trigger(myMarquers[idStation], 'click');
+			});
 			theposition();
 		}
 	});
