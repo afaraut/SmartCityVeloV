@@ -12,11 +12,6 @@ from getYourBike.prevision import previsions
 from getYourBike.prevision import getLastKnownStatus
 from getYourBike.prevision import corrigerPrevision
 from getYourBike.previsionEvaluation import savePrevision
-# Create your views here.
-
-# import the logging library
-import logging
-logger = logging.getLogger(__name__)
 
 def date2Timestamp(hour, formatage="%Y/%m/%d %H:%M"):
     """This function allows to convert a date into a timestamp"""
