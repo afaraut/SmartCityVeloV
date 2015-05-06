@@ -52,7 +52,11 @@ def search(request):
     hour_hour = request.POST.get('hour_hour')
     hour_minute = request.POST.get('hour_minute')
     station = request.POST.get('station')
-    nbBornes = request.POST.get('nbBornes')
+
+    station = Station.objects.get(stationNum=station)
+    nbBornes = station.stationBorneNumber
+
+
     hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
     timestamp = date2Timestamp(hour)
     prev = previsions(timestamp, station)
