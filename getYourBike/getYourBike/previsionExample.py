@@ -13,7 +13,7 @@ import paths
 stationId = 4023
 
 # date/time of prevision ()
-t_prevision = int(util.datetimeToTimestamp(datetime.datetime(2015,05,05,18,00,00))) #GMT time
+t_prevision = int(util.datetimeToTimestamp(datetime.datetime(2015,05,06,18,00,00))) #GMT time
 t_request = int(time.time())
 
 #print t_prevision
@@ -26,4 +26,4 @@ prev = prevision.previsions(t_prevision, stationId)
 prevision.displayPrevisions(prev, stationId, t_prevision)
 
 #save prevision in DB for future evaluation
-previsionEvaluation.savePrevision(prev, stationId, t_request, t_prevision)
+#previsionEvaluation.savePrevision(prev, stationId, t_request, t_prevision)
