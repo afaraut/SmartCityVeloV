@@ -8,8 +8,8 @@ function attachContent(marker, data) {
 	google.maps.event.addListener(marker, 'click', function() {
 	var aujourdhui = new Date();
 	content = "<p id='title_infobulle'>" + data.stationRegion + " - " + data.stationName + "</p>";	
-	content += "<br><span id='availableBikes'></span>/" + data.bornes;
-	content += "<br> Bornes disponibles : <span id='availableStands'></span>/" + data.bornes;
+	content += "<br><span id='availableBikes'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
+	content += "<br><span id='availableStands'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
 	content += "<form action='/' id='map_form' method='post'>";
 	content += "<br/><fieldset>";
     content += "<legend>Faire une prévision</legend>";
