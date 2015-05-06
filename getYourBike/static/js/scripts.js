@@ -8,8 +8,8 @@ function attachContent(marker, data) {
 	google.maps.event.addListener(marker, 'click', function() {
 	var aujourdhui = new Date();
 	content = "<p id='title_infobulle'>" + data.stationRegion + " - " + data.stationName + "</p>";	
-	content += "<br><span id='availableBikes'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
-	content += "<span id='availableStands'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
+	content += "<span id='availableBikesImage'></span><span id='availableBikes'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
+	content += "<span id='availableStandsImage'></span><span id='availableStands'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
 	content += "<form action='/' id='map_form' method='post'>";
 	content += "<br/><fieldset>";
     content += "<legend>Faire une prévision</legend>";
@@ -33,7 +33,7 @@ function attachContent(marker, data) {
     content += remplirDate(00,55,5, (minutes-(minutes%5)));
     content += "</select><br>";
 	content += "</fieldset>";
-	content += "<div id='reponse'></div>";
+	content += "<div id='reponse'><hr>Données prévues : <br/><span id='availableBikesImage'></span><p id='bikes_available'>?</p><span id='availableStandsImage'></span><p id='stands_available'>?</p>";
 	content += "<input type='button' name='valider' value='valider' id='validate_button' class='btn btn-primary btn-lg btn-block'  onclick=\"prevision('map_form');\">";
 	content += "</form>";
 	infowindow.setContent(content);
@@ -218,7 +218,8 @@ function prevision(idFormulaire){
 
 		success: function(data){
 
-			document.getElementById('reponse').innerHTML ="<hr>Vélos disponibles : " +  data[0] + "<br> Bornes disponibles : " + data[1];
+			document.getElementById('bikes_available').innerHTML = data[0];
+			document.getElementById('stands_available').innerHTML = data[1];
 			$('#imgWait').hide(); // Hide the loading image
         	$('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeOut(); // Fade out the fade layer 
         	$('body').remove('<div id="fade"></div>'); // Remove the fade layer to bottom of the body tag.
