@@ -114,10 +114,6 @@ def home(request):
             hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
             timestamp = date2Timestamp(hour)
             prev = previsions(timestamp, station)
-            result = prev
-        else:
-            result = "NOK"
-
     return Response(locals(), template_name='home.html') # Return the response
 
 #test
