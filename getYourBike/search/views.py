@@ -53,7 +53,7 @@ def search(request):
     hour_minute = request.POST.get('hour_minute')
     station = request.POST.get('station')
 
-    station = Station.objects.get(stationNum=station)
+    station = Station.objects.get(stationNum=int(station))
     nbBornes = station.stationBorneNumber
 
 
