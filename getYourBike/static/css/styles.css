@@ -58,12 +58,14 @@ body{
     font-family: 'Lobster';
 }
 
-
+#search_station {
+	padding: 15px;
+}
 
 
 #map-canvas {
 	margin-top:2px;
-	width:50%;
+	width:100%;
     height:calc(100% - 0);
     position:absolute;
     left:0px;
