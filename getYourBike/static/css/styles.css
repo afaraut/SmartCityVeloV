@@ -90,11 +90,24 @@ body{
 	
 }
 
-#availableBikes::before {
-	background: url(../bike.svg);
-	width:25px;
-	height:25px;
-	display:block;
+#availableBikes:before {
+	content:url(../bike.svg);
+	width:15px;
+	height:15px;
+  	margin-right: 15px;
+  	font-size: 16px;
+}
+
+.infobulle_results {
+  	font-size: 16px;	
+}
+
+#availableStands:before {
+	content:url(../place.svg);
+	width:15px;
+	height:15px;
+	margin-right: 15px;
+	font-size: 16px;
 }
 
 #imgWait {
