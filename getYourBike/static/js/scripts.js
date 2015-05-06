@@ -7,8 +7,8 @@ var bikesAndStandsAvailable;
 function attachContent(marker, data) {	
 	google.maps.event.addListener(marker, 'click', function() {
 	var aujourdhui = new Date();
-	content = data.stationRegion + "<br>"+ data.stationNum + " - " + data.stationName;	
-	content += "<br>Vélos disponibles : <span id='availableBikes'></span>/" + data.bornes;
+	content = "<p id='title_infobulle'>" + data.stationRegion + " - " + data.stationName + "</p>";	
+	content += "<br><span class='.icon-directions-bike'></span><span id='availableBikes'></span>/" + data.bornes;
 	content += "<br> Bornes disponibles : <span id='availableStands'></span>/" + data.bornes;
 	content += "<form action='/' id='map_form' method='post'>";
 	content += "<fieldset>";
@@ -27,12 +27,11 @@ function attachContent(marker, data) {
     content += "<label type='number' for='hour'>Heure</label>";
     content += "<select name='hour_hour' id='hour_hour'>"
     content += remplirDate(00,23,1, aujourdhui.getHours());
-    content += "</select>h";
+    content += "</select>";
     content += "<select name='hour_minute' id='hour_minute'>";
     var minutes = aujourdhui.getMinutes();
     content += remplirDate(00,55,5, (minutes-(minutes%5)));
-    content += "</select>m<br>";
-
+    content += "</select><br>";
 	content += "</fieldset>";
 	content += "<input type='button' name='valider' value='valider' id='validate_button' class='btn btn-primary btn-lg btn-block'  onclick=\"prevision('map_form');\">";
 	content += "</form>";
