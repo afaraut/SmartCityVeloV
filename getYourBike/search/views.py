@@ -11,11 +11,7 @@ from search.models import Station
 from getYourBike.prevision import previsions
 from getYourBike.prevision import getLastKnownStatus
 from getYourBike.prevision import corrigerPrevision
-# Create your views here.
-
-# import the logging library
-import logging
-logger = logging.getLogger(__name__)
+from getYourBike.previsionEvaluation import savePrevision
 
 def date2Timestamp(hour, formatage="%Y/%m/%d %H:%M"):
     """This function allows to convert a date into a timestamp"""
@@ -36,6 +32,8 @@ def lastKnownStatus(request, idstation):
 def prevision(request, idstation, timestamp):
     prev = previsions(int(timestamp), int(idstation))
     station = Station.objects.get(stationNum=idstation)
+    savePrevision(prev, idstation, int(time.time()), int(timestamp))
+
     content = {
     "prevision": prev,
     "stationNum" : station.stationNum,
@@ -43,6 +41,7 @@ def prevision(request, idstation, timestamp):
     "stationRegion" : station.stationRegion,
     "stationLong" : station.stationLong,
     "stationLat" : station.stationLat,
+    "stationBorneNumber" : station.stationBorneNumber,
     }
     return Response(content) # Return the response
     
@@ -54,13 +53,13 @@ def search(request):
     hour_hour = request.POST.get('hour_hour')
     hour_minute = request.POST.get('hour_minute')
     station = request.POST.get('station')
-    nbBornes = request.POST.get('nbBornes')
+    station_value = Station.objects.get(stationNum=int(station))
+    nbBornes = station_value.stationBorneNumber
     hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
     timestamp = date2Timestamp(hour)
     prev = previsions(timestamp, station)
     prev[0] = corrigerPrevision(prev[0], nbBornes)
     prev[1] = corrigerPrevision(prev[1], nbBornes)
-    result = timestamp
     content = json.dumps(prev)
     return HttpResponse(content, content_type="application/json")
 
@@ -71,7 +70,8 @@ def search_mobile(request):
     hour_hour = request.GET.get('hour_hour')
     hour_minute = request.GET.get('hour_minute')
     station = request.GET.get('station')
-    nbBornes = request.GET.get('nbBornes')
+    station_value = Station.objects.get(stationNum=int(station))
+    nbBornes = station_value.stationBorneNumber
     hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
     timestamp = date2Timestamp(hour)
     prev = previsions(timestamp, station)
@@ -107,10 +107,6 @@ def home(request):
             hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
             timestamp = date2Timestamp(hour)
             prev = previsions(timestamp, station)
-            result = prev
-        else:
-            result = "NOK"
-
     return Response(locals(), template_name='home.html') # Return the response
 
 #test

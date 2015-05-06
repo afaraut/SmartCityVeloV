@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block content %}
-{{result}}
-
 <div class="modal-dialog">
 	<div>
 		<div>
 			<h1 class="text-center">Get Your Bike</h1>
 			<h2 class="text-center">Prévisions des Velov</h2>
 		</div>
+
 		<div>
 
 			<form id="formSearch" action="{% url 'search.views.home' %}" method="post" >
+
 				{% csrf_token %}
 				{{ form.as_p }}
 				

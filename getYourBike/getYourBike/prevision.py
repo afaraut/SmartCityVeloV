@@ -312,18 +312,20 @@ def getDailyWeatherDataForPrevision(tempMean, t):
 	cursor = db.cursor()
 
 	t_day = int(t - (t % (24*3600))) - 3600 # weather uses UTC + 2 time
+	t_next_day = t_day + 3600*24
 	#print 'timestamp for daily weather', t_day
 
-	data = cursor.execute('SELECT avg(temperature), sum(precipitation) FROM weather_day WHERE day=:day',{"day":t_day}).fetchone()
+	data = cursor.execute('SELECT avg(temperatur), sum(precipitation) FROM weatherForecast WHERE timestamp>=:t_min and timestamp<=:t_max',\
+		{"t_min":t_day, "t_max":t_next_day}).fetchone()
 
 	if not util.is_number(data[0]):
-		print 'no temperature data for this day, assuming average temperature'
+		#print 'no temperature data for this day, assuming average temperature'
 		dayTemperatureAvg = tempMean
 	else:
 		dayTemperatureAvg = float(data[0])
 	
 	if not util.is_number(data[1]):
-		print 'no precipitation data for this day, assuming no precipitations'
+		#print 'no precipitation data for this day, assuming no precipitations'
 		dayPrecipitationTotal = 0.0
 	else:
 		dayPrecipitationTotal = float(data[1])
@@ -432,17 +434,17 @@ def prepareDataForFluctuationRegression(F_threshold, weatherValidityHours):
 def F_prevision(time, t0, F0, alpha, beta, gamma):
 
 	if(time < t0):
-		print '[WARNING : prevision lies in the past : requested prevision for ' , util.timestampToDatetime(time) ,  ']'
+		#print '[WARNING : prevision lies in the past : requested prevision for ' , util.timestampToDatetime(time) ,  ']'
 		return 0.0
 
 	t0 = int(timestampRoundToThreshold(t0))
 	tFinal = int(timestampRoundToThreshold(time))
 
 	times = range (t0, tFinal, thresholdInMinutes*60)
-	print 'increments for F prevision', len(times)
+	#print 'increments for F prevision', len(times)
 
 	R = weatherRound.getNearestPrecipitationsForPrevision(times, weatherValidityHours, db_path_string)
-	#print R
+	#print 'hourly precipitation data' , R
 
 	F1 = 0.0 
 	t1 = t0
@@ -485,9 +487,6 @@ def computeRegressionData(stationId):
 	if dataNumber < minData:
 		print 'not enough data to compute regression for station', stationId
 		return
-
-	
-
 
 	cyclicL_bikes = availableCyclicMean('bike', stationId,thresholdInMinutes)
 	cyclicL_stands = availableCyclicMean('stand', stationId,thresholdInMinutes)
@@ -561,7 +560,7 @@ def previsions(t, stationId):
 	#check if regression data exists in files, if not do regression
 	computeRegressionDataForOneStation(stationId) 
 	
-	L_prev_start = timeit.default_timer()
+	#L_prev_start = timeit.default_timer()
 	#retrieve weather and vacation data
 	#get vacation data
 	vacationData = regressionPersistance.loadCommon('vacationData')
@@ -571,12 +570,12 @@ def previsions(t, stationId):
 	[tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations] = regressionPersistance.loadCommon('dailyWeatherData')
  	[dayTemperatureAvg, dayPrecipitationTotal] = getDailyWeatherDataForPrevision(tempMean, t)
 
- 	if t_vac == 1:
- 		print 'vacation day: yes'
- 	else:
- 		print 'vacation day: no'
- 	print 'estimated average day temperature:', dayTemperatureAvg, 'Celsius degrees'
- 	print 'estimated daily precipitations:', dayPrecipitationTotal, 'mm'
+ 	#if t_vac == 1:
+ 		#print 'vacation day: yes'
+ 	#else:
+ 	#print 'vacation day: no'
+ 	#print 'estimated average day temperature:', dayTemperatureAvg, 'Celsius degrees'
+ 	#print 'estimated daily precipitations:', dayPrecipitationTotal, 'mm'
  	
  	# normalize daily weather data for prevision
  	T = (dayTemperatureAvg - tempMean) / tempStdDev
@@ -603,15 +602,15 @@ def previsions(t, stationId):
 	
 	L_prev_bikes = L_mod_prevision(t, cyclicL_bikes, A_mod_d7_bikes, A0_bikes, c1_bikes, AmodDifferenceD7_bikes,C1_bikes, C2_bikes, C3_bikes, K_bikes, T, Precip, t_vac)
 	L_prev_stands = L_mod_prevision(t, cyclicL_stands, A_mod_d7_stands, A0_stands, c1_stands, AmodDifferenceD7_stands, C1_stands, C2_stands, C3_stands, K_stands, T, Precip, t_vac)
-	L_prev_end = timeit.default_timer() 
+	#L_prev_end = timeit.default_timer() 
 
 	#F prevision (with fluctuation)
-	F_prev_start = timeit.default_timer()
+	#F_prev_start = timeit.default_timer()
 	[t0, F0_bikes, F0_stands] = getLastKnownF(stationId, cyclicL_bikes, A_mod_d7_bikes, A0_bikes, c1_bikes, AmodDifferenceD7_bikes,C1_bikes, C2_bikes, C3_bikes, K_bikes, \
 	cyclicL_stands, A_mod_d7_stands, A0_stands, c1_stands, AmodDifferenceD7_stands, C1_stands, C2_stands, C3_stands, K_stands, T, Precip, t_vac)
 
-	print 'bikes : last known fluctuation on', util.timestampToDatetime(t0), ':', F0_bikes
-	print 'stands : last known fluctuation on', util.timestampToDatetime(t0), ':', F0_stands
+	#print 'bikes : last known fluctuation on', util.timestampToDatetime(t0), ':', F0_bikes
+	#print 'stands : last known fluctuation on', util.timestampToDatetime(t0), ':', F0_stands
 
 	#F_threshold_bikes = regressionPersistance.load(stationId, 'F_threshold_bikes')
 	#F_threshold_stands = regressionPersistance.load(stationId, 'F_threshold_stands')
@@ -622,10 +621,10 @@ def previsions(t, stationId):
 	
 	F_prev_bikes = F_prevision(t, t0, F0_bikes, alpha_bikes, beta_bikes, gamma_bikes)
 	F_prev_stands = F_prevision(t, t0, F0_stands, alpha_stands, beta_stands, gamma_stands)
-	F_prev_end = timeit.default_timer() 
+	#F_prev_end = timeit.default_timer() 
 
-	print 'time to compute prevision without fluctuations' , (L_prev_end - L_prev_start) , 'sec'
-	print 'time to compute prevision with fluctuations' , ((F_prev_end - F_prev_start) + (L_prev_end - L_prev_start)) , 'sec'
+	#print 'time to compute prevision without fluctuations' , (L_prev_end - L_prev_start) , 'sec'
+	#print 'time to compute prevision with fluctuations' , ((F_prev_end - F_prev_start) + (L_prev_end - L_prev_start)) , 'sec'
 
 	prev_bikes = L_prev_bikes + F_prev_bikes
 	prev_stands = L_prev_stands + F_prev_stands
@@ -637,7 +636,7 @@ def simplePrevisions(t, stationId):
 	#check if regression data exists in files, if not do regression
 	computeRegressionDataForOneStation(stationId) 
 	
-	L_prev_start = timeit.default_timer()
+	#L_prev_start = timeit.default_timer()
 	#retrieve weather and vacation data
 	#get vacation data
 	vacationData = regressionPersistance.loadCommon('vacationData')
@@ -647,12 +646,12 @@ def simplePrevisions(t, stationId):
 	[tempMean, tempStdDev, precStdDev, normalizedTemperatures, normalizedPrecipitations] = regressionPersistance.loadCommon('dailyWeatherData')
  	[dayTemperatureAvg, dayPrecipitationTotal] = getDailyWeatherDataForPrevision(tempMean, t)
 
- 	if t_vac == 1:
- 		print 'vacation day: yes'
- 	else:
- 		print 'vacation day: no'
- 	print 'estimated average day temperature:', dayTemperatureAvg, 'Celsius degrees'
- 	print 'estimated daily precipitations:', dayPrecipitationTotal, 'mm'
+ 	#if t_vac == 1:
+ 		#print 'vacation day: yes'
+ 	#else:
+ 		#print 'vacation day: no'
+ 	#print 'estimated average day temperature:', dayTemperatureAvg, 'Celsius degrees'
+ 	#print 'estimated daily precipitations:', dayPrecipitationTotal, 'mm'
  	
  	# normalize daily weather data for prevision
  	T = (dayTemperatureAvg - tempMean) / tempStdDev
@@ -679,7 +678,7 @@ def simplePrevisions(t, stationId):
 	
 	L_prev_bikes = L_mod_prevision(t, cyclicL_bikes, A_mod_d7_bikes, A0_bikes, c1_bikes, AmodDifferenceD7_bikes,C1_bikes, C2_bikes, C3_bikes, K_bikes, T, Precip, t_vac)
 	L_prev_stands = L_mod_prevision(t, cyclicL_stands, A_mod_d7_stands, A0_stands, c1_stands, AmodDifferenceD7_stands, C1_stands, C2_stands, C3_stands, K_stands, T, Precip, t_vac)
-	L_prev_end = timeit.default_timer() 
+	#L_prev_end = timeit.default_timer() 
 	
 	return [L_prev_bikes, L_prev_stands]
 
@@ -693,10 +692,9 @@ def displayPrevisions(previsions, stationId, t):
 
 	print ''
 	print 'previsions for station', sName, '(', (stationId), ')', 'at', datetime.datetime.fromtimestamp(t)
-	print 'available bikes without fluctuations:', prev_bikes_without_fluctuations
-	print 'available bikes with fluctuations:', prev_bikes
-	print 'available stands without fluctuations:', prev_stands_without_fluctuations
-	print 'available stands with fluctuations:', prev_stands
+	print 'With fluctuations: ', prev_bikes , 'available bikes, ', prev_stands, 'available stands'
+	print 'Without fluctuations: ', prev_bikes_without_fluctuations , 'available bikes, ', prev_stands_without_fluctuations, 'available stands'
+	
 
 def displaySimplePrevisions(previsions, stationId, t):
 
@@ -708,8 +706,7 @@ def displaySimplePrevisions(previsions, stationId, t):
 
 	print ''
 	print 'previsions for station', sName, '(', (stationId), ')', 'at', datetime.datetime.fromtimestamp(t)
-	print 'available bikes without fluctuations:', prev_bikes
-	print 'available stands without fluctuations:', prev_stands
+	print 'Without fluctuations: ', prev_bikes_without_fluctuations , 'available bikes, ', prev_stands_without_fluctuations, 'available stands'
 
 def computeRegressionDataForAllStations(createDirectories):
 	db = sqlite3.connect(db_path_string)
@@ -756,10 +753,6 @@ def getLastKnownF(stationId, cyclicL_bikes, A_mod_d7_bikes, A0_bikes, c1_bikes, 
 
 
 def corrigerPrevision(prev, nbBornes):
-	fichier = open('log', 'w')
-	fichier.write(nbBornes)
-	fichier.write(prev)
-	fichier.close()
 	if prev > nbBornes:
 		return nbBornes
 	if prev>=0 and prev <= nbBornes:
