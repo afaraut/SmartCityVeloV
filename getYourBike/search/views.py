@@ -41,6 +41,7 @@ def prevision(request, idstation, timestamp):
     "stationRegion" : station.stationRegion,
     "stationLong" : station.stationLong,
     "stationLat" : station.stationLat,
+    "stationBorneNumber" : station.stationBorneNumber,
     }
     return Response(content) # Return the response
     
@@ -52,17 +53,13 @@ def search(request):
     hour_hour = request.POST.get('hour_hour')
     hour_minute = request.POST.get('hour_minute')
     station = request.POST.get('station')
-
-    station = Station.objects.get(stationNum=int(station))
-    nbBornes = station.stationBorneNumber
-
-
+    station_value = Station.objects.get(stationNum=int(station))
+    nbBornes = station_value.stationBorneNumber
     hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
     timestamp = date2Timestamp(hour)
     prev = previsions(timestamp, station)
     prev[0] = corrigerPrevision(prev[0], nbBornes)
     prev[1] = corrigerPrevision(prev[1], nbBornes)
-    result = timestamp
     content = json.dumps(prev)
     return HttpResponse(content, content_type="application/json")
 
