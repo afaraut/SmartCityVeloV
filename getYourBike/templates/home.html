@@ -1,29 +1,10 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block content %}
-<div class="modal-dialog">
-	<div>
-		<div>
-			<h1 class="text-center">Get Your Bike</h1>
-			<h2 class="text-center">Prévisions des Velov</h2>
-		</div>
-
-		<div>
-
-			<form id="formSearch" action="{% url 'search.views.home' %}" method="post" >
-
-				{% csrf_token %}
-				{{ form.as_p }}
-				
-				<!--login modal-->
-			</form>
-			<div class="form-group">
-					<button id='validate_button' class="btn btn-primary btn-lg btn-block" onclick="prevision('formSearch')">Valider</button>	
-			</div>
-
-		<div id="reponse"></div>
-
+<div class="container">
+	<div id="map-canvas">
 	</div>
 </div>
+<div id="reponse"></div>
 <img src="{% static 'ajax_loading.gif' %}" id="imgWait" style="display:none" />
 {% endblock %}

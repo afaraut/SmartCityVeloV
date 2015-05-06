@@ -29,25 +29,12 @@
 	
 	<!-- begin template -->
 	<div class="navbar navbar-custom navbar-fixed-top">
-		<div class="navbar-header"><a class="navbar-brand" href="#">Get Your Bike</a>
-		 
+		<div class="navbar-header">
+			<a class="navbar-brand " href="#">Get Your Bike</a>
 		</div>
 		<div id='search_station' style='color:black;'></div>
 	</div>
-    <div class="container">
-        <div class="starter-template">
-		<div id="map-canvas">
-		
-		</div>
-		<div class="container-fluid" id="main">
-				
-				
-
-				{% block content %}{% endblock %}
-			 
-		</div>
-	</div>
-         
+	{% block content %}{% endblock %}
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="{% static 'js/form.js' %}"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
