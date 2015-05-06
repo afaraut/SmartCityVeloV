@@ -11,6 +11,7 @@ from search.models import Station
 from getYourBike.prevision import previsions
 from getYourBike.prevision import getLastKnownStatus
 from getYourBike.prevision import corrigerPrevision
+from getYourBike.previsionEvaluation import savePrevision
 # Create your views here.
 
 # import the logging library
@@ -36,6 +37,8 @@ def lastKnownStatus(request, idstation):
 def prevision(request, idstation, timestamp):
     prev = previsions(int(timestamp), int(idstation))
     station = Station.objects.get(stationNum=idstation)
+    savePrevision(prev, idstation, int(time.time()), int(timestamp))
+
     content = {
     "prevision": prev,
     "stationNum" : station.stationNum,

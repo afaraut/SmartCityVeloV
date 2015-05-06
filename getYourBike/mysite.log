@@ -1530,3 +1530,140 @@ AttributeError: 'QuerySet' object has no attribute 'stationName'
 [05/May/2015 11:13:23] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
 [05/May/2015 11:13:23] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
 [05/May/2015 11:14:03] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "search_station"."id", "search_station"."stationNum", "search_station"."stationName", "search_station"."stationRegion", "search_station"."stationLong", "search_station"."stationLat" FROM "search_station" WHERE "search_station"."stationNum" = %s' - PARAMS = (1001,); args=(1001,)
+[05/May/2015 11:17:24] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:17:24] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:31:06] ERROR [django.request:256] Internal Server Error: /search/lastKnownStatus/1001
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 24, in lastKnownStatus
+    lastKnownStatus = previsions.getLastKnownStatus(idstation)
+AttributeError: 'function' object has no attribute 'getLastKnownStatus'
+[05/May/2015 11:31:32] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:31:32] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:31:35] ERROR [django.request:256] Internal Server Error: /search/lastKnownStatus/1001
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 24, in lastKnownStatus
+    lastKnownStatus = previsions.getLastKnownStatus(idstation)
+AttributeError: 'function' object has no attribute 'getLastKnownStatus'
+[05/May/2015 11:31:46] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:31:46] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:32:20] ERROR [django.request:256] Internal Server Error: /search/lastKnownStatus/1001
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 24, in lastKnownStatus
+    lastKnownStatus = getLastKnownStatus(idstation)
+NameError: global name 'getLastKnownStatus' is not defined
+[05/May/2015 11:33:49] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:33:49] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:33:52] ERROR [django.request:256] Internal Server Error: /search/lastKnownStatus/1001
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 24, in lastKnownStatus
+    lastKnownStatus = getLastKnownStatus(idstation)
+NameError: global name 'getLastKnownStatus' is not defined
+[05/May/2015 11:33:53] ERROR [django.request:256] Internal Server Error: /search/lastKnownStatus/1001
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 24, in lastKnownStatus
+    lastKnownStatus = getLastKnownStatus(idstation)
+NameError: global name 'getLastKnownStatus' is not defined
+[05/May/2015 11:34:49] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:34:49] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:34:52] ERROR [django.request:256] Internal Server Error: /search/lastKnownStatus/1001
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 24, in lastKnownStatus
+    lastKnownStatus = getLastKnownStatus(int(idstation))
+NameError: global name 'getLastKnownStatus' is not defined
+[05/May/2015 11:35:09] DEBUG [django.db.backends:89] (0.000) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:35:09] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:35:11] ERROR [django.request:256] Internal Server Error: /search/lastKnownStatus/1001
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 452, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 449, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\Anthony\Desktop\SmartCityVeloV\getYourBike\search\views.py", line 24, in lastKnownStatus
+    lastKnownStatus = prevision.getLastKnownStatus(int(idstation))
+AttributeError: 'function' object has no attribute 'getLastKnownStatus'
+[05/May/2015 11:35:43] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:35:43] DEBUG [django.db.backends:89] (0.001) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:41:28] DEBUG [django.db.backends:89] (0.001) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:41:28] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
+[05/May/2015 11:43:37] DEBUG [django.db.backends:89] (0.002) QUERY = "\n            SELECT name, type FROM sqlite_master\n            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'\n            ORDER BY name" - PARAMS = (); args=None
+[05/May/2015 11:43:37] DEBUG [django.db.backends:89] (0.000) QUERY = u'SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"' - PARAMS = (); args=()
