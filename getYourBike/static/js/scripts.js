@@ -7,14 +7,12 @@ function attachContent(marker, data) {
 	google.maps.event.addListener(marker, 'click', function() {
 	var aujourdhui = new Date();
 	content = data.stationRegion + "<br>"+ data.stationNum + " - " + data.stationName;	
-	content += "<br>Vélos disponibles : <span id='availableBikes'></span>";
+	content += "<br>Vélos disponibles : <span id='availableBikes'></span>/" + data.bornes;
 	content += "<br> Bornes disponibles : <span id='availableStands'></span>/" + data.bornes;
 	content += "<form action='/' id='map_form' method='post'>";
 	content += "<fieldset>";
     content += "<legend>Faire une prévision</legend>";
     content += "<input type='hidden' name='station' id='stationNum' value=" + data.stationNum + " />";
-    console.log(data.bornes);
-    content += "<input type='hidden' name='nbBornes' id='nbBornes' value=" + data.bornes + " />";
 	content += "<label id='date'>Date</label>";
 	content += "<select name='day_day' id='day_day'>";
     content += remplirDate(1,31,1, aujourdhui.getDate());
@@ -167,6 +165,9 @@ carte = new google.maps.Map(document.getElementById("map-canvas"), options);
 				map: carte//la carte sur laquelle le marqueur doit être affiché
 				});		
 				attachContent(marker, data[key]);
+				google.maps.event.addListener(carte, 'zoom_changed', function() {
+
+				});
 				tabMarqueurs.push(marker); 
 			}
 			theposition();
