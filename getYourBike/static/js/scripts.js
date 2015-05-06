@@ -90,17 +90,17 @@ function remplirMois(currentDate){
 				break;
 			case 6: content += "Juin";
 				break;
-			case 7: content += "Juiller";
+			case 7: content += "Juillet";
 				break;
 			case 8: content += "Août";
 				break;
-			case 9: content += "Semptembre";
+			case 9: content += "Septembre";
 				break;
 			case 10: content += "Octobre";
 				break;
-			case 11: content += "Novembre";
+			case 11: content += "Nouvembre";
 				break;
-			case 12: content += "Decembre";
+			case 12: content += "Décembre";
 				break;
 		}
 		content +=  "</option>";
@@ -158,13 +158,18 @@ carte = new google.maps.Map(document.getElementById("map-canvas"), options);
 		traditional: true,
 		success: function(data) {
 				var contenuSelect  = "";
-				 contenuSelect += "<select name='stations' id='lesStations'>";
+				 contenuSelect += "<select name='stations' id='lesStations' class='selectpicker' >";
 				
 				for(key in data){
 					contenuSelect += " <option value ='" + data[key].stationNum + "' >" + data[key].stationNum + " - " + data[key].stationName + "</option>";
 				}
 				contenuSelect += "</select>";
 				document.getElementById('search_station').innerHTML = contenuSelect;
+				 $('.selectpicker').selectpicker();
+				 $('.selectpicker').selectpicker({
+     				 style: 'btn-info',
+      				size: 4
+ 				});
 			 for(var key in data){
 			 	
 				var marker = new google.maps.Marker({
