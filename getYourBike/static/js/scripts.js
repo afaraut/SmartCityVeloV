@@ -14,7 +14,7 @@ function attachContent(marker, data) {
 	content += "<fieldset>";
     content += "<legend>Faire une prévision</legend>";
     content += "<input type='hidden' name='station' id='stationNum' value=" + data.stationNum + " />";
-	content += "<label id='date'>Date</label>";
+	content += "<label class='date_infobulle' id='date'>Date</label>";
 	content += "<select name='day_day' id='day_day'>";
     content += remplirDate(1,31,1, aujourdhui.getDate());
     content += "</select>";
@@ -24,7 +24,7 @@ function attachContent(marker, data) {
     content += "<select name='day_year' id='day_year'>";
     content += remplirDate(aujourdhui.getFullYear(),aujourdhui.getFullYear(),1, aujourdhui.getFullYear());
     content += "</select><br>";
-    content += "<label type='number' for='hour'>Heure</label>";
+    content += "<label class='date_infobulle' type='number' for='hour'>Heure</label>";
     content += "<select name='hour_hour' id='hour_hour'>"
     content += remplirDate(00,23,1, aujourdhui.getHours());
     content += "</select>";
