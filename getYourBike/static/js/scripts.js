@@ -11,7 +11,7 @@ function attachContent(marker, data) {
 	content += "<span id='availableBikesImage'></span><span id='availableBikes'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
 	content += "<span id='availableStandsImage'></span><span id='availableStands'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
 	content += "<form action='/' id='map_form' method='post'>";
-	content += "<br/><fieldset>";
+	content += "<fieldset>";
     content += "<legend>Faire une prévision</legend>";
     content += "<input type='hidden' name='station' id='stationNum' value=" + data.stationNum + " />";
 	content += "<label class='date_infobulle' id='date'>Date</label>";
@@ -31,7 +31,7 @@ function attachContent(marker, data) {
     content += "<select name='hour_minute' id='hour_minute'>";
     var minutes = aujourdhui.getMinutes();
     content += remplirDate(00,55,5, (minutes-(minutes%5)));
-    content += "</select><br>";
+    content += "</select>";
 	content += "</fieldset>";
 	content += "<div id='reponse'><hr>Données prévues : <br/><span id='availableBikesImage'></span><span id='bikes_available'>?</span><span id='availableStandsImage'></span><span id='stands_available'>?</span>";
 	content += "<input type='button' name='valider' value='valider' id='validate_button' class='btn btn-primary btn-lg btn-block'  onclick=\"prevision('map_form');\">";
