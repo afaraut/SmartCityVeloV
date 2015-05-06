@@ -33,7 +33,7 @@ function attachContent(marker, data) {
     content += remplirDate(00,55,5, (minutes-(minutes%5)));
     content += "</select><br>";
 	content += "</fieldset>";
-	content += "<div id='reponse'><hr>Données prévues : <br/><span id='availableBikesImage'></span><p id='bikes_available'>?</p><span id='availableStandsImage'></span><p id='stands_available'>?</p>";
+	content += "<div id='reponse'><hr>Données prévues : <br/><span id='availableBikesImage'></span><span id='bikes_available'>?</span><span id='availableStandsImage'></span><span id='stands_available'>?</span>";
 	content += "<input type='button' name='valider' value='valider' id='validate_button' class='btn btn-primary btn-lg btn-block'  onclick=\"prevision('map_form');\">";
 	content += "</form>";
 	infowindow.setContent(content);
