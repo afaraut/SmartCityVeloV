@@ -70,7 +70,8 @@ def search_mobile(request):
     hour_hour = request.GET.get('hour_hour')
     hour_minute = request.GET.get('hour_minute')
     station = request.GET.get('station')
-    nbBornes = request.GET.get('nbBornes')
+    station_value = Station.objects.get(stationNum=int(station))
+    nbBornes = station_value.stationBorneNumber
     hour = "%s/%s/%s %s:%s" % (day_year, day_month, day_day, hour_hour, hour_minute)
     timestamp = date2Timestamp(hour)
     prev = previsions(timestamp, station)
