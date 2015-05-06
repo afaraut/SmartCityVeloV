@@ -8,7 +8,7 @@ import datetime, time
 
 class SearchForm(forms.Form):
     day = forms.DateField(widget=extras.SelectDateWidget, initial=datetime.date.today(), label="Jour")
-    hour = forms.TimeField(widget=SelectTimeWidget(minute_step=5), label="Heure ")
+    hour = forms.DateTimeField(widget=SelectTimeWidget(minute_step=5), initial=datetime.datetime.utcnow(), label="Heure ")
     station = forms.CharField(widget=forms.Select, label=u'Station')
 
     def __init__(self, *args, **kwargs):
