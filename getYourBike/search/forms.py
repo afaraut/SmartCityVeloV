@@ -4,11 +4,11 @@ from django import forms
 from django.forms import extras
 from search.models import SelectTimeWidget
 from search.models import Station
-import datetime, time
+from datetime import date, datetime, time, timedelta
 
 class SearchForm(forms.Form):
-    day = forms.DateField(widget=extras.SelectDateWidget, initial=datetime.date.today(), label="Jour")
-    hour = forms.DateTimeField(widget=SelectTimeWidget(minute_step=5), initial=datetime.datetime.utcnow(), label="Heure ")
+    day = forms.DateField(widget=extras.SelectDateWidget, initial=date.today(), label="Jour")
+    hour = forms.DateTimeField(widget=SelectTimeWidget(minute_step=5), initial=time(datetime.now().time().hour, datetime.now().time().minute, datetime.now().time().second, datetime.now().time().microsecond), label="Heure ")
     station = forms.CharField(widget=forms.Select, label=u'Station')
 
     def __init__(self, *args, **kwargs):

@@ -753,9 +753,9 @@ def getLastKnownF(stationId, cyclicL_bikes, A_mod_d7_bikes, A0_bikes, c1_bikes, 
 
 
 def corrigerPrevision(prev, nbBornes):
+	if prev > nbBornes:
+		return nbBornes
 	if prev>=0 and prev <= nbBornes:
 		return round(prev)
-	elif prev<0:
+	if prev<0:
 		return 0
-	else:
-		return nbBornes

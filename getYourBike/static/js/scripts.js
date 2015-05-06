@@ -1,21 +1,20 @@
 var carte;  
 var tabMarqueurs = new Array();
+var myMarquers = {};
 var prev_infobulle;
 var infowindow = new google.maps.InfoWindow();
 var bikesAndStandsAvailable;
 function attachContent(marker, data) {	
 	google.maps.event.addListener(marker, 'click', function() {
 	var aujourdhui = new Date();
-	content = data.stationRegion + "<br>"+ data.stationNum + " - " + data.stationName;	
-	content += "<br>Vélos disponibles : <span id='availableBikes'></span>";
-	content += "<br> Bornes disponibles : <span id='availableStands'></span>/" + data.bornes;
+	content = "<p id='title_infobulle'>" + data.stationRegion + " - " + data.stationName + "</p>";	
+	content += "<br><span id='availableBikes'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
+	content += "<span id='availableStands'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
 	content += "<form action='/' id='map_form' method='post'>";
-	content += "<fieldset>";
+	content += "<br/><fieldset>";
     content += "<legend>Faire une prévision</legend>";
     content += "<input type='hidden' name='station' id='stationNum' value=" + data.stationNum + " />";
-    console.log(data.bornes);
-    content += "<input type='hidden' name='nbBornes' id='nbBornes' value=" + data.bornes + " />";
-	content += "<label id='date'>Date</label>";
+	content += "<label class='date_infobulle' id='date'>Date</label>";
 	content += "<select name='day_day' id='day_day'>";
     content += remplirDate(1,31,1, aujourdhui.getDate());
     content += "</select>";
@@ -25,17 +24,17 @@ function attachContent(marker, data) {
     content += "<select name='day_year' id='day_year'>";
     content += remplirDate(aujourdhui.getFullYear(),aujourdhui.getFullYear(),1, aujourdhui.getFullYear());
     content += "</select><br>";
-    content += "<label type='number' for='hour'>Heure</label>";
+    content += "<label class='date_infobulle' type='number' for='hour'>Heure</label>";
     content += "<select name='hour_hour' id='hour_hour'>"
     content += remplirDate(00,23,1, aujourdhui.getHours());
-    content += "</select>h";
+    content += "</select>";
     content += "<select name='hour_minute' id='hour_minute'>";
     var minutes = aujourdhui.getMinutes();
     content += remplirDate(00,55,5, (minutes-(minutes%5)));
-    content += "</select>m<br>";
-
+    content += "</select><br>";
 	content += "</fieldset>";
-	content += "<input type='button' name='valider' value='valider' class='btn btn-primary btn-lg btn-block'  onclick=\"prevision('map_form');\">";
+	content += "<div id='reponse'></div>";
+	content += "<input type='button' name='valider' value='valider' id='validate_button' class='btn btn-primary btn-lg btn-block'  onclick=\"prevision('map_form');\">";
 	content += "</form>";
 	infowindow.setContent(content);
 	$.ajax({
@@ -158,7 +157,16 @@ carte = new google.maps.Map(document.getElementById("map-canvas"), options);
 		url: "/search/stations",
 		traditional: true,
 		success: function(data) {
+				var contenuSelect  = "";
+				 contenuSelect += "<select name='stations' id='lesStations'>";
+				
+				for(key in data){
+					contenuSelect += " <option value ='" + data[key].stationNum + "' >" + data[key].stationNum + " - " + data[key].stationName + "</option>";
+				}
+				contenuSelect += "</select>";
+				document.getElementById('search_station').innerHTML = contenuSelect;
 			 for(var key in data){
+			 	
 				var marker = new google.maps.Marker({
 				position: new google.maps.LatLng(data[key].stationLat, data[key].stationLong),//coordonnée de la position du clic sur la carte 
 				title: data[key].stationRegion + " - " + data[key].stationNum + " - " + data[key].stationName,
@@ -167,8 +175,18 @@ carte = new google.maps.Map(document.getElementById("map-canvas"), options);
 				map: carte//la carte sur laquelle le marqueur doit être affiché
 				});		
 				attachContent(marker, data[key]);
-				tabMarqueurs.push(marker); 
+				google.maps.event.addListener(carte, 'zoom_changed', function() {
+
+				});
+				//tabMarqueurs[data[key].stationNum].push(marker); 
+				myMarquers[data[key].stationNum] = marker;
 			}
+			$('#lesStations').change(function () {
+					idStation = $('#lesStations option:selected').val();
+					//idStation =  document.getElementById('lesStations').options[document.getElementById('lesStations').selectedIndex].value;
+					console.log(idStation);
+    				google.maps.event.trigger(myMarquers[idStation], 'click');
+			});
 			theposition();
 		}
 	});
