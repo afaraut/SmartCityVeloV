@@ -8,8 +8,8 @@ function attachContent(marker, data) {
 	google.maps.event.addListener(marker, 'click', function() {
 	var aujourdhui = new Date();
 	content = "<p id='title_infobulle'>" + data.stationRegion + " - " + data.stationName + "</p>";	
-	content += "<br><img src='static/bikes.png' style='width:50px;height:50px;'><span id='availableBikes'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
-	content += "<br><img src='static/stands.png'  style='width:50px;height:50px;' ><span id='availableStands'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
+	content += "<br><img src='static/bikes.png' style='width:50px;height:128px;'><span id='availableBikes'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
+	content += "<img src='static/stands.png'  style='width:50px;height:128px;' ><span id='availableStands'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
 	content += "<form action='/' id='map_form' method='post'>";
 	content += "<br/><fieldset>";
     content += "<legend>Faire une prévision</legend>";
