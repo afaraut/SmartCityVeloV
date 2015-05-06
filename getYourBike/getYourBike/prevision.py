@@ -444,7 +444,7 @@ def F_prevision(time, t0, F0, alpha, beta, gamma):
 	#print 'increments for F prevision', len(times)
 
 	R = weatherRound.getNearestPrecipitationsForPrevision(times, weatherValidityHours, db_path_string)
-	print 'hourly precipitation data' , R
+	#print 'hourly precipitation data' , R
 
 	F1 = 0.0 
 	t1 = t0
