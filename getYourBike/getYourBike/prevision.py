@@ -312,9 +312,11 @@ def getDailyWeatherDataForPrevision(tempMean, t):
 	cursor = db.cursor()
 
 	t_day = int(t - (t % (24*3600))) - 3600 # weather uses UTC + 2 time
+	t_next_day = t_day + 3600*24
 	#print 'timestamp for daily weather', t_day
 
-	data = cursor.execute('SELECT avg(temperature), sum(precipitation) FROM weather WHERE day=:day',{"day":t_day}).fetchone()
+	data = cursor.execute('SELECT avg(temperatur), sum(precipitation) FROM weatherForecast WHERE timestamp>=:t_min and timestamp<=:t_max',\
+		{"t_min":t_day, "t_max":t_next_day}).fetchone()
 
 	if not util.is_number(data[0]):
 		print 'no temperature data for this day, assuming average temperature'

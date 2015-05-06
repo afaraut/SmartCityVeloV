@@ -30,7 +30,7 @@ def getNearestPrecipitationsForPrevision(times, hourLimit, db_path):
 		
 		if data and util.is_number(data[1]):
 			R[t] = float(data[1])
-			print 'found precipitation data', data[1]
+			#print 'found precipitation data', data[1]
 		#else:
 			#print 'precipitation data not found'
 			
