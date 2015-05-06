@@ -60,10 +60,6 @@ def search(request):
     prev = previsions(timestamp, station)
     prev[0] = corrigerPrevision(prev[0], nbBornes)
     prev[1] = corrigerPrevision(prev[1], nbBornes)
-    fichier = open('log', 'w')
-    fichier.write(nbBornes)
-    fichier.write(" " + str(prev[1]))
-    fichier.close()
     result = timestamp
     content = json.dumps(prev)
     return HttpResponse(content, content_type="application/json")
