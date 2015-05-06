@@ -105,6 +105,10 @@ body{
 	font-size: 18px;
 }
 
+.date_infobulle {
+	width : 50px;
+}
+
 #map-canvas {
 	margin-top:2px;
 	width:100%;
