@@ -186,6 +186,7 @@ carte = new google.maps.Map(document.getElementById("map-canvas"), options);
 				contenuSelect += "</div>";
 				contenuSelect += "</form>";
 				document.getElementById('search_station').innerHTML = contenuSelect;
+				
 			 for(var key in data){
 			 	
 				var marker = new google.maps.Marker({
