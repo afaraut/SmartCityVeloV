@@ -8,8 +8,8 @@ function attachContent(marker, data) {
 	google.maps.event.addListener(marker, 'click', function() {
 	var aujourdhui = new Date();
 	content = "<p id='title_infobulle'>" + data.stationRegion + " - " + data.stationName + "</p>";	
-	content += "Disponibilité actuelle<br/><span id='availableBikesImage'></span><span id='availableBikes'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
-	content += "<span id='availableStandsImage'></span><span id='availableStands'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
+	content += "Disponibilité actuelle<br/><img src='/static/bikes.png' alt='vélos disponibles' id='availableBikesImage' /><span id='availableBikes'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
+	content += "<img src='/static/stands.png' alt='bornes disponibles' id='availableStandsImage' /><span id='availableStands'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
 	content += "<form action='/' id='map_form' method='post'>";
 	content += "<fieldset>";
     content += "<legend>Faire une prévision</legend>";
@@ -33,7 +33,7 @@ function attachContent(marker, data) {
     content += remplirDate(00,55,5, (minutes-(minutes%5)));
     content += "</select>";
 	content += "</fieldset>";
-	content += "<div id='reponse'><hr>Disponibilité prévue<br/><span id='availableBikesImage'></span><span id='bikes_available'>?</span>/"+data.bornes+"<span id='availableStandsImage'></span><span id='stands_available'>?</span>/" + data.bornes;
+	content += "<div id='reponse'><hr>Disponibilité prévue<br/><img src='/static/bikes.png' alt='vélos disponibles' id='availableBikesImage' /><span id='bikes_available'>?</span>/"+data.bornes+"<img src='/static/stands.png' alt='bornes disponibles' id='availableStandsImage' /><span id='stands_available'>?</span>/" + data.bornes;
 	content += "<input type='button' name='valider' value='valider' id='validate_button' class='btn btn-primary btn-lg btn-block'  onclick=\"prevision('map_form');\">";
 	content += "</form>";
 	infowindow.setContent(content);
@@ -158,12 +158,30 @@ carte = new google.maps.Map(document.getElementById("map-canvas"), options);
 		traditional: true,
 		success: function(data) {
 				var contenuSelect  = "";
-				 contenuSelect += "<select name='stations' id='lesStations'>";
-				
-				for(key in data){
-					contenuSelect += " <option value ='" + data[key].stationNum + "' >" + data[key].stationNum + " - " + data[key].stationName + "</option>";
-				}
+				    			var lastCommune = "";
+     			var first = true;
+ 				var contenuSelect  = "";
+ 				contenuSelect += '<form id="bootstrapSelectForm" method="post" class="form-horizontal">';
+
+        		contenuSelect += "<div class='col-xs-5 selectContainer'>";
+ 				contenuSelect += "<select name='stations' id='lesStations' class='form-control'  title='Sélectionner la station'>";
+ 				
+ 				for(key in data){
+					
+						if(lastCommune != data[key].stationRegion){
+							 contenuSelect += "<optgroup label='" + data[key].stationRegion + "'>";
+							 lastCommune = data[key].stationRegion;
+							 if(!first){
+							 	contenuSelect += "</optgroup>";
+							 }
+							 first = false;
+						}
+						contenuSelect += " <option value ='" + data[key].stationNum + "' >" + data[key].stationNum + " - " + data[key].stationName + "</option>";
+ 				}
+				content += "</optgroup>";
 				contenuSelect += "</select>";
+				contenuSelect += "</div>";
+ 				contenuSelect += "</form>";
 				document.getElementById('search_station').innerHTML = contenuSelect;
 			 for(var key in data){
 			 	
