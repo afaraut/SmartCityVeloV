@@ -8,10 +8,10 @@ function attachContent(marker, data) {
 	google.maps.event.addListener(marker, 'click', function() {
 	var aujourdhui = new Date();
 	content = "<p id='title_infobulle'>" + data.stationRegion + " - " + data.stationName + "</p>";	
-	content += "<br><img src='static/bikes.png' style='width:128px;height:128px;'><span id='availableBikes'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
-	content += "<img src='static/stands.png'  style='width:128px;height:128px;' ><span id='availableStands'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
+	content += "Disponibilité actuelle<br/><span id='availableBikesImage'></span><span id='availableBikes'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
+	content += "<span id='availableStandsImage'></span><span id='availableStands'></span>/<span class='infobulle_results'>" + data.bornes + "</span>";
 	content += "<form action='/' id='map_form' method='post'>";
-	content += "<br/><fieldset>";
+	content += "<fieldset>";
     content += "<legend>Faire une prévision</legend>";
     content += "<input type='hidden' name='station' id='stationNum' value=" + data.stationNum + " />";
 	content += "<label class='date_infobulle' id='date'>Date</label>";
@@ -31,9 +31,9 @@ function attachContent(marker, data) {
     content += "<select name='hour_minute' id='hour_minute'>";
     var minutes = aujourdhui.getMinutes();
     content += remplirDate(00,55,5, (minutes-(minutes%5)));
-    content += "</select><br>";
+    content += "</select>";
 	content += "</fieldset>";
-	content += "<div id='reponse'></div>";
+	content += "<div id='reponse'><hr>Disponibilité prévue<br/><span id='availableBikesImage'></span><span id='bikes_available'>?</span>/"+data.bornes+"<span id='availableStandsImage'></span><span id='stands_available'>?</span>/" + data.bornes;
 	content += "<input type='button' name='valider' value='valider' id='validate_button' class='btn btn-primary btn-lg btn-block'  onclick=\"prevision('map_form');\">";
 	content += "</form>";
 	infowindow.setContent(content);
@@ -157,33 +157,14 @@ carte = new google.maps.Map(document.getElementById("map-canvas"), options);
 		url: "/search/stations",
 		traditional: true,
 		success: function(data) {
-			
-   
-     			var lastCommune = "";
-     			var first = true;
 				var contenuSelect  = "";
-				contenuSelect += '<form id="bootstrapSelectForm" method="post" class="form-horizontal">';
-
-        		contenuSelect += "<div class='col-xs-3 selectContainer'>";
-				contenuSelect += "<select name='stations' id='lesStations' class='form-control'  title='Sélectionner la station'>";
+				 contenuSelect += "<select name='stations' id='lesStations'>";
 				
 				for(key in data){
-						if(lastCommune != data[key].stationRegion){
-							 contenuSelect += "<optgroup label='" + data[key].stationRegion + "'>";
-							 lastCommune = data[key].stationRegion;
-							 if(!first){
-							 	contenuSelect += "</optgroup>";
-							 }
-							 first = false;
-						}
-						contenuSelect += " <option value ='" + data[key].stationNum + "' >" + data[key].stationNum + " - " + data[key].stationName + "</option>";
+					contenuSelect += " <option value ='" + data[key].stationNum + "' >" + data[key].stationNum + " - " + data[key].stationName + "</option>";
 				}
-				content += "</optgroup>";
 				contenuSelect += "</select>";
-				contenuSelect += "</div>";
-				contenuSelect += "</form>";
 				document.getElementById('search_station').innerHTML = contenuSelect;
-				
 			 for(var key in data){
 			 	
 				var marker = new google.maps.Marker({
@@ -237,7 +218,8 @@ function prevision(idFormulaire){
 
 		success: function(data){
 
-			document.getElementById('reponse').innerHTML ="<hr>Vélos disponibles : " +  data[0] + "<br> Bornes disponibles : " + data[1];
+			document.getElementById('bikes_available').innerHTML = data[0];
+			document.getElementById('stands_available').innerHTML = data[1];
 			$('#imgWait').hide(); // Hide the loading image
         	$('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeOut(); // Fade out the fade layer 
         	$('body').remove('<div id="fade"></div>'); // Remove the fade layer to bottom of the body tag.
