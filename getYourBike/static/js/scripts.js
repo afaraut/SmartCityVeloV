@@ -163,11 +163,8 @@ carte = new google.maps.Map(document.getElementById("map-canvas"), options);
      			var first = true;
 				var contenuSelect  = "";
 				contenuSelect += '<form id="bootstrapSelectForm" method="post" class="form-horizontal">';
-<<<<<<< HEAD
+
         		contenuSelect += "<div class='col-xs-3 selectContainer'>";
-=======
-        		contenuSelect += "<div class='col-xs-5 selectContainer'>";
->>>>>>> df7e356e0e8d9074f28d201536148c0f671e51e1
 				contenuSelect += "<select name='stations' id='lesStations' class='form-control'  title='Sélectionner la station'>";
 				
 				for(key in data){
