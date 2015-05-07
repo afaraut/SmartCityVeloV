@@ -159,15 +159,29 @@ carte = new google.maps.Map(document.getElementById("map-canvas"), options);
 		success: function(data) {
 			
    
-     
+     			var lastCommune = "";
+     			var first = true;
 				var contenuSelect  = "";
 				contenuSelect += '<form id="bootstrapSelectForm" method="post" class="form-horizontal">';
+<<<<<<< HEAD
         		contenuSelect += "<div class='col-xs-3 selectContainer'>";
+=======
+        		contenuSelect += "<div class='col-xs-5 selectContainer'>";
+>>>>>>> df7e356e0e8d9074f28d201536148c0f671e51e1
 				contenuSelect += "<select name='stations' id='lesStations' class='form-control'  title='Sélectionner la station'>";
 				
 				for(key in data){
-					contenuSelect += " <option value ='" + data[key].stationNum + "' >" + data[key].stationNum + " - " + data[key].stationName + "</option>";
+						if(lastCommune != data[key].stationRegion){
+							 contenuSelect += "<optgroup label='" + data[key].stationRegion + "'>";
+							 lastCommune = data[key].stationRegion;
+							 if(!first){
+							 	contenuSelect += "</optgroup>";
+							 }
+							 first = false;
+						}
+						contenuSelect += " <option value ='" + data[key].stationNum + "' >" + data[key].stationNum + " - " + data[key].stationName + "</option>";
 				}
+				content += "</optgroup>";
 				contenuSelect += "</select>";
 				contenuSelect += "</div>";
 				contenuSelect += "</form>";
